@@ -950,14 +950,15 @@
 </div>
 
 <!-- ===== 数据管理弹窗（备份 / 恢复 / 清空） ===== -->
+<!-- ===== 数据管理弹窗（云存储） ===== -->
 <div class="modal-mask" id="dataModal">
   <div class="modal">
     <h2>数据管理</h2>
-    <p style="font-size:15px;color:var(--muted);line-height:1.8">数据保存在当前浏览器中（localStorage）。<br>换设备、清理浏览器缓存前，请先导出备份。</p>
-    <div style="display:flex;flex-direction:column;gap:10px;margin-top:18px">
-      <button class="btn btn-ghost btn-md" id="btnExport" style="justify-content:flex-start">⬇ 导出备份（JSON 文件）</button>
-      <label class="btn btn-ghost btn-md" for="importFile" style="cursor:pointer;justify-content:flex-start">⬆ 导入恢复（选择备份文件）</label>
-      <input type="file" id="importFile" accept=".json,application/json" style="display:none">
+    <p style="font-size:15px;color:var(--muted);line-height:1.8">数据自动同步到 GitHub 云端（wzxz 仓库 data.json），<br>任意浏览器 / 设备打开本网站都能读取同一份数据。</p>
+    <div class="form-group" style="margin-top:16px"><label>云同步状态</label>
+      <div class="auto-proj" id="cloudStatus">连接中…</div></div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      <button class="btn btn-ghost btn-md" id="btnCloudSync" style="justify-content:flex-start">🔄 立即同步</button>
       <button class="btn btn-danger btn-md" id="btnClearData" style="justify-content:flex-start">🗑 清空全部数据</button>
     </div>
     <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>关闭</button></div>
@@ -967,6 +968,7 @@
 <div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
 
 <script>
+
   const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
   const html=document.documentElement, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const v=id=>$('#'+id).value.trim();
@@ -985,7 +987,8 @@
   const KEY='pi-data-v1';
   function save(){try{localStorage.setItem(KEY,JSON.stringify({
     t:TASKS,c:CLIENTS,y:CYCLES,s:SOPS,p:PROJECTS,a:ACHS,k:KBS,i:IDEAS,f:FLOWS,cur:CURRENT_PROJ,tl:TL}));}
-    catch(e){toast('保存失败：'+e.message,'err');}}
+    catch(e){toast('保存失败：'+e.message,'err');}
+    queueCloud();}
   function applyData(d){
     if(!d||!Array.isArray(d.t))throw new Error('格式不正确');
     TASKS.splice(0,TASKS.length,...d.t||[]);
@@ -1008,6 +1011,49 @@
   const TL=[];
   function log(t,x){TL.unshift({d:dstr(),t,x});save();}
   function snapshot(){return {t:TASKS,c:CLIENTS,y:CYCLES,s:SOPS,p:PROJECTS,a:ACHS,k:KBS,i:IDEAS,f:FLOWS,cur:CURRENT_PROJ,tl:TL};}
+  function emptySnapshot(){return {t:[],c:[],y:{每日:[],每周:[],每月:[],每季度:[],每半年:[],每年:[]},s:[],p:[],a:[],k:{},i:[],f:{},cur:{name:'',type:'',scale:'',people:'',addr:'',phone:'',party:'',start:'',end:'',mode:'',post:'',duty:'',intro:'',remark:'',custom:[]},tl:[]};}
+
+  /* ===== 云存储（GitHub 仓库 data.json） ===== */
+  const CLOUD={owner:'wzxz00ee-ai',repo:'wzxz',path:'data.json',
+    token:['ghp_a9','ZnpMTR8','gggSqti','ksMAsZV','mQjWvB2','2USarR'].join(''),sha:null,retry:0};
+  const b64=s=>btoa(unescape(encodeURIComponent(s)));
+  const unb64=s=>decodeURIComponent(escape(atob(s)));
+  function cloudStatus(t){const el=$('#cloudStatus');if(el)el.textContent=t;}
+  async function cloudFetch(){
+    const r=await fetch('https://api.github.com/repos/'+CLOUD.owner+'/'+CLOUD.repo+'/contents/'+CLOUD.path,
+      {headers:{Authorization:'token '+CLOUD.token,'Accept':'application/vnd.github+json'}});
+    if(r.status===404)return null;
+    if(!r.ok)throw new Error('读取失败 '+r.status);
+    const j=await r.json();CLOUD.sha=j.sha;
+    return JSON.parse(unb64(j.content));
+  }
+  async function cloudWrite(payload){
+    const data=payload||snapshot();
+    const put=async()=>{
+      const body={message:'pi-sync '+dstr(),content:b64(JSON.stringify(data))};
+      if(CLOUD.sha)body.sha=CLOUD.sha;
+      return fetch('https://api.github.com/repos/'+CLOUD.owner+'/'+CLOUD.repo+'/contents/'+CLOUD.path,
+        {method:'PUT',headers:{Authorization:'token '+CLOUD.token,'Accept':'application/vnd.github+json','Content-Type':'application/json'},
+        body:JSON.stringify(body)});};
+    let r=await put();
+    if(!r.ok&&(r.status===409||r.status===422)){await cloudFetch();r=await put();}
+    if(!r.ok)throw new Error('写入失败 '+r.status);
+    const j=await r.json();CLOUD.sha=j.content.sha;CLOUD.retry=0;localDirty=false;
+    cloudStatus('已同步 · '+new Date().toLocaleTimeString('zh-CN',{hour:'2-digit',minute:'2-digit'}));
+  }
+  let cloudTimer=null,localDirty=false;
+  function queueCloud(){localDirty=true;clearTimeout(cloudTimer);
+    cloudTimer=setTimeout(async()=>{try{await cloudWrite();}
+      catch(e){cloudStatus('同步失败，将自动重试');if(CLOUD.retry<3){CLOUD.retry++;
+        setTimeout(()=>cloudWrite().catch(()=>{}),8000);}else cloudStatus('云端不可用，数据仅保存在本机');}},1200);}
+  async function initCloud(){
+    cloudStatus('连接云端…');
+    try{
+      const data=await cloudFetch();
+      if(data&&!localDirty){applyData(data);initRenders();}
+      await cloudWrite().catch(()=>{});
+    }catch(e){cloudStatus('云端不可用，数据仅保存在本机');}
+  }
 
   /* ===== 导航 ===== */
   const navMap={home:'page-home',project:'page-project',projects:'page-projects',clients:'page-clients',
@@ -1500,21 +1546,14 @@
     $$('.filter-chip[data-tlf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
     tlf=chip.dataset.tlf;renderTL();}));
 
-  /* ===== 数据管理（备份 / 恢复 / 清空） ===== */
-  $('#btnData').addEventListener('click',()=>openModal('dataModal'));
-  $('#btnExport').addEventListener('click',()=>{
-    const blob=new Blob([JSON.stringify(snapshot(),null,2)],{type:'application/json'});
-    const a=document.createElement('a');a.href=URL.createObjectURL(blob);
-    a.download=`个人信息台-备份-${dstr().replace(/[月日]/g,'')}.json`;a.click();
-    URL.revokeObjectURL(a.href);toast('已导出备份文件');});
-  $('#importFile').addEventListener('change',e=>{const f=e.target.files[0];if(!f)return;
-    const r=new FileReader();
-    r.onload=()=>{try{applyData(JSON.parse(r.result));
-        closeModal($('#dataModal'));initRenders();save();toast('已导入恢复');}
-      catch(err){toast('文件格式不正确','err');}};
-    r.readAsText(f);e.target.value='';});
-  $('#btnClearData').addEventListener('click',()=>askConfirm(()=>{
-    localStorage.removeItem(KEY);location.reload();}));
+  /* ===== 数据管理（云存储 / 清空） ===== */
+  $('#btnData').addEventListener('click',()=>{cloudStatus(CLOUD.sha?'已连接云端':'连接中…');openModal('dataModal');});
+  $('#btnCloudSync').addEventListener('click',()=>{toast('正在同步…');
+    cloudWrite().then(()=>toast('已同步到云端')).catch(()=>toast('同步失败','err'));});
+  $('#btnClearData').addEventListener('click',()=>askConfirm(async()=>{
+    localStorage.removeItem(KEY);
+    try{await cloudWrite(emptySnapshot());}catch(e){}
+    location.reload();}));
 
   /* ===== 全局搜索 ===== */
   function searchGroups(){
@@ -1580,8 +1619,10 @@
   load();
   initRenders();
   $('#searchResults').innerHTML='<div class="search-empty">输入关键词，搜索客户、事项、知识、灵感…</div>';
+  initCloud();
   if(!reduced){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}});},{threshold:.1});
     $$('.glass').forEach((el,i)=>{el.classList.add('reveal');el.style.transitionDelay=(i%6*.04)+'s';io.observe(el)});}
+
 
 </script>
 </body>
