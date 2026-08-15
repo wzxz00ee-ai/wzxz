@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="个人信息台 · 个人工作信息收集、沉淀与长期职业记录平台">
+<meta name="description" content="WORKSPACE · 个人工作信息收集、沉淀与长期职业记录平台">
 <meta name="theme-color" content="#f6f7fa">
-<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="%2317181a"/><text x="50" y="68" font-size="48" text-anchor="middle" fill="%23f4f4f5" font-family="PingFang SC,sans-serif" font-weight="600">台</text></svg>'>
-<title>个人信息台</title>
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="%2317181a"/><text x="50" y="68" font-size="48" text-anchor="middle" fill="%23f4f4f5" font-family="PingFang SC,sans-serif" font-weight="600">W</text></svg>'>
+<title>WORKSPACE</title>
 <style>
   /* ================= 三主题 Tokens ================= */
   :root{
@@ -462,7 +462,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">个人信息台</div><div class="brand-sub">PERSONAL INFO · DESK · v6</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v6</div></div>
       </div>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
@@ -1122,7 +1122,7 @@
       ['结束时间',p.end],['服务模式',p.mode],['我的岗位',p.post],['我的职责',p.duty]].filter(x=>x[1]);
     const hasAny=meta.length||p.intro||p.remark||p.custom.length;
     $('#projTitle').textContent=p.name||'当前项目';
-    $('#projDesc').textContent=[p.type,p.mode].filter(Boolean).join(' · ')||'个人工作信息库';
+    $('#projDesc').textContent=[p.type,p.mode].filter(Boolean).join(' · ')||'WORKSPACE';
     $('#overviewBody').innerHTML=`
       <div class="p-t"><h3>项目概览</h3><button class="btn btn-ghost btn-md" id="btnEditProj">${hasAny?'编辑':'＋ 完善项目资料'}</button></div>
       ${!hasAny?`<div class="empty-hint" style="padding:40px 16px">还没有项目资料<br>点击右上角「＋ 完善项目资料」，填写当前项目信息</div>`:`
