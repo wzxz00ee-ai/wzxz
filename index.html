@@ -492,7 +492,14 @@
         </div>
       </div>
 
-      <div class="home-stats"></div>
+      <div class="glass panel" style="margin-top:20px">
+        <div class="p-t"><h3>快捷新增</h3><span class="cnt">想记什么点什么</span></div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn btn-solid btn-md" id="qaTask">＋ 新增事项</button>
+          <button class="btn btn-ghost btn-md" id="qaClient">＋ 新增客户</button>
+          <button class="btn btn-ghost btn-md" id="qaIdea">＋ 新增灵感</button>
+          <button class="btn btn-ghost btn-md" id="qaAch">＋ 新增成就</button>
+        </div>
       </div>
 
       <div class="home-stats">
@@ -965,6 +972,7 @@
   </div>
 </div>
 
+<div id="errBanner" style="display:none;position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:300;background:#d70015;color:#fff;padding:10px 18px;border-radius:12px;font-size:14px;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.3)">页面脚本异常：<span id="errMsg"></span></div>
 <div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
 
 <script>
@@ -972,6 +980,9 @@
   const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
   const html=document.documentElement, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
   const v=id=>$('#'+id).value.trim();
+  function on(id,ev,fn){const el=document.getElementById(id);if(el)el.addEventListener(ev,fn);}
+  function showErr(msg){const b=$('#errBanner');if(b){$('#errMsg').textContent=msg;b.style.display='block';}}
+  function safe(fn){try{fn();}catch(e){console.error(e);showErr(e.message);}}
 
   function toast(msg,type='ok'){const t=$('#toast');t.className='toast '+type;$('#toastText').textContent=msg;
     t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);}
@@ -1080,7 +1091,7 @@
   let confirmAction=null;
   $$('.modal-mask').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m);});
     $$('[data-close]',m).forEach(b=>b.addEventListener('click',()=>closeModal(m)));});
-  $('#confirmDelete').addEventListener('click',()=>{if(confirmAction)confirmAction();
+  on('confirmDelete','click',()=>{if(confirmAction)confirmAction();
     closeModal($('#confirmModal'));confirmAction=null;});
   function askConfirm(fn){confirmAction=fn;$('#confirmModal').classList.add('open');}
 
@@ -1114,7 +1125,7 @@
           :'<div style="font-size:14.5px;color:var(--muted);padding:4px 0">暂无自定义字段</div>'}
         <button class="btn btn-ghost btn-md" style="margin-top:12px" id="btnAddCField">＋ 添加自定义字段</button>
       </div>`}`;
-    $('#btnEditProj').addEventListener('click',openProjEdit);
+    on('btnEditProj','click',openProjEdit);
     const bcf=$('#btnAddCField');if(bcf)bcf.addEventListener('click',openProjEdit);
     $$('[data-cfdel]',$('#overviewBody')).forEach(b=>b.addEventListener('click',()=>{
       const i=+b.dataset.cfdel;askConfirm(()=>{CURRENT_PROJ.custom.splice(i,1);renderOverview();save();toast('已删除自定义字段');});}));
@@ -1137,8 +1148,8 @@
      ['pe-post',p.post],['pe-duty',p.duty],['pe-intro',p.intro],['pe-remark',p.remark]]
       .forEach(([id,x])=>$('#'+id).value=x||'');
     peCF=p.custom.map(r=>[...r]);renderPECF();openModal('projEditModal');}
-  $('#pe-addcf').addEventListener('click',()=>{peCF.push(['','']);renderPECF();});
-  $('#saveProjEdit').addEventListener('click',()=>{
+  on('pe-addcf','click',()=>{peCF.push(['','']);renderPECF();});
+  on('saveProjEdit','click',()=>{
     const name=v('pe-name');if(!name){toast('请填写项目名称','err');return;}
     Object.assign(CURRENT_PROJ,{name,scale:v('pe-scale'),type:v('pe-type'),people:v('pe-people'),addr:v('pe-addr'),
       phone:v('pe-phone'),party:v('pe-party'),start:v('pe-start'),end:v('pe-end'),mode:v('pe-mode'),
@@ -1217,9 +1228,9 @@
       <div class="gf-node"><div class="node"><span class="no">${String(i+1).padStart(2,'0')}</span><div><div class="nm">${s[0]}</div><div class="ds">${s[1]}</div></div></div>
       ${i<f.steps.length-1?`<div class="gf-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2 C 12 10, 12 14, 12 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="21" r="2.4" fill="currentColor"/></svg></div>`:''}`).join('')
       :'<div class="empty-hint">暂无步骤 · 点击右上角「✎ 编辑流程」添加步骤</div>';}
-  $('#flowBack').addEventListener('click',()=>{$('#flowDetail').style.display='none';$('#flowLib').style.display='block';});
-  $('#btnAddFlow').addEventListener('click',()=>openModal('flowModal'));
-  $('#saveFlow').addEventListener('click',()=>{const n=v('f-flow-name');
+  on('flowBack','click',()=>{$('#flowDetail').style.display='none';$('#flowLib').style.display='block';});
+  on('btnAddFlow','click',()=>openModal('flowModal'));
+  on('saveFlow','click',()=>{const n=v('f-flow-name');
     if(!n){toast('请填写流程名称','err');return;}
     const k='f'+Date.now();FLOWS[k]={name:n,ps:v('f-flow-desc')||'流程说明',steps:[]};
     $('#f-flow-name').value='';$('#f-flow-desc').value='';
@@ -1235,11 +1246,11 @@
       </div>`).join('')||'<div class="empty-hint">还没有步骤</div>';
     $$('[data-fedel]',box).forEach(b=>b.addEventListener('click',()=>{
       const i=+b.dataset.fedel;askConfirm(()=>{feSteps.splice(i,1);renderFESteps();});}));}
-  $('#btnEditFlowSteps').addEventListener('click',()=>{
+  on('btnEditFlowSteps','click',()=>{
     const f=FLOWS[curFlowKey];if(!f)return;
     feSteps=f.steps.map(s=>[...s]);renderFESteps();openModal('flowEditModal');});
-  $('#fe-add').addEventListener('click',()=>{feSteps.push(['','']);renderFESteps();});
-  $('#saveFlowSteps').addEventListener('click',()=>{
+  on('fe-add','click',()=>{feSteps.push(['','']);renderFESteps();});
+  on('saveFlowSteps','click',()=>{
     const f=FLOWS[curFlowKey];if(!f)return;
     const steps=[...$('#fe-steps').querySelectorAll('.cf-row')].map(r=>{const ins=r.querySelectorAll('.cf-in');return [ins[0].value.trim(),ins[1].value.trim()];}).filter(r=>r[0]);
     f.steps=steps;closeModal($('#flowEditModal'));
@@ -1287,8 +1298,8 @@
       <div class="detail-grid">${s.items.map(([k,x])=>`<div class="d-item"><div class="k">${k}</div><div class="v">${x}</div></div>`).join('')}</div></div>`;});
     $('#cdGrid').innerHTML=h;
     openModal('clientDetailModal');}
-  $('#btnAddClient').addEventListener('click',()=>openModal('clientModal'));
-  $('#btnAddClientLib').addEventListener('click',()=>openModal('clientModal'));
+  on('btnAddClient','click',()=>openModal('clientModal'));
+  on('btnAddClientLib','click',()=>openModal('clientModal'));
   let cCF=[];
   function renderCCF(){const box=$('#c-cf');
     [...box.querySelectorAll('.cf-row')].forEach((r,i)=>{if(cCF[i]){const ins=r.querySelectorAll('.cf-in');cCF[i]=[ins[0].value,ins[1].value];}});
@@ -1300,8 +1311,8 @@
       </div>`).join('');
     $$('[data-ccfdel]',box).forEach(b=>b.addEventListener('click',()=>{
       const i=+b.dataset.ccfdel;askConfirm(()=>{cCF.splice(i,1);renderCCF();});}));}
-  $('#c-addcf').addEventListener('click',()=>{cCF.push(['','']);renderCCF();});
-  $('#saveClient').addEventListener('click',()=>{
+  on('c-addcf','click',()=>{cCF.push(['','']);renderCCF();});
+  on('saveClient','click',()=>{
     const n=v('c-name');if(!n){toast('请填写客户姓名','err');return;}
     const SECTS=[['基本信息',[['所属公司','c-company'],['职位','c-role'],['所属部门','c-dept'],['分管部门','c-subdept'],['联系电话','c-phone'],['其他联系方式','c-other']]],
       ['工作信息',[['工作职责','c-duty'],['主要负责事项','c-major'],['与我的工作关系','c-rel'],['日常对接事项','c-daily'],['曾共同处理的重要事项','c-together'],['对方关注重点','c-focus'],['沟通注意事项','c-note']]],
@@ -1340,8 +1351,8 @@
   $$('.filter-chip[data-cf]').forEach(chip=>chip.addEventListener('click',()=>{
     $$('.filter-chip[data-cf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
     cFilter=chip.dataset.cf;renderCycles();}));
-  $('#btnAddCycle').addEventListener('click',()=>openModal('cycleModal'));
-  $('#saveCycle').addEventListener('click',()=>{const note=v('f-cycle-note');
+  on('btnAddCycle','click',()=>openModal('cycleModal'));
+  on('saveCycle','click',()=>{const note=v('f-cycle-note');
     if(!note){toast('内容为必填','err');return;}
     const p=$('#f-cycle-period').value;
     CYCLES[p].push([v('f-cycle-title')||'(未命名工作)',note+(v('f-cycle-remark')?' · '+v('f-cycle-remark'):'')]);
@@ -1359,8 +1370,8 @@
       const i=+b.dataset.sdel,row=SOPS[i];
       askConfirm(()=>{if(row){SOPS.splice(i,1);log('删除SOP',row[0]);}
         renderSops();toast('已删除 SOP');});}));}
-  $('#btnAddSop').addEventListener('click',()=>openModal('sopModal'));
-  $('#saveSop').addEventListener('click',()=>{const n=v('f-sop-name');
+  on('btnAddSop','click',()=>openModal('sopModal'));
+  on('saveSop','click',()=>{const n=v('f-sop-name');
     if(!n){toast('请填写 SOP 名称','err');return;}
     SOPS.push([n,v('f-sop-scene')||'适用：待补充']);
     ['f-sop-name','f-sop-scene','f-sop-steps','f-sop-remark'].forEach(i=>$('#'+i).value='');
@@ -1400,9 +1411,9 @@
     $('#projDetailBody').innerHTML=h;
     $('#projectListWrap').style.display='none';$('#projDetail').style.display='block';
     window.scrollTo({top:0,behavior:'smooth'});}
-  $('#projBack').addEventListener('click',()=>{$('#projDetail').style.display='none';$('#projectListWrap').style.display='block';});
-  $('#btnAddProject').addEventListener('click',()=>openModal('projectModal'));
-  $('#saveProject').addEventListener('click',()=>{const n=v('f-proj-name');
+  on('projBack','click',()=>{$('#projDetail').style.display='none';$('#projectListWrap').style.display='block';});
+  on('btnAddProject','click',()=>openModal('projectModal'));
+  on('saveProject','click',()=>{const n=v('f-proj-name');
     if(!n){toast('请填写项目名称','err');return;}
     const type=v('f-proj-type'),post=v('f-proj-post'),time=v('f-proj-time');
     PROJECTS.unshift({name:n,desc:[type,post,time].filter(Boolean).join(' · ')||'新项目',state:2,
@@ -1437,9 +1448,9 @@
       <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
         <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">说明</div>
         <div style="font-size:15.5px;line-height:1.75;color:var(--muted)">${a.desc}</div></div>`;}
-  $('#achBack').addEventListener('click',()=>{$('#achDetail').style.display='none';$('#achLib').style.display='block';});
-  $('#btnAddAch').addEventListener('click',()=>openModal('achModal'));
-  $('#saveAch').addEventListener('click',()=>{const n=v('a-name');
+  on('achBack','click',()=>{$('#achDetail').style.display='none';$('#achLib').style.display='block';});
+  on('btnAddAch','click',()=>openModal('achModal'));
+  on('saveAch','click',()=>{const n=v('a-name');
     if(!n){toast('请填写成就名称','err');return;}
     ACHS.unshift({name:n,time:v('a-time')||'2026',topic:v('a-topic')||'个人成长',
       proj:'',desc:v('a-desc')||'（未填写说明）'});
@@ -1482,15 +1493,15 @@
   function renderTopicList(active){const l=$('#topicList');
     l.innerHTML=Object.keys(KBS).map(t=>`<button class="topic-item${t===active?' active':''}" data-ti="${t}">${t}</button>`).join('');
     $$('[data-ti]',l).forEach(b=>b.addEventListener('click',()=>{curTopic=b.dataset.ti;renderKb(curTopic);renderTopicList(curTopic);}));}
-  $('#kbBack').addEventListener('click',()=>{$('#kbTopic').style.display='none';$('#kbTopics').style.display='block';});
-  $('#btnAddTopic').addEventListener('click',()=>openModal('topicModal'));
-  $('#saveTopic').addEventListener('click',()=>{const n=v('f-topic-name');
+  on('kbBack','click',()=>{$('#kbTopic').style.display='none';$('#kbTopics').style.display='block';});
+  on('btnAddTopic','click',()=>openModal('topicModal'));
+  on('saveTopic','click',()=>{const n=v('f-topic-name');
     if(!n){toast('请填写主题名称','err');return;}
     if(KBS[n]){toast('该主题已存在','err');return;}
     KBS[n]=[];$('#f-topic-name').value='';$('#f-topic-desc').value='';
     closeModal($('#topicModal'));renderTopicGrid();log('新增主题',n);toast(`已创建主题「${n}」`);});
-  $('#btnAddKb').addEventListener('click',()=>openModal('kbModal'));
-  $('#saveKb').addEventListener('click',()=>{const c=v('f-kb-note');
+  on('btnAddKb','click',()=>openModal('kbModal'));
+  on('saveKb','click',()=>{const c=v('f-kb-note');
     if(!c){toast('内容为必填','err');return;}
     const t=v('f-kb-title');
     KBS[curTopic].push([v('f-kb-cat')||'未分类',t?`${t}：${c}`:c,dstr()]);
@@ -1514,16 +1525,20 @@
   $$('.filter-chip[data-if]').forEach(chip=>chip.addEventListener('click',()=>{
     $$('.filter-chip[data-if]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
     iFilter=chip.dataset.if;renderIdeas();}));
-  $('#btnAddIdea').addEventListener('click',()=>openModal('ideaModal'));
-  $('#saveIdea').addEventListener('click',()=>{const c=v('f-idea-note');
+  on('btnAddIdea','click',()=>openModal('ideaModal'));
+  on('saveIdea','click',()=>{const c=v('f-idea-note');
     if(!c){toast('内容为必填','err');return;}
     IDEAS.unshift([c,$('#f-idea-cat').value,dstr()]);
     $('#f-idea-note').value='';$('#f-idea-tag').value='';
     closeModal($('#ideaModal'));renderIdeas();updateStats();log('新增灵感',c.slice(0,16));toast('已保存灵感');});
 
   /* ===== 新增入口 ===== */
-  $('#btnAddTask2').addEventListener('click',()=>openModal('taskModal'));
-  $('#saveTask').addEventListener('click',()=>{const c=v('f-note');if(!c){toast('内容为必填','err');return;}
+  on('btnAddTask2','click',()=>openModal('taskModal'));
+  on('qaTask','click',()=>openModal('taskModal'));
+  on('qaClient','click',()=>openModal('clientModal'));
+  on('qaIdea','click',()=>openModal('ideaModal'));
+  on('qaAch','click',()=>openModal('achModal'));
+  on('saveTask','click',()=>{const c=v('f-note');if(!c){toast('内容为必填','err');return;}
     TASKS.unshift({cat:$('#f-cat').value,name:v('f-name')||'(未命名事项)',content:c,st:0});
     $('#f-name').value='';$('#f-note').value='';closeModal($('#taskModal'));renderTasks();renderTodos();updateStats();log('新增事项',TASKS[0].name);toast('已保存 · 自动归入 工作事项');});
 
@@ -1547,10 +1562,10 @@
     tlf=chip.dataset.tlf;renderTL();}));
 
   /* ===== 数据管理（云存储 / 清空） ===== */
-  $('#btnData').addEventListener('click',()=>{cloudStatus(CLOUD.sha?'已连接云端':'连接中…');openModal('dataModal');});
-  $('#btnCloudSync').addEventListener('click',()=>{toast('正在同步…');
+  on('btnData','click',()=>{cloudStatus(CLOUD.sha?'已连接云端':'连接中…');openModal('dataModal');});
+  on('btnCloudSync','click',()=>{toast('正在同步…');
     cloudWrite().then(()=>toast('已同步到云端')).catch(()=>toast('同步失败','err'));});
-  $('#btnClearData').addEventListener('click',()=>askConfirm(async()=>{
+  on('btnClearData','click',()=>askConfirm(async()=>{
     localStorage.removeItem(KEY);
     try{await cloudWrite(emptySnapshot());}catch(e){}
     location.reload();}));
@@ -1562,8 +1577,8 @@
       {t:'知识',it:Object.entries(KBS).flatMap(([tp,arr])=>arr.map(k=>[k[1].slice(0,22),tp]))},
       {t:'灵感',it:IDEAS.map(i=>[i[0].slice(0,22),i[1]])}];}
   function openSearch(){$('#searchModal').classList.add('open');setTimeout(()=>$('#searchInput').focus(),80);}
-  $('#topSearchBtn').addEventListener('click',openSearch);
-  $('#searchInput').addEventListener('input',e=>{
+  on('topSearchBtn','click',openSearch);
+  on('searchInput','input',e=>{
     const q=e.target.value.trim().toLowerCase(),groups=searchGroups(),h=[];
     if(!q){h.push(`<div class="search-empty">输入关键词，搜索客户、事项、知识、灵感…</div>`);}
     else{let hit=0;groups.forEach(g=>{const m=g.it.filter(i=>(i[0]+i[1]).toLowerCase().includes(q));
@@ -1613,9 +1628,9 @@
 
   /* ===== 初始化 ===== */
   function initRenders(){
-    renderOverview();renderTasks();renderTodos();renderProjectClients();renderLibClients();renderLibFilters();
-    renderCycles();renderSops();renderProjects();renderFlowLib();renderAchLib();renderTopicGrid();
-    renderIdeas();renderHomeTL();renderTL();updateStats();}
+    safe(renderOverview);safe(renderTasks);safe(renderTodos);safe(renderProjectClients);safe(renderLibClients);safe(renderLibFilters);
+    safe(renderCycles);safe(renderSops);safe(renderProjects);safe(renderFlowLib);safe(renderAchLib);safe(renderTopicGrid);
+    safe(renderIdeas);safe(renderHomeTL);safe(renderTL);safe(updateStats);}
   load();
   initRenders();
   $('#searchResults').innerHTML='<div class="search-empty">输入关键词，搜索客户、事项、知识、灵感…</div>';
