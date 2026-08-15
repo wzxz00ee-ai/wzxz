@@ -487,10 +487,10 @@
       </div>
 
       <div class="home-stats">
-        <div class="stat"><b>12<small>项</small></b><span>工作事项</span></div>
-        <div class="stat"><b>8<small>位</small></b><span>关键联系人</span></div>
-        <div class="stat"><b>23<small>条</small></b><span>知识沉淀</span></div>
-        <div class="stat"><b>5<small>条</small></b><span>灵感记录</span></div>
+        <div class="stat"><b id="stTasks">12<small>项</small></b><span>工作事项</span></div>
+        <div class="stat"><b id="stClients">8<small>位</small></b><span>关键联系人</span></div>
+        <div class="stat"><b id="stKb">23<small>条</small></b><span>知识沉淀</span></div>
+        <div class="stat"><b id="stIdeas">5<small>条</small></b><span>灵感记录</span></div>
       </div>
     </section>
 
@@ -559,28 +559,16 @@
       <!-- 周期工作 -->
       <div class="sub-page" data-sp="cycle">
         <div class="filter-bar">
-          <button class="btn btn-solid btn-md">＋ 新增工作</button>
-          <button class="filter-chip active">全部周期</button>
-          <button class="filter-chip">每日</button>
-          <button class="filter-chip">每周</button>
-          <button class="filter-chip">每月</button>
-          <button class="filter-chip">每季度</button>
+          <button class="btn btn-solid btn-md" id="btnAddCycle">＋ 新增工作</button>
+          <button class="filter-chip active" data-cf="all">全部周期</button>
+          <button class="filter-chip" data-cf="每日">每日</button>
+          <button class="filter-chip" data-cf="每周">每周</button>
+          <button class="filter-chip" data-cf="每月">每月</button>
+          <button class="filter-chip" data-cf="每季度">每季度</button>
+          <button class="filter-chip" data-cf="每半年">每半年</button>
+          <button class="filter-chip" data-cf="每年">每年</button>
         </div>
-        <div class="glass panel">
-          <div class="p-t" style="margin-bottom:8px"><h3>每日</h3><span class="cnt">1 项</span></div>
-          <div class="task-row"><div class="task-main"><div class="task-name">园区晨间巡检</div><div class="task-content">重点区域设施状态确认</div></div></div>
-        </div>
-        <div class="glass panel" style="margin-top:16px">
-          <div class="p-t" style="margin-bottom:8px"><h3>每周</h3><span class="cnt">2 项</span></div>
-          <div class="task-row"><div class="task-main"><div class="task-name">周报与工作计划</div><div class="task-content">每周五下班前提交</div></div></div>
-          <div class="task-row"><div class="task-main"><div class="task-name">园区周巡查记录</div><div class="task-content">覆盖工程、安保、保洁重点区域</div></div></div>
-        </div>
-        <div class="glass panel" style="margin-top:16px">
-          <div class="p-t" style="margin-bottom:8px"><h3>每月</h3><span class="cnt">3 项</span></div>
-          <div class="task-row"><div class="task-main"><div class="task-name">月度培训组织</div><div class="task-content">按年度培训计划执行</div></div></div>
-          <div class="task-row"><div class="task-main"><div class="task-name">月度就餐明细确认</div><div class="task-content">用于成本据实结算</div></div></div>
-          <div class="task-row"><div class="task-main"><div class="task-name">客户月度沟通</div><div class="task-content">汇总问题与改进项</div></div></div>
-        </div>
+        <div id="cycleList"></div>
       </div>
 
       <!-- 工作流程：卡片库 → 详情 -->
@@ -619,126 +607,48 @@
 
       <!-- SOP -->
       <div class="sub-page" data-sp="sop">
-        <div class="filter-bar"><button class="btn btn-solid btn-md">＋ 新增 SOP</button></div>
-        <div class="grid-2">
-          <div class="glass pcard hover-lift"><div class="pn">客诉处理 SOP</div><div class="ps">适用：业主/客户投诉受理与闭环</div></div>
-          <div class="glass pcard hover-lift"><div class="pn">ISO 内审 SOP</div><div class="ps">适用：年度内审组织与整改</div></div>
-        </div>
-        <div class="glass panel" style="margin-top:20px">
-          <div class="p-t"><h3>ISO 内审 SOP · 附件</h3><button class="btn btn-ghost btn-md">＋ 添加附件</button></div>
-          <div class="attach-row"><div class="attach-ico">XLS</div><span class="attach-name">内审检查表.xlsx</span><span class="attach-src">2026-06 · 1.2 MB</span></div>
-          <div class="attach-row"><div class="attach-ico">PDF</div><span class="attach-name">内审流程说明.pdf</span><span class="attach-src">2026-06 · 860 KB</span></div>
-          <div class="attach-row"><div class="attach-ico">DOC</div><span class="attach-name">内审报告模板.docx</span><span class="attach-src">2026-06 · 45 KB</span></div>
-        </div>
+        <div class="filter-bar"><button class="btn btn-solid btn-md" id="btnAddSop">＋ 新增 SOP</button></div>
+        <div class="grid-2" id="sopList"></div>
       </div>
 
       <!-- 客户信息 -->
       <div class="sub-page" data-sp="pclients">
         <div class="filter-bar"><button class="btn btn-solid btn-md" id="btnAddClient">＋ 新增客户</button></div>
-        <div class="grid-3">
-          <div class="glass pcard client-card">
-            <div class="cc-top"><div class="avatar">李</div><div><div class="cc-name">李维</div><div class="cc-role">项目对接负责人 · 上海颐健实业</div></div></div>
-            <div class="cc-rel">与我的工作关系：甲方主要对接人，季度考核确认。</div>
-            <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
-          </div>
-          <div class="glass pcard client-card">
-            <div class="cc-top"><div class="avatar">周</div><div><div class="cc-name">周敏</div><div class="cc-role">财务 · 上海颐健实业</div></div></div>
-            <div class="cc-rel">与我的工作关系：酬金结算数据对接。</div>
-            <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
-          </div>
-          <div class="glass pcard client-card">
-            <div class="cc-top"><div class="avatar">陈</div><div><div class="cc-name">陈工</div><div class="cc-role">园区工程负责人</div></div></div>
-            <div class="cc-rel">与我的工作关系：工程维修事项协同。</div>
-            <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月8日</span></div>
-          </div>
-        </div>
+        <div class="grid-3" id="pClientGrid"></div>
       </div>
     </section>
 
-    <!-- ===== 项目库 ===== -->
+  <!-- ===== 项目库 ===== -->
     <section class="page" id="page-projects" aria-label="项目库">
       <div class="page-head">
         <div><div class="page-title">项目库</div><div class="page-desc">当前项目 + 历史项目 · 结束不等于删除</div></div>
-        <button class="btn btn-solid btn-md">＋ 新建项目</button>
+        <button class="btn btn-solid btn-md" id="btnAddProject">＋ 新建项目</button>
       </div>
-      <div class="grid-2">
-        <div class="glass pcard hover-lift">
-          <div class="top"><span class="tag solid"><span class="dot"></span>当前</span></div>
-          <div class="pn">云南白药上海国际中心</div><div class="ps">行政设施管理 · 2025-03 至今</div>
-          <span class="go">进入项目档案 →</span>
-        </div>
-        <div class="glass pcard hover-lift">
-          <div class="top"><span class="tag">已结束</span></div>
-          <div class="pn">某商办综合体驻场服务</div><div class="ps">物业项目经理 · 2022-06 至 2024-12</div>
-          <span class="go">查看历史档案 →</span>
-        </div>
-        <div class="glass pcard hover-lift">
-          <div class="top"><span class="tag">已结束</span></div>
-          <div class="pn">早期住宅项目客服主管</div><div class="ps">客户服务 · 2019-04 至 2022-05</div>
-          <span class="go">查看历史档案 →</span>
-        </div>
-      </div>
+      <div class="grid-2" id="projectList"></div>
     </section>
 
-    <!-- ===== 客户信息库 ===== -->
+  <!-- ===== 客户信息库 ===== -->
     <section class="page" id="page-clients" aria-label="客户信息库">
       <div class="page-head">
         <div><div class="page-title">客户信息库</div><div class="page-desc">全部项目客户总库 · 多项目关联 · 卡片 → 详情</div></div>
-        <button class="btn btn-solid btn-md">＋ 新增客户</button>
+        <button class="btn btn-solid btn-md" id="btnAddClientLib">＋ 新增客户</button>
       </div>
       <div class="filter-bar">
-        <button class="filter-chip active">全部项目</button>
-        <button class="filter-chip">云南白药上海国际中心</button>
-        <button class="filter-chip">某商办综合体</button>
+        <button class="filter-chip active" data-pf="all">全部项目</button>
+        <button class="filter-chip" data-pf="云南白药">云南白药</button>
+        <button class="filter-chip" data-pf="商办综合体">商办综合体</button>
       </div>
-      <div class="grid-3">
-        <div class="glass pcard client-card">
-          <div class="cc-top"><div class="avatar">李</div><div><div class="cc-name">李维</div><div class="cc-role">项目对接负责人</div></div></div>
-          <div class="cc-rel">甲方主要对接人，季度考核确认。</div>
-          <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
-        </div>
-        <div class="glass pcard client-card">
-          <div class="cc-top"><div class="avatar">周</div><div><div class="cc-name">周敏</div><div class="cc-role">财务 · 颐健实业</div></div></div>
-          <div class="cc-rel">酬金结算数据对接。</div>
-          <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
-        </div>
-        <div class="glass pcard client-card">
-          <div class="cc-top"><div class="avatar">王</div><div><div class="cc-name">王经理</div><div class="cc-role">原项目甲方代表</div></div></div>
-          <div class="cc-rel">历史项目对接，保持联系。</div>
-          <div class="cc-bot"><span class="tag">云南白药</span><span class="tag">商办综合体</span><span class="attach-src">7月</span></div>
-        </div>
-      </div>
+      <div class="grid-3" id="libClientGrid"></div>
     </section>
 
-    <!-- ===== 个人成就 ===== -->
+  <!-- ===== 个人成就 ===== -->
     <section class="page" id="page-achievements" aria-label="个人成就">
       <div id="achLib">
         <div class="page-head">
           <div><div class="page-title">个人成就</div><div class="page-desc">职业成果档案 · 成就卡片 → 详情</div></div>
           <button class="btn btn-solid btn-md" id="btnAddAch">＋ 新增成就</button>
         </div>
-        <div class="grid-2">
-          <div class="glass pcard hover-lift" data-ach="0">
-            <div class="top"><span class="tag">系统开发</span><span>2026</span></div>
-            <div class="pn">云南白药智慧工作台</div><div class="ps">个人系统开发 / 工作数字化</div>
-            <span class="go">查看成就 →</span>
-          </div>
-          <div class="glass pcard hover-lift" data-ach="1">
-            <div class="top"><span class="tag">制度建设</span><span>2026</span></div>
-            <div class="pn">ISO 9001 内审体系落地</div><div class="ps">内审组织 / 体系梳理</div>
-            <span class="go">查看成就 →</span>
-          </div>
-          <div class="glass pcard hover-lift" data-ach="2">
-            <div class="top"><span class="tag">培训管理</span><span>2025</span></div>
-            <div class="pn">培训体系从 0 到 1</div><div class="ps">年度计划 + 月度落地</div>
-            <span class="go">查看成就 →</span>
-          </div>
-          <div class="glass pcard hover-lift" data-ach="3">
-            <div class="top"><span class="tag">项目管理</span><span>2024</span></div>
-            <div class="pn">季度考核连续达标</div><div class="ps">酬金制考核 ≥90 分</div>
-            <span class="go">查看成就 →</span>
-          </div>
-        </div>
+        <div class="grid-2" id="achList"></div>
       </div>
       <div id="achDetail" style="display:none">
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
@@ -758,12 +668,7 @@
           <div><div class="page-title">个人知识库</div><div class="page-desc">先记录，再整理 · 知识主题 → 主题详情 → 知识详情</div></div>
           <button class="btn btn-solid btn-md" id="btnAddTopic">＋ 新增主题</button>
         </div>
-        <div class="topic-grid">
-          <div class="glass pcard hover-lift topic-card" data-topic="ESG"><div class="t">ESG</div><div class="c">8 条知识 · 政策 / 碳排放 / 案例</div><span class="go">进入主题 →</span></div>
-          <div class="glass pcard hover-lift topic-card" data-topic="ISO"><div class="t">ISO</div><div class="c">6 条知识 · 体系 / 内审</div><span class="go">进入主题 →</span></div>
-          <div class="glass pcard hover-lift topic-card" data-topic="物业管理"><div class="t">物业管理</div><div class="c">4 条知识 · 案例 / 运营</div><span class="go">进入主题 →</span></div>
-          <div class="glass pcard hover-lift topic-card" data-topic="AI"><div class="t">AI</div><div class="c">5 条知识 · 工具 / 实践</div><span class="go">进入主题 →</span></div>
-        </div>
+        <div class="topic-grid" id="topicGrid"></div>
       </div>
       <!-- 主题详情层 -->
       <div id="kbTopic" style="display:none">
@@ -773,12 +678,7 @@
           <span style="margin-left:auto"><button class="btn btn-solid btn-md" id="btnAddKb">＋ 新增知识</button></span>
         </div>
         <div class="kb-layout">
-          <div class="glass topic-list">
-            <button class="topic-item active">ESG</button>
-            <button class="topic-item">ISO</button>
-            <button class="topic-item">物业管理</button>
-            <button class="topic-item">AI</button>
-          </div>
+          <div class="glass topic-list" id="topicList"></div>
           <div class="kb-stream" id="kbStream"></div>
         </div>
       </div>
@@ -791,20 +691,15 @@
         <button class="btn btn-solid btn-md" id="btnAddIdea">＋ 新增灵感</button>
       </div>
       <div class="filter-bar">
-        <button class="filter-chip active">全部</button>
-        <button class="filter-chip">产品想法</button>
-        <button class="filter-chip">工作优化</button>
-        <button class="filter-chip">待定事项</button>
+        <button class="filter-chip active" data-if="all">全部</button>
+        <button class="filter-chip" data-if="产品想法">产品想法</button>
+        <button class="filter-chip" data-if="工作优化">工作优化</button>
+        <button class="filter-chip" data-if="待定事项">待定事项</button>
       </div>
-      <div class="idea-grid">
-        <div class="glass idea-card hover-lift"><div class="content">给园区客户做一份「客户画像速查表」，见客户前扫一眼沟通偏好和关注点。</div><div class="idea-foot"><span class="tag">产品想法</span><span class="attach-src" style="margin-left:auto">今天</span></div></div>
-        <div class="glass idea-card hover-lift"><div class="content">培训签到改用企业微信扫码？省去纸质签到表整理时间。</div><div class="idea-foot"><span class="tag">工作优化</span><span class="attach-src" style="margin-left:auto">昨天</span></div></div>
-        <div class="glass idea-card hover-lift"><div class="content">季度考核材料提前两周启动数据汇总，先对齐口径再出表。</div><div class="idea-foot"><span class="tag">待定事项</span><span class="attach-src" style="margin-left:auto">8月12日</span></div></div>
-        <div class="glass idea-card hover-lift"><div class="content">工作台是否需要一个「本周看点」模块？把周期事项和待办合并展示。</div><div class="idea-foot"><span class="tag">产品想法</span><span class="attach-src" style="margin-left:auto">8月10日</span></div></div>
-      </div>
+      <div class="idea-grid" id="ideaList"></div>
     </section>
 
-    <!-- ===== 时间轴 ===== -->
+  <!-- ===== 时间轴 ===== -->
     <section class="page" id="page-timeline" aria-label="完整时间轴">
       <div class="page-head">
         <div><div class="page-title">个人工作时间轴</div><div class="page-desc">回顾自己什么时候做过什么</div></div>
@@ -875,12 +770,12 @@
     <h2>＋ 新增</h2>
     <p style="font-size:15px;color:var(--muted);margin-bottom:16px">选择要新增的内容类型（保存后自动归入对应目录）</p>
     <div class="choice-grid">
-      <button class="choice-btn" data-close><span class="ci">📋</span>工作事项</button>
-      <button class="choice-btn" data-close><span class="ci">🔁</span>周期工作</button>
-      <button class="choice-btn" data-close><span class="ci">🔗</span>工作流程</button>
-      <button class="choice-btn" data-close><span class="ci">📄</span>SOP</button>
+      <button class="choice-btn" data-close id="qcTask"><span class="ci">📋</span>工作事项</button>
+      <button class="choice-btn" data-close id="qcCycle"><span class="ci">🔁</span>周期工作</button>
+      <button class="choice-btn" data-close id="qcFlow"><span class="ci">🔗</span>工作流程</button>
+      <button class="choice-btn" data-close id="qcSop"><span class="ci">📄</span>SOP</button>
       <button class="choice-btn" data-close id="qcClient"><span class="ci">👤</span>客户信息</button>
-      <button class="choice-btn" data-close><span class="ci">🛠</span>项目自定义信息</button>
+      <button class="choice-btn" data-close id="qcProj"><span class="ci">🛠</span>项目自定义信息</button>
     </div>
   </div>
 </div>
@@ -894,6 +789,7 @@
     <div class="form-group"><label for="c-name">姓名</label><input id="c-name" placeholder="客户姓名"></div>
     <div class="form-group"><label for="c-company">所属公司</label><input id="c-company" placeholder="公司名称"></div>
     <div class="form-group"><label for="c-role">职位</label><input id="c-role" placeholder="职位"></div>
+    <div class="form-group"><label for="c-rel">与我的工作关系（选填）</label><textarea id="c-rel" placeholder="对方与我工作的关联、对接事项"></textarea></div>
     <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveClient">保存</button></div>
   </div>
 </div>
@@ -943,6 +839,90 @@
   </div>
 </div>
 
+<!-- ===== 新增周期工作弹窗 ===== -->
+<div class="modal-mask" id="cycleModal">
+  <div class="modal">
+    <h2>新增工作</h2>
+    <div class="form-group"><label>周期 <span class="req">*</span></label>
+      <select id="f-cycle-period"><option>每日</option><option>每周</option><option>每月</option><option>每季度</option><option>每半年</option><option>每年</option></select></div>
+    <div class="form-group"><label for="f-cycle-title">标题（选填）</label><input id="f-cycle-title" placeholder="例如：月度培训组织"></div>
+    <div class="form-group"><label for="f-cycle-note">内容 <span class="req">*</span></label><textarea id="f-cycle-note" placeholder="描述这项周期工作"></textarea></div>
+    <div class="form-group"><label for="f-cycle-remark">备注（选填）</label><input id="f-cycle-remark" placeholder="例如：每月最后一个工作日"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveCycle">保存</button></div>
+    <p style="font-size:14px;color:var(--muted);margin-top:12px">保存后自动归入对应周期分组</p>
+  </div>
+</div>
+
+<!-- ===== 新增 SOP 弹窗 ===== -->
+<div class="modal-mask" id="sopModal">
+  <div class="modal">
+    <h2>新增 SOP</h2>
+    <div class="form-group"><label for="f-sop-name">SOP 名称 <span class="req">*</span></label><input id="f-sop-name" placeholder="例如：客诉处理 SOP"></div>
+    <div class="form-group"><label for="f-sop-scene">适用场景（选填）</label><input id="f-sop-scene" placeholder="例如：业主/客户投诉受理与闭环"></div>
+    <div class="form-group"><label for="f-sop-steps">操作步骤（选填）</label><textarea id="f-sop-steps" placeholder="分步骤描述操作流程"></textarea></div>
+    <div class="form-group"><label for="f-sop-remark">备注（选填）</label><input id="f-sop-remark" placeholder="注意事项等"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveSop">保存</button></div>
+  </div>
+</div>
+
+<!-- ===== 新建项目弹窗 ===== -->
+<div class="modal-mask" id="projectModal">
+  <div class="modal">
+    <h2>新建项目</h2>
+    <div class="form-group"><label for="f-proj-name">项目名称 <span class="req">*</span></label><input id="f-proj-name" placeholder="例如：某园区物业服务项目"></div>
+    <div class="form-group"><label for="f-proj-type">项目性质（选填）</label><input id="f-proj-type" placeholder="例如：产业园区 · 写字楼"></div>
+    <div class="form-group"><label for="f-proj-post">我的岗位（选填）</label><input id="f-proj-post" placeholder="例如：物业项目经理"></div>
+    <div class="form-group"><label for="f-proj-time">服务时间（选填）</label><input id="f-proj-time" placeholder="例如：2025-03 至今"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveProject">保存</button></div>
+  </div>
+</div>
+
+<!-- ===== 新增知识主题弹窗 ===== -->
+<div class="modal-mask" id="topicModal">
+  <div class="modal" style="width:400px">
+    <h2>新增主题</h2>
+    <div class="form-group"><label for="f-topic-name">主题名称 <span class="req">*</span></label><input id="f-topic-name" placeholder="例如：ESG / ISO 体系"></div>
+    <div class="form-group"><label for="f-topic-desc">主题简介（选填）</label><input id="f-topic-desc" placeholder="一句话说明这个主题"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveTopic">保存</button></div>
+  </div>
+</div>
+
+<!-- ===== 新增知识弹窗 ===== -->
+<div class="modal-mask" id="kbModal">
+  <div class="modal">
+    <h2>新增知识</h2>
+    <div class="form-group"><label for="f-kb-cat">分类（选填）</label><input id="f-kb-cat" placeholder="例如：政策 / 案例 / 工具"></div>
+    <div class="form-group"><label for="f-kb-title">标题（选填）</label><input id="f-kb-title" placeholder="先记录，再整理"></div>
+    <div class="form-group"><label for="f-kb-note">内容 <span class="req">*</span></label><textarea id="f-kb-note" placeholder="直接输入正文"></textarea></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveKb">保存</button></div>
+    <p style="font-size:14px;color:var(--muted);margin-top:12px">保存后自动归入当前主题</p>
+  </div>
+</div>
+
+<!-- ===== 新增灵感弹窗 ===== -->
+<div class="modal-mask" id="ideaModal">
+  <div class="modal">
+    <h2>新增灵感</h2>
+    <div class="form-group"><label>分类（选填）</label>
+      <select id="f-idea-cat"><option>产品想法</option><option>工作优化</option><option>待定事项</option><option>其他</option></select></div>
+    <div class="form-group"><label for="f-idea-note">内容 <span class="req">*</span></label><textarea id="f-idea-note" placeholder="一句话 / 一个想法 / 暂时不知道归哪里的信息"></textarea></div>
+    <div class="form-group"><label for="f-idea-tag">标签（选填）</label><input id="f-idea-tag" placeholder="例如：客户服务"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveIdea">保存</button></div>
+  </div>
+</div>
+
+<!-- ===== 客户详情弹窗（只展示已填写字段） ===== -->
+<div class="modal-mask" id="clientDetailModal">
+  <div class="modal wide">
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:20px">
+      <div class="avatar" style="width:52px;height:52px;font-size:22px" id="cdAvatar"></div>
+      <div><div style="font-size:22px;font-weight:700" id="cdName"></div><div style="font-size:15px;color:var(--muted);margin-top:2px" id="cdRole"></div></div>
+    </div>
+    <div class="detail-grid" id="cdGrid"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>关闭</button></div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
 
 <script>
@@ -951,8 +931,6 @@
 
   function toast(msg,type='ok'){const t=$('#toast');t.className='toast '+type;$('#toastText').textContent=msg;
     t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);}
-
-
 
   /* ===== 日期 ===== */
   (function(){const n=new Date();
@@ -976,6 +954,16 @@
     $$('.sub-page').forEach(p=>p.classList.remove('active'));
     $(`.sub-page[data-sp="${tab.dataset.sub}"]`).classList.add('active');}));
 
+  /* ===== 弹窗通用 ===== */
+  function openModal(id){$('#'+id).classList.add('open');}
+  function closeModal(m){m.classList.remove('open');}
+  let confirmAction=null;
+  $$('.modal-mask').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m);});
+    $$('[data-close]',m).forEach(b=>b.addEventListener('click',()=>closeModal(m)));});
+  $('#confirmDelete').addEventListener('click',()=>{if(confirmAction)confirmAction();
+    closeModal($('#confirmModal'));confirmAction=null;});
+  function askConfirm(fn){confirmAction=fn;$('#confirmModal').classList.add('open');}
+
   /* ===== 工作事项 ===== */
   const TASKS=[
     {cat:'甲方对接',name:'完成 ISO 内审资料整理',content:'体系文件清单 + 检查表',st:0},
@@ -993,7 +981,7 @@
     let fs=tFilter==='all'?TASKS:TASKS.filter(t=>t.cat===tFilter);
     const vis=expanded?fs:fs.slice(0,6),more=fs.length-6;
     list.innerHTML=vis.map(t=>`
-      <div class="task-row">
+      <div class="task-row" data-i="${TASKS.indexOf(t)}">
         <div class="task-main"><div class="task-name">${t.name}</div><div class="task-content">${t.content}</div></div>
         <span class="tag">${t.cat}</span>
         <span class="${STC[t.st]}"><span class="dot"></span>${t.st?'已完成':'待处理'}</span>
@@ -1002,8 +990,9 @@
       </div>`).join('')+(more>0&&!expanded?`<button class="more-btn" id="moreBtn">展开更多 ${more} 条</button>`:'');
     const mb=$('#moreBtn');if(mb)mb.addEventListener('click',()=>{list.dataset.expanded='1';renderTasks();});
     $$('[data-del]',list).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
-      const row=b.closest('.task-row');$('#confirmModal').classList.add('open');
-      $('#confirmDelete').onclick=()=>{row.remove();$('#confirmModal').classList.remove('open');toast('已删除');};}));
+      const row=b.closest('.task-row'),ti=+row.dataset.i;
+      askConfirm(()=>{if(ti>=0&&ti<TASKS.length)TASKS.splice(ti,1);
+        list.dataset.expanded='0';renderTasks();renderTodos();updateStats();toast('已删除');});}));
   }
   $$('.filter-chip[data-tf]').forEach(chip=>chip.addEventListener('click',()=>{
     $$('.filter-chip[data-tf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
@@ -1035,11 +1024,124 @@
   $('#flowBack').addEventListener('click',()=>{$('#flowDetail').style.display='none';$('#flowLib').style.display='block';});
   $('#btnAddFlow').addEventListener('click',()=>toast('新建流程：先填写流程名称与简介，保存后进入编辑页'));
 
+  /* ===== 客户 ===== */
+  const SHORT={'云南白药上海国际中心':'云南白药','某商办综合体驻场服务':'商办综合体'};
+  const shortP=p=>SHORT[p]||p;
+  const CLIENTS=[
+    {name:'李维',role:'项目对接负责人 · 上海颐健实业',rel:'与我的工作关系：甲方主要对接人，季度考核确认。',projs:['云南白药上海国际中心'],date:'8月10日',
+     extra:[['所属公司','上海颐健实业'],['联系电话','138-0000-0001'],['工作职责','统筹项目对接与季度考核确认'],['沟通注意事项','偏好书面确认，先发消息再电话']]},
+    {name:'周敏',role:'财务 · 上海颐健实业',rel:'与我的工作关系：酬金结算数据对接。',projs:['云南白药上海国际中心'],date:'8月10日',
+     extra:[['所属公司','上海颐健实业'],['工作职责','酬金结算数据对接']]},
+    {name:'陈工',role:'园区工程负责人',rel:'与我的工作关系：工程维修事项协同。',projs:['云南白药上海国际中心'],date:'8月8日',
+     extra:[['分管部门','工程部'],['沟通注意事项','现场问题优先电话']]},
+    {name:'王经理',role:'原项目甲方代表',rel:'历史项目对接，保持联系。',projs:['云南白药上海国际中心','某商办综合体驻场服务'],date:'7月',
+     extra:[['工作职责','原项目甲方代表'],['备注','每年节日前问候']]}];
+  let pFilter='all';
+  function clientCard(c,i){return `<div class="glass pcard client-card" data-ci="${i}">
+      <div class="cc-top"><div class="avatar">${c.name[0]}</div><div><div class="cc-name">${c.name}</div><div class="cc-role">${c.role}</div></div></div>
+      <div class="cc-rel">${c.rel}</div>
+      <div class="cc-bot"><span>${c.projs.map(p=>`<span class="tag">${shortP(p)}</span>`).join('')}</span>
+        <span style="display:flex;align-items:center;gap:8px"><span class="attach-src">${c.date}</span>
+        <button class="icon-btn" aria-label="删除" data-cdel="${i}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></span></div>
+    </div>`;}
+  function bindClients(root){
+    $$('.client-card',root).forEach(card=>card.addEventListener('click',e=>{if(e.target.closest('[data-cdel]'))return;
+      openClientDetail(CLIENTS[+card.dataset.ci]);}));
+    $$('[data-cdel]',root).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
+      const c=CLIENTS[+b.dataset.cdel];
+      askConfirm(()=>{CLIENTS.splice(CLIENTS.indexOf(c),1);
+        renderProjectClients();renderLibClients();updateStats();toast(`已删除客户「${c.name}」`);});}));}
+  function renderProjectClients(){$('#pClientGrid').innerHTML=CLIENTS.map(clientCard).join('');bindClients($('#pClientGrid'));}
+  function renderLibClients(){const fs=pFilter==='all'?CLIENTS:CLIENTS.filter(c=>c.projs.some(p=>shortP(p)===pFilter));
+    $('#libClientGrid').innerHTML=fs.map(clientCard).join('');bindClients($('#libClientGrid'));}
+  function openClientDetail(c){
+    $('#cdAvatar').textContent=c.name[0];$('#cdName').textContent=c.name;$('#cdRole').textContent=c.role;
+    const rows=[['关联项目',c.projs.map(shortP).join(' / ')],['最近联系',c.date],...c.extra];
+    $('#cdGrid').innerHTML=rows.map(([k,v])=>`<div class="d-item"><div class="k">${k}</div><div class="v">${v}</div></div>`).join('');
+    openModal('clientDetailModal');}
+  $('#btnAddClient').addEventListener('click',()=>openModal('clientModal'));
+  $('#btnAddClientLib').addEventListener('click',()=>openModal('clientModal'));
+  $$('.filter-chip[data-pf]').forEach(chip=>chip.addEventListener('click',()=>{
+    $$('.filter-chip[data-pf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
+    pFilter=chip.dataset.pf;renderLibClients();}));
+  $('#saveClient').addEventListener('click',()=>{const n=$('#c-name').value.trim();
+    if(!n){toast('请填写客户姓名','err');return;}
+    const co=$('#c-company').value.trim(),ro=$('#c-role').value.trim(),rel=$('#c-rel').value.trim();
+    CLIENTS.push({name:n,role:[co,ro].filter(Boolean).join(' · ')||'联系人',
+      rel:'与我的工作关系：'+(rel||'待补充'),projs:['云南白药上海国际中心'],date:'今天',
+      extra:[['所属公司',co],['职位',ro],['联系电话','']].filter(x=>x[1])});
+    $('#c-name').value='';$('#c-company').value='';$('#c-role').value='';$('#c-rel').value='';
+    closeModal($('#clientModal'));renderProjectClients();renderLibClients();updateStats();
+    toast(`已保存客户「${n}」· 自动关联当前项目`);});
+
+  /* ===== 周期工作 ===== */
+  const CYCLE_ORDER=['每日','每周','每月','每季度','每半年','每年'];
+  const CYCLES={每日:[['园区晨间巡检','重点区域设施状态确认']],
+    每周:[['周报与工作计划','每周五下班前提交'],['园区周巡查记录','覆盖工程、安保、保洁重点区域']],
+    每月:[['月度培训组织','按年度培训计划执行'],['月度就餐明细确认','用于成本据实结算'],['客户月度沟通','汇总问题与改进项']],
+    每季度:[],每半年:[],每年:[]};
+  let cFilter='all';
+  function renderCycles(){const box=$('#cycleList');
+    const order=CYCLE_ORDER.filter(p=>cFilter==='all'||p===cFilter);
+    box.innerHTML=order.map(p=>`
+      <div class="glass panel" style="margin-top:16px">
+        <div class="p-t" style="margin-bottom:8px"><h3>${p}</h3><span class="cnt">${CYCLES[p].length} 项</span></div>
+        ${CYCLES[p].map(([nm,ct])=>`<div class="task-row"><div class="task-main"><div class="task-name">${nm}</div><div class="task-content">${ct}</div></div></div>`).join('')||`<div style="font-size:14.5px;color:var(--muted);padding:8px 4px">暂无内容</div>`}
+      </div>`).join('');}
+  $$('.filter-chip[data-cf]').forEach(chip=>chip.addEventListener('click',()=>{
+    $$('.filter-chip[data-cf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
+    cFilter=chip.dataset.cf;renderCycles();}));
+  $('#btnAddCycle').addEventListener('click',()=>openModal('cycleModal'));
+  $('#saveCycle').addEventListener('click',()=>{const note=$('#f-cycle-note').value.trim();
+    if(!note){toast('内容为必填','err');return;}
+    const p=$('#f-cycle-period').value;
+    CYCLES[p].push([$('#f-cycle-title').value.trim()||'(未命名工作)',
+      note+($('#f-cycle-remark').value.trim()?' · '+$('#f-cycle-remark').value.trim():'')]);
+    ['f-cycle-title','f-cycle-note','f-cycle-remark'].forEach(i=>$('#'+i).value='');
+    closeModal($('#cycleModal'));renderCycles();toast(`已保存 · 自动归入「${p}」`);});
+
+  /* ===== SOP ===== */
+  const SOPS=[['客诉处理 SOP','适用：业主/客户投诉受理与闭环'],['ISO 内审 SOP','适用：年度内审组织与整改']];
+  function renderSops(){$('#sopList').innerHTML=SOPS.map(([n,d])=>`
+    <div class="glass pcard hover-lift"><div class="pn">${n}</div><div class="ps">${d}</div></div>`).join('');}
+  $('#btnAddSop').addEventListener('click',()=>openModal('sopModal'));
+  $('#saveSop').addEventListener('click',()=>{const n=$('#f-sop-name').value.trim();
+    if(!n){toast('请填写 SOP 名称','err');return;}
+    SOPS.push([n,$('#f-sop-scene').value.trim()||'适用：待补充']);
+    ['f-sop-name','f-sop-scene','f-sop-steps','f-sop-remark'].forEach(i=>$('#'+i).value='');
+    closeModal($('#sopModal'));renderSops();toast('已保存 SOP');});
+
+  /* ===== 项目库 ===== */
+  const PROJECTS=[['云南白药上海国际中心','行政设施管理 · 2025-03 至今',1],
+    ['某商办综合体驻场服务','物业项目经理 · 2022-06 至 2024-12',0],
+    ['早期住宅项目客服主管','客户服务 · 2019-04 至 2022-05',0]];
+  function renderProjects(){$('#projectList').innerHTML=PROJECTS.map(([n,d,s])=>`
+    <div class="glass pcard hover-lift">
+      <div class="top"><span class="tag${s===1?' solid':''}">${s===1?'当前':s===2?'新建':'已结束'}</span></div>
+      <div class="pn">${n}</div><div class="ps">${d}</div>
+      <span class="go">查看项目档案 →</span>
+    </div>`).join('');}
+  $('#btnAddProject').addEventListener('click',()=>openModal('projectModal'));
+  $('#saveProject').addEventListener('click',()=>{const n=$('#f-proj-name').value.trim();
+    if(!n){toast('请填写项目名称','err');return;}
+    const type=$('#f-proj-type').value.trim(),post=$('#f-proj-post').value.trim(),time=$('#f-proj-time').value.trim();
+    PROJECTS.unshift([n,[type,post,time].filter(Boolean).join(' · ')||'新项目',2]);
+    ['f-proj-name','f-proj-type','f-proj-post','f-proj-time'].forEach(i=>$('#'+i).value='');
+    closeModal($('#projectModal'));renderProjects();toast('已新建项目');});
+
   /* ===== 成就卡片 → 详情 ===== */
   const ACHS=[{name:'云南白药智慧工作台',time:'2026',topic:'系统开发',proj:'云南白药上海国际中心',desc:'14 个业务模块的产品设计与推进，从需求梳理到技术落地，目前仍在迭代开发中。'},
     {name:'ISO 9001 内审体系落地',time:'2026',topic:'制度建设',proj:'云南白药上海国际中心',desc:'主导体系文件梳理与内审组织，完成年度内审闭环。'},
     {name:'培训体系从 0 到 1',time:'2025',topic:'培训管理',proj:'云南白药上海国际中心',desc:'年度培训计划 + 月度落地执行，到场率提升约 40%。'},
     {name:'季度考核连续达标',time:'2024',topic:'项目管理',proj:'某商办综合体',desc:'酬金制考核稳定在 90 分以上。'}];
+  function renderAchLib(){const list=$('#achList');
+    list.innerHTML=ACHS.map((a,i)=>`
+      <div class="glass pcard hover-lift" data-ach="${i}">
+        <div class="top"><span class="tag">${a.topic}</span><span>${a.time}</span></div>
+        <div class="pn">${a.name}</div><div class="ps">${a.proj}</div>
+        <span class="go">查看成就 →</span>
+      </div>`).join('');
+    $$('[data-ach]',list).forEach(c=>c.addEventListener('click',()=>{$('#achLib').style.display='none';$('#achDetail').style.display='block';renderAch(+c.dataset.ach);}));}
   function renderAch(i){const a=ACHS[i];$('#achDetailName').textContent=a.name;
     $('#achDetailBody').innerHTML=`
       <div class="meta-grid">
@@ -1052,14 +1154,21 @@
       <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
         <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">相关附件</div>
         <div class="attach-row"><div class="attach-ico">IMG</div><span class="attach-name">工作台-首页截图.png</span><span class="attach-src">2.4 MB</span></div></div>`;}
-  $$('[data-ach]').forEach(c=>c.addEventListener('click',()=>{$('#achLib').style.display='none';$('#achDetail').style.display='block';renderAch(+c.dataset.ach);}));
   $('#achBack').addEventListener('click',()=>{$('#achDetail').style.display='none';$('#achLib').style.display='block';});
+  $('#btnAddAch').addEventListener('click',()=>openModal('achModal'));
+  $('#saveAch').addEventListener('click',()=>{const n=$('#a-name').value.trim();
+    if(!n){toast('请填写成就名称','err');return;}
+    ACHS.unshift({name:n,time:$('#a-time').value.trim()||'2026',topic:$('#a-topic').value.trim()||'个人成长',
+      proj:'云南白药上海国际中心',desc:$('#a-desc').value.trim()||'（未填写说明）'});
+    ['a-name','a-time','a-topic','a-desc'].forEach(i=>$('#'+i).value='');
+    closeModal($('#achModal'));renderAchLib();toast('已保存成就');});
 
   /* ===== 知识库三级 ===== */
   const KBS={ESG:[['政策','2026-08 园区类 ESG 披露指引更新，范围一/二排放核算边界…'],['案例','物业 ESG 实践：能耗监控 + 绿色耗材，年能耗降 12%']],
     ISO:[['体系','ISO 9001 条款速查与内审要点'],['内审','不符合项分级与整改验证流程']],
     '物业管理':[['运营','酬金制结算口径与季度考核联动'],['案例','园区报修台账分类模板']],
     AI:[['工具','AI 辅助文档写作实践'],['实践','提示词模板库积累']]};
+  let curTopic=Object.keys(KBS)[0];
   function renderKb(topic){
     $('#kbTopicName').textContent=topic;
     $('#kbStream').innerHTML=(KBS[topic]||[]).map((k,i)=>`
@@ -1069,47 +1178,80 @@
         <div class="kb-meta"><span style="font-size:14px;color:var(--muted)">${i===0?'今天 · 09:24':'8月12日'}</span>
         <span style="margin-left:auto;display:flex;gap:4px">
           <button class="icon-btn" aria-label="编辑"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></button>
-          <button class="icon-btn" aria-label="删除"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></span></div>
-      </div>`).join('');}
-  let curTopic='ESG';
-  $$('[data-topic]').forEach(c=>c.addEventListener('click',()=>{
-    $('#kbTopics').style.display='none';$('#kbTopic').style.display='block';
-    curTopic=c.dataset.topic;renderKb(curTopic);}));
+          <button class="icon-btn" aria-label="删除" data-kdel="${i}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></span></div>
+      </div>`).join('');
+    $$('[data-kdel]',$('#kbStream')).forEach(b=>b.addEventListener('click',()=>{
+      const idx=+b.dataset.kdel;
+      askConfirm(()=>{KBS[topic].splice(idx,1);renderKb(topic);renderTopicGrid();updateStats();toast('已删除');});}));}
+  function renderTopicGrid(){const g=$('#topicGrid');
+    g.innerHTML=Object.entries(KBS).map(([t,arr])=>`
+      <div class="glass pcard hover-lift topic-card" data-topic="${t}">
+        <div class="t">${t}</div><div class="c">${arr.length} 条知识</div>
+        <span class="go">进入主题 →</span></div>`).join('');
+    $$('[data-topic]',g).forEach(c=>c.addEventListener('click',()=>{
+      $('#kbTopics').style.display='none';$('#kbTopic').style.display='block';
+      curTopic=c.dataset.topic;renderKb(curTopic);renderTopicList(curTopic);}));}
+  function renderTopicList(active){const l=$('#topicList');
+    l.innerHTML=Object.keys(KBS).map(t=>`<button class="topic-item${t===active?' active':''}" data-ti="${t}">${t}</button>`).join('');
+    $$('[data-ti]',l).forEach(b=>b.addEventListener('click',()=>{curTopic=b.dataset.ti;renderKb(curTopic);renderTopicList(curTopic);}));}
   $('#kbBack').addEventListener('click',()=>{$('#kbTopic').style.display='none';$('#kbTopics').style.display='block';});
-  $$('.topic-item').forEach(t=>t.addEventListener('click',()=>{
-    $$('.topic-item').forEach(x=>x.classList.remove('active'));t.classList.add('active');renderKb(t.textContent.trim());}));
-  $('#btnAddTopic').addEventListener('click',()=>toast('新建主题：输入主题名称后生成主题卡片'));
-  $('#btnAddKb').addEventListener('click',()=>toast(`新增知识：当前主题自动为「${curTopic}」`));
+  $('#btnAddTopic').addEventListener('click',()=>openModal('topicModal'));
+  $('#saveTopic').addEventListener('click',()=>{const n=$('#f-topic-name').value.trim();
+    if(!n){toast('请填写主题名称','err');return;}
+    if(KBS[n]){toast('该主题已存在','err');return;}
+    KBS[n]=[];$('#f-topic-name').value='';$('#f-topic-desc').value='';
+    closeModal($('#topicModal'));renderTopicGrid();toast(`已创建主题「${n}」`);});
+  $('#btnAddKb').addEventListener('click',()=>openModal('kbModal'));
+  $('#saveKb').addEventListener('click',()=>{const c=$('#f-kb-note').value.trim();
+    if(!c){toast('内容为必填','err');return;}
+    const t=$('#f-kb-title').value.trim();
+    KBS[curTopic].push([$('#f-kb-cat').value.trim()||'未分类',t?`${t}：${c}`:c]);
+    $('#f-kb-cat').value='';$('#f-kb-title').value='';$('#f-kb-note').value='';
+    closeModal($('#kbModal'));renderKb(curTopic);renderTopicGrid();updateStats();toast(`已保存 · 自动归入「${curTopic}」`);});
 
-  /* ===== 弹窗 ===== */
-  function openModal(id){$('#'+id).classList.add('open');}
-  function closeModal(m){m.classList.remove('open');}
-  $$('.modal-mask').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m);});
-    $$('[data-close]',m).forEach(b=>b.addEventListener('click',()=>closeModal(m)));});
+  /* ===== 灵感记录 ===== */
+  const IDEAS=[['给园区客户做一份「客户画像速查表」，见客户前扫一眼沟通偏好和关注点。','产品想法','今天'],
+    ['培训签到改用企业微信扫码？省去纸质签到表整理时间。','工作优化','昨天'],
+    ['季度考核材料提前两周启动数据汇总，先对齐口径再出表。','待定事项','8月12日'],
+    ['工作台是否需要一个「本周看点」模块？把周期事项和待办合并展示。','产品想法','8月10日']];
+  let iFilter='all';
+  function renderIdeas(){const fs=iFilter==='all'?IDEAS:IDEAS.filter(i=>i[1]===iFilter);
+    $('#ideaList').innerHTML=fs.map(([c,cat,t])=>`
+      <div class="glass idea-card hover-lift"><div class="content">${c}</div>
+        <div class="idea-foot"><span class="tag">${cat}</span><span class="attach-src" style="margin-left:auto">${t}</span></div></div>`).join('');}
+  $$('.filter-chip[data-if]').forEach(chip=>chip.addEventListener('click',()=>{
+    $$('.filter-chip[data-if]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
+    iFilter=chip.dataset.if;renderIdeas();}));
+  $('#btnAddIdea').addEventListener('click',()=>openModal('ideaModal'));
+  $('#saveIdea').addEventListener('click',()=>{const c=$('#f-idea-note').value.trim();
+    if(!c){toast('内容为必填','err');return;}
+    IDEAS.unshift([c,$('#f-idea-cat').value,'今天']);
+    $('#f-idea-note').value='';$('#f-idea-tag').value='';
+    closeModal($('#ideaModal'));renderIdeas();updateStats();toast('已保存灵感');});
+
+  /* ===== 新增入口 ===== */
   $('#btnAddTask2').addEventListener('click',()=>openModal('taskModal'));
   $('#btnQuickAdd').addEventListener('click',()=>openModal('quickAddModal'));
-  $('#btnAddClient').addEventListener('click',()=>openModal('clientModal'));
-  $('#qcClient').addEventListener('click',()=>{closeModal($('#quickAddModal'));openModal('clientModal');});
-  $('#btnAddAch').addEventListener('click',()=>openModal('achModal'));
-  $('#btnAddIdea').addEventListener('click',()=>toast('已打开新增灵感（内容必填 · 分类/标签选填 · 演示）'));
+  function qcOpen(id){closeModal($('#quickAddModal'));openModal(id);}
+  $('#qcTask').addEventListener('click',()=>qcOpen('taskModal'));
+  $('#qcCycle').addEventListener('click',()=>qcOpen('cycleModal'));
+  $('#qcFlow').addEventListener('click',()=>{closeModal($('#quickAddModal'));toast('新建流程：填写名称与简介后进入编辑页');});
+  $('#qcSop').addEventListener('click',()=>qcOpen('sopModal'));
+  $('#qcProj').addEventListener('click',()=>{closeModal($('#quickAddModal'));toast('项目自定义字段：在项目概览中「＋ 添加自定义字段」');});
   $('#saveTask').addEventListener('click',()=>{const c=$('#f-note').value.trim();if(!c){toast('内容为必填','err');return;}
     TASKS.unshift({cat:$('#f-cat').value,name:$('#f-name').value.trim()||'(未命名事项)',content:c,st:0});
-    $('#f-name').value='';$('#f-note').value='';closeModal($('#taskModal'));renderTasks();renderTodos();toast('已保存 · 自动归入 工作事项');});
-  $('#saveClient').addEventListener('click',()=>{const n=$('#c-name').value.trim();if(!n){toast('请填写客户姓名','err');return;}
-    $('#c-name').value='';$('#c-company').value='';$('#c-role').value='';closeModal($('#clientModal'));toast('已保存客户 · 自动关联当前项目');});
-  $('#saveAch').addEventListener('click',()=>{const n=$('#a-name').value.trim();if(!n){toast('请填写成就名称','err');return;}
-    ['a-name','a-time','a-topic','a-desc'].forEach(i=>$('#'+i).value='');closeModal($('#achModal'));toast('已保存成就');});
+    $('#f-name').value='';$('#f-note').value='';closeModal($('#taskModal'));renderTasks();renderTodos();updateStats();toast('已保存 · 自动归入 工作事项');});
 
   /* ===== 全局搜索 ===== */
+  function searchGroups(){
+    return [{t:'客户',it:CLIENTS.map(c=>[c.name,c.role])},
+      {t:'工作事项',it:TASKS.map(t=>[t.name,t.cat+' · '+(t.st?'已完成':'待处理')])},
+      {t:'知识',it:Object.entries(KBS).flatMap(([tp,arr])=>arr.map(k=>[k[1].slice(0,22),tp]))},
+      {t:'灵感',it:IDEAS.map(i=>[i[0].slice(0,22),i[1]])}];}
   function openSearch(){$('#searchModal').classList.add('open');setTimeout(()=>$('#searchInput').focus(),80);}
   $('#topSearchBtn').addEventListener('click',openSearch);
   $('#searchInput').addEventListener('input',e=>{
-    const q=e.target.value.trim().toLowerCase();
-    const groups=[{t:'客户',it:[['张三','云南白药上海国际中心'],['李维','项目对接负责人'],['周敏','财务 · 颐健实业']]},
-      {t:'工作事项',it:[['ISO 内审资料整理','当前项目 · 待处理'],['更新客户沟通记录','当前项目'],['季度考核材料准备','当前项目']]},
-      {t:'知识',it:[['ESG 信息披露政策','ESG'],['能耗监控平台案例','物业管理']]},
-      {t:'灵感',it:[['关于园区客户画像的想法','产品想法'],['培训签到扫码优化','工作优化']]}];
-    const h=[];
+    const q=e.target.value.trim().toLowerCase(),groups=searchGroups(),h=[];
     if(!q){groups.forEach(g=>{h.push(`<div class="sr-group"><div class="g-t">${g.t}</div>`+g.it.slice(0,2).map(i=>`<div class="sr-item"><span class="type">${g.t.slice(0,2)}</span><span class="title">${i[0]}</span><span class="sub">${i[1]}</span></div>`).join('')+`</div>`);});}
     else{let hit=0;groups.forEach(g=>{const m=g.it.filter(i=>(i[0]+i[1]).toLowerCase().includes(q));
       if(m.length){hit+=m.length;h.push(`<div class="sr-group"><div class="g-t">${g.t}</div>`+m.map(i=>`<div class="sr-item"><span class="type">${g.t.slice(0,2)}</span><span class="title">${i[0]}</span><span class="sub">${i[1]}</span></div>`).join('')+`</div>`);}});
@@ -1119,10 +1261,16 @@
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}
     if(e.key==='Escape')$$('.modal-mask.open').forEach(closeModal);});
 
+  /* ===== 首页统计 ===== */
+  function updateStats(){
+    $('#stTasks').innerHTML=`${TASKS.length}<small>项</small>`;
+    $('#stClients').innerHTML=`${CLIENTS.length}<small>位</small>`;
+    $('#stKb').innerHTML=`${Object.values(KBS).reduce((a,b)=>a+b.length,0)}<small>条</small>`;
+    $('#stIdeas').innerHTML=`${IDEAS.length}<small>条</small>`;}
+
   /* ===== 动态玻璃特效 ===== */
-  const hero=$('.page.active .glass');
   addEventListener('mousemove',e=>{
-    document.querySelectorAll('.page.active .glass, .glass').forEach(g=>{
+    $$('.glass').forEach(g=>{
       const r=g.getBoundingClientRect();
       if(e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom){
         g.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
@@ -1147,14 +1295,15 @@
     for(const p of pts){const d=Math.hypot(mouse.x-p.x,mouse.y-p.y);
       if(d<160){ctx.strokeStyle=`rgba(${c},${0.28*(1-d/160)})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(mouse.x,mouse.y);ctx.lineTo(p.x,p.y);ctx.stroke();}}
     if(run)requestAnimationFrame(frame);}
-  // 固定主题：白 · 玻璃仪表盘；黑色版启用粒子动画
   const syncFx=()=>{run=false;if(run)requestAnimationFrame(frame);};
   syncFx();
 
   /* ===== 初始化 ===== */
-  renderTasks();renderTodos();
+  renderTasks();renderTodos();renderProjectClients();renderLibClients();renderCycles();renderSops();
+  renderProjects();renderAchLib();renderTopicGrid();renderIdeas();updateStats();
   if(!reduced){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}});},{threshold:.1});
     $$('.glass').forEach((el,i)=>{el.classList.add('reveal');el.style.transitionDelay=(i%6*.04)+'s';io.observe(el)});}
+
 </script>
 </body>
 </html>
