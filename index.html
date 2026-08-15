@@ -90,6 +90,8 @@
     mix-blend-mode:overlay}
   .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
     background:radial-gradient(360px 230px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.85) 0%,rgba(255,255,255,.35) 40%,transparent 72%);
+    backdrop-filter:blur(4px) saturate(1.25) brightness(1.05);
+    -webkit-backdrop-filter:blur(4px) saturate(1.25) brightness(1.05);
     opacity:0;transition:opacity .4s}
   .glass > *{position:relative;z-index:1}
   .glass:hover::after{opacity:1}
@@ -405,13 +407,17 @@
   button:active,.pcard:active,.client-card:active,.idea-card:active,.topic-card:active,.gf-node .node:active,
   .task-row:active,.todo-row:active,.tl-row:active,.tl-entry:active,.attach-row:active,.attach-item:active,
   .topic-item:active,.todo-check:active,.choice-btn:active,.sr-item:active{transform:scale(.95)}
-  /* 液态涟漪：水光（细亮水环 + 顶部反光点，如水面反光） */
+  /* 液态涟漪：水光（细亮水环+顶部反光点）+ 4px 玻璃折射 · 圆形蒙版防方形 */
   .lg-ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:4;
     background:
       radial-gradient(30% 30% at 34% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 100%),
-      radial-gradient(circle,transparent 68%,rgba(255,255,255,.2) 82%,rgba(255,255,255,.06) 92%,transparent 100%),
-      radial-gradient(circle,rgba(255,255,255,.05),transparent 55%);
-    box-shadow:0 0 16px rgba(255,255,255,.22);
+      radial-gradient(circle,transparent 66%,rgba(255,255,255,.22) 80%,rgba(255,255,255,.07) 90%,transparent 100%),
+      radial-gradient(circle,rgba(255,255,255,.06),transparent 55%);
+    backdrop-filter:blur(4px) saturate(1.3) brightness(1.06);
+    -webkit-backdrop-filter:blur(4px) saturate(1.3) brightness(1.06);
+    -webkit-mask-image:radial-gradient(circle,#000 74%,transparent 99%);
+    mask-image:radial-gradient(circle,#000 74%,transparent 99%);
+    filter:drop-shadow(0 0 10px rgba(255,255,255,.22));
     transform:translate(-50%,-50%) scale(.06);opacity:0;
     animation:lgRipple .55s cubic-bezier(.2,.7,.2,1) forwards}
   @keyframes lgRipple{
@@ -422,6 +428,8 @@
   /* 按钮光标跟随高光（玻璃透镜） + 折射描边 */
   button::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
     background:radial-gradient(220px 130px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.8),rgba(255,255,255,.28) 45%,transparent 72%);
+    backdrop-filter:blur(4px) saturate(1.25) brightness(1.05);
+    -webkit-backdrop-filter:blur(4px) saturate(1.25) brightness(1.05);
     opacity:0;transition:opacity .3s}
   button:hover::after,button:focus-visible::after{opacity:1}
   button:hover{box-shadow:inset 0 0 0 1px rgba(255,255,255,.65),inset 0 0 22px rgba(255,255,255,.35)}
@@ -475,7 +483,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v8</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v9</div></div>
       </div>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
@@ -1643,6 +1651,7 @@
     const size=Math.max(80,Math.min(Math.max(r.width,r.height)*1.15,420));
     const sp=document.createElement('span');
     sp.className='lg-ripple';
+    sp.style.borderRadius='50%';
     sp.style.width=sp.style.height=size+'px';
     sp.style.left=(e.clientX-r.left)+'px';
     sp.style.top=(e.clientY-r.top)+'px';
