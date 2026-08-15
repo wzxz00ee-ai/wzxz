@@ -405,16 +405,20 @@
   button:active,.pcard:active,.client-card:active,.idea-card:active,.topic-card:active,.gf-node .node:active,
   .task-row:active,.todo-row:active,.tl-row:active,.tl-entry:active,.attach-row:active,.attach-item:active,
   .topic-item:active,.todo-check:active,.choice-btn:active,.sr-item:active{transform:scale(.95)}
-  /* 液态涟漪：水珠扩散 + 玻璃折射 */
+  /* 液态涟漪：水光（细亮水环 + 顶部反光点，如水面反光） */
   .lg-ripple{position:absolute;border-radius:50%;pointer-events:none;z-index:4;
-    background:radial-gradient(circle,rgba(255,255,255,.95) 0%,rgba(255,255,255,.5) 28%,rgba(255,255,255,.16) 52%,rgba(255,255,255,0) 74%);
-    backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);
-    box-shadow:inset 0 0 24px rgba(255,255,255,.85),0 0 34px rgba(255,255,255,.45);
-    transform:translate(-50%,-50%) scale(0);opacity:.95;
-    animation:lgRipple .7s cubic-bezier(.2,.7,.2,1) forwards}
-  @keyframes lgRipple{0%{transform:translate(-50%,-50%) scale(0);opacity:.95}
-    38%{transform:translate(-50%,-50%) scale(.9);opacity:.92}
-    100%{transform:translate(-50%,-50%) scale(1.3);opacity:0}}
+    background:
+      radial-gradient(30% 30% at 34% 30%,rgba(255,255,255,.6),rgba(255,255,255,0) 100%),
+      radial-gradient(circle,transparent 68%,rgba(255,255,255,.2) 82%,rgba(255,255,255,.06) 92%,transparent 100%),
+      radial-gradient(circle,rgba(255,255,255,.05),transparent 55%);
+    box-shadow:0 0 16px rgba(255,255,255,.22);
+    transform:translate(-50%,-50%) scale(.06);opacity:0;
+    animation:lgRipple .55s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes lgRipple{
+    0%{transform:translate(-50%,-50%) scale(.06);opacity:0}
+    12%{opacity:.9}
+    55%{transform:translate(-50%,-50%) scale(1.03);opacity:.6}
+    100%{transform:translate(-50%,-50%) scale(1.12);opacity:0}}
   /* 按钮光标跟随高光（玻璃透镜） + 折射描边 */
   button::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:2;
     background:radial-gradient(220px 130px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.8),rgba(255,255,255,.28) 45%,transparent 72%);
@@ -471,7 +475,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v7</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v8</div></div>
       </div>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
