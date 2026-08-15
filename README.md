@@ -1,6 +1,6 @@
-# 个人信息台
+# WORKSPACE
 
-个人工作信息收集、沉淀与长期职业记录平台（Apple 玻璃风格 · 单文件站点）。
+个人工作信息收集、沉淀与长期职业记录平台（WORKSPACE · Apple 玻璃风格 · 单文件站点）。
 
 - **线上地址**：https://wzxz00ee-ai.github.io/wzxz/
 - 站点入口：`index.html`（单文件，双击本地也能打开，零外部依赖）
