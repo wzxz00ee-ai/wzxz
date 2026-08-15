@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="个人信息台 · 个人工作信息收集、沉淀与长期职业记录平台">
+<meta name="theme-color" content="#f6f7fa">
+<link rel="icon" href='data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="%2317181a"/><text x="50" y="68" font-size="48" text-anchor="middle" fill="%23f4f4f5" font-family="PingFang SC,sans-serif" font-weight="600">台</text></svg>'>
+<title>个人信息台</title>
+<style>
+  /* ================= 三主题 Tokens ================= */
+  :root{
+    --ease:cubic-bezier(.2,.7,.2,1);
+    --font:-apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Helvetica Neue","Microsoft YaHei",sans-serif;
+  }
+  html[data-theme="dark"]{
+    --bg:#0a0a0b; --fg:#ededee; --muted:#8b8d93; --line:rgba(255,255,255,.1);
+    --glass-bg:linear-gradient(160deg,rgba(255,255,255,.07),rgba(255,255,255,.02));
+    --glass-border:rgba(255,255,255,.12);
+    --glass-blur:blur(24px) saturate(1.5);
+    --shadow:0 30px 90px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.13);
+    --solid-bg:#ededee; --solid-fg:#0a0a0b;
+    --hover-bg:rgba(255,255,255,.1);
+    --card-sub:rgba(255,255,255,.045);
+    --input-bg:rgba(255,255,255,.05);
+    --ring-track:rgba(255,255,255,.14);
+    --btn-ghost-bd:rgba(255,255,255,.24);
+    --mask:rgba(0,0,0,.6);
+  }
+  html[data-theme="light"]{
+    --bg:linear-gradient(168deg,#f6f7fa 0%,#eceff4 55%,#e4e8ef 100%); --fg:#17181a; --muted:#6b6e76; --line:rgba(20,22,26,.1);
+    --glass-bg:linear-gradient(160deg,rgba(255,255,255,.70),rgba(255,255,255,.46));
+    --glass-border:rgba(255,255,255,.62);
+    --glass-blur:blur(42px) saturate(1.9);
+    --shadow:0 30px 70px rgba(30,32,38,.10), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(30,32,38,.04);
+    --solid-bg:#17181a; --solid-fg:#f4f4f5;
+    --hover-bg:rgba(20,22,26,.07);
+    --card-sub:rgba(255,255,255,.65);
+    --input-bg:rgba(255,255,255,.7);
+    --ring-track:rgba(20,22,26,.1);
+    --btn-ghost-bd:rgba(20,22,26,.22);
+    --mask:rgba(30,32,38,.4);
+  }
+  html[data-theme="glass"]{
+    --bg:#0f1013; --fg:#f0f0f2; --muted:#9a9ca3; --line:rgba(255,255,255,.12);
+    --glass-bg:linear-gradient(155deg,rgba(255,255,255,.10),rgba(255,255,255,.025));
+    --glass-border:rgba(255,255,255,.15);
+    --glass-blur:blur(28px) saturate(1.5);
+    --shadow:0 30px 80px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.16);
+    --solid-bg:#f0f0f2; --solid-fg:#0f1013;
+    --hover-bg:rgba(255,255,255,.12);
+    --card-sub:rgba(255,255,255,.06);
+    --input-bg:rgba(255,255,255,.08);
+    --ring-track:rgba(255,255,255,.16);
+    --btn-ghost-bd:rgba(255,255,255,.26);
+    --mask:rgba(0,0,0,.55);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{background:var(--bg);color:var(--fg);font-family:var(--font);min-height:100vh;
+    overflow-x:hidden;transition:background .6s var(--ease),color .6s var(--ease);-webkit-font-smoothing:antialiased}
+
+  /* ============ 背景动效层（三主题各一） ============ */
+  #particles{position:fixed;inset:0;z-index:0;pointer-events:none;display:none}
+  html[data-theme="dark"] #particles{display:block}
+  .blob{position:fixed;border-radius:50%;filter:blur(80px);opacity:0;z-index:0;pointer-events:none;
+    transition:opacity .6s;animation:drift 20s ease-in-out infinite}
+  html[data-theme="light"] .blob{opacity:.55}
+  .b1{width:540px;height:540px;background:#9ba1ac;top:-140px;left:-120px}
+  .b2{width:440px;height:440px;background:#828896;top:30%;right:-160px;animation-delay:-6.6s}
+  .b3{width:400px;height:400px;background:#a8adb8;bottom:-120px;left:28%;animation-delay:-13.2s}
+  @keyframes drift{0%,100%{transform:translate(0,0) scale(1)}33%{transform:translate(110px,-70px) scale(1.16)}66%{transform:translate(-80px,90px) scale(.9)}}
+  .aurora{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;opacity:0;transition:opacity .8s}
+  html[data-theme="glass"] .aurora{opacity:1}
+  .aurora .band{position:absolute;border-radius:50%;filter:blur(70px);opacity:.5;mix-blend-mode:screen;animation:flow 26s ease-in-out infinite}
+  .aurora .a1{width:60vw;height:60vw;left:-20vw;top:-18vw;background:radial-gradient(circle,#55575d 0%,transparent 62%)}
+  .aurora .a2{width:52vw;height:52vw;right:-16vw;top:6vh;background:radial-gradient(circle,#26272c 0%,transparent 60%);animation-delay:-9s;animation-duration:32s}
+  .aurora .a3{width:46vw;height:46vw;left:22vw;bottom:-22vw;background:radial-gradient(circle,#3f4147 0%,transparent 62%);animation-delay:-17s;animation-duration:28s}
+  @keyframes flow{0%,100%{transform:translate(0,0) scale(1) rotate(0deg)}33%{transform:translate(6vw,-4vh) scale(1.15) rotate(8deg)}66%{transform:translate(-5vw,5vh) scale(.92) rotate(-6deg)}}
+  .aurora .streak{position:absolute;width:140vw;height:3px;left:-20vw;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);filter:blur(2px);opacity:.22;animation:streak 18s linear infinite}
+  .aurora .s2{top:34vh;animation-delay:-6s}.aurora .s3{top:62vh;animation-delay:-12s}
+  @keyframes streak{0%{transform:translateX(0)}100%{transform:translateX(60vw)}}
+
+  /* ============ 玻璃 ============ */
+  .glass{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);border-radius:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+    transition:transform .4s var(--ease),box-shadow .4s var(--ease)}
+  .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
+    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.08) 34%,transparent 58%);
+    mix-blend-mode:overlay}
+  .glass::after{content:"";position:absolute;inset:0;pointer-events:none;z-index:0;
+    background:radial-gradient(280px 180px at var(--mx,30%) var(--my,20%),rgba(255,255,255,.55),transparent 62%);
+    mix-blend-mode:overlay;opacity:0;transition:opacity .4s}
+  .glass > *{position:relative;z-index:1}
+  html[data-theme="light"] .glass::after{background:radial-gradient(280px 180px at var(--mx,30%) var(--my,20%),rgba(255,255,255,.6),transparent 62%)}
+  .glass:hover::after{opacity:1}
+  .hover-lift:hover{transform:translateY(-6px)}
+  html[data-theme="light"] .hover-lift:hover{box-shadow:0 32px 70px rgba(30,32,38,.14), inset 0 1px 0 rgba(255,255,255,1)}
+
+  /* ============ 应用外壳 ============ */
+  .shell{position:relative;z-index:2;min-height:100vh}
+
+  /* 顶部双层导航：第一行 品牌+搜索+主题切换；第二行 目录 */
+  .topbar{position:fixed;top:14px;left:50%;transform:translateX(-50%);z-index:60;
+    width:max-content;max-width:96vw;border-radius:22px;padding:13px 18px 11px;
+    display:flex;flex-direction:column;gap:10px;overflow:hidden;
+    background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);box-shadow:var(--shadow)}
+  .tb-row1{display:flex;align-items:center;gap:12px;min-height:44px;flex-shrink:0;flex-wrap:nowrap}
+  .tb-row1 .brand{flex-shrink:0}
+  .tb-search{width:min(340px,42vw);flex:none}
+  .tb-row1 .theme-switch{flex-shrink:0}
+  .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
+  .brand-mark{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--solid-bg);
+    box-shadow:0 4px 14px rgba(0,0,0,.25)}
+  .brand-mark svg{stroke:var(--solid-fg)}
+  .brand-name{font-size:17px;font-weight:700;letter-spacing:.02em}
+  .brand-sub{font-size:12.5px;color:var(--muted);margin-top:1px}
+  .tb-search{display:flex;align-items:center;gap:9px;height:38px;padding:0 16px;flex:1;border-radius:14px;
+    border:1px solid var(--glass-border);background:var(--input-bg);color:var(--muted);font-size:15px;
+    cursor:pointer;transition:all .25s;font-family:inherit}
+  .tb-search:hover{border-color:var(--muted);color:var(--fg)}
+  .tb-search kbd{margin-left:auto;font-size:13px;background:var(--hover-bg);padding:2px 8px;border-radius:7px;font-family:inherit}
+  .tb-nav{align-self:flex-start;max-width:100%;display:flex;gap:2px;flex-wrap:nowrap;align-items:center;
+    padding-top:10px;margin-top:2px;border-top:1px solid var(--line);flex-shrink:0;
+    overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .tb-nav::-webkit-scrollbar{display:none}
+  .nav-item{position:relative;display:flex;align-items:center;gap:7px;padding:9px 12px 11px;border:none;cursor:pointer;
+    background:transparent;font-family:inherit;font-size:15.5px;font-weight:500;color:var(--muted);
+    transition:color .25s var(--ease);letter-spacing:.01em;white-space:nowrap}
+  .nav-item::after{content:"";position:absolute;left:50%;bottom:4px;width:0;height:2px;
+    background:var(--fg);border-radius:2px;transform:translateX(-50%);transition:width .3s var(--ease)}
+  .nav-item svg{flex-shrink:0;stroke:currentColor;width:14px;height:14px}
+  .nav-item:hover{color:var(--fg)}
+  .nav-item.active{color:var(--fg);font-weight:700}
+  .nav-item.active::after{width:18px}
+  .nav-item:focus-visible{outline:1px solid var(--fg);outline-offset:-2px;border-radius:6px}
+  .nav-sep{width:4px;height:4px;border-radius:50%;background:var(--line);margin:0 8px;flex-shrink:0;align-self:center}
+
+  /* 主内容 */
+  .main{flex:1;padding:200px 44px 70px;max-width:1240px;margin:0 auto}
+  .page{display:none;animation:pageIn .5s var(--ease) both}
+  .page.active{display:block}
+  @keyframes pageIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .page-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:26px;gap:16px}
+  .crumbs{font-size:14px;color:var(--muted);margin-bottom:8px;letter-spacing:.06em}
+  .crumbs b{color:var(--fg);font-weight:600}
+  .page-title{font-size:34px;font-weight:700;letter-spacing:-.02em}
+  .page-desc{font-size:15.5px;color:var(--muted);margin-top:6px}
+
+  /* 顶栏搜索 */
+
+  /* ============ 按钮 / 标签 ============ */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;font-family:inherit;font-weight:600;
+    border:none;cursor:pointer;border-radius:999px;transition:all .3s var(--ease);white-space:nowrap;font-size:15.5px}
+  .btn:focus-visible{outline:2px solid var(--fg);outline-offset:2px}
+  .btn-lg{height:46px;padding:0 26px;font-size:16.5px}
+  .btn-md{height:38px;padding:0 18px}
+  .btn-solid{background:var(--solid-bg);color:var(--solid-fg)}
+  .btn-solid:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(0,0,0,.25)}
+  .btn-ghost{border:1px solid var(--btn-ghost-bd);color:var(--fg);background:transparent}
+  .btn-ghost:hover{background:var(--hover-bg);transform:translateY(-2px)}
+  .btn-danger{background:#d70015;color:#fff}
+  .btn-danger:hover{background:#c00012}
+  .icon-btn{width:32px;height:32px;border-radius:10px;display:inline-grid;place-items:center;border:none;cursor:pointer;
+    background:transparent;color:var(--muted);transition:all .25s}
+  .icon-btn:hover{background:var(--hover-bg);color:var(--fg)}
+  .icon-btn svg{stroke:currentColor}
+  .tag{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;padding:4px 12px;border-radius:999px;
+    letter-spacing:.04em;background:var(--card-sub);border:1px solid var(--line);color:var(--muted)}
+  .tag.solid{background:var(--solid-bg);color:var(--solid-fg);border-color:transparent}
+  .tag .dot{width:5px;height:5px;border-radius:50%;background:currentColor}
+
+  /* 筛选胶囊 */
+  .filter-bar{display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+  .filter-chip{padding:7px 16px;border-radius:999px;border:1px solid var(--line);background:var(--card-sub);
+    cursor:pointer;font-family:inherit;font-size:14.5px;font-weight:600;color:var(--muted);letter-spacing:.03em;
+    transition:all .25s}
+  .filter-chip:hover{border-color:var(--muted);color:var(--fg)}
+  .filter-chip.active{background:var(--solid-bg);color:var(--solid-fg);border-color:transparent}
+
+  /* 网格与卡片 */
+  .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+  .pcard{padding:24px;display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;cursor:pointer}
+  .pcard .pn{font-size:18px;font-weight:700;letter-spacing:-.01em}
+  .pcard .ps{font-size:14.5px;color:var(--muted);line-height:1.6}
+  .pcard .top{display:flex;justify-content:space-between;align-items:center;font-size:13.5px;color:var(--muted);letter-spacing:.1em}
+  .pcard .go{margin-top:6px;font-size:14px;letter-spacing:.12em;color:var(--fg);opacity:.55;transition:all .3s}
+  .pcard:hover .go{opacity:1;letter-spacing:.2em}
+
+  /* ============ 首页 ============ */
+  .hero-line{display:flex;align-items:baseline;flex-wrap:wrap;gap:24px 32px}
+  .hero-date{font-size:clamp(54px,7vw,94px);font-weight:200;line-height:.98;letter-spacing:-.03em}
+  .hero-date .mid{font-weight:700}
+  .hero-sub{display:flex;align-items:center;gap:12px;color:var(--muted);font-size:16px;letter-spacing:.05em;white-space:nowrap}
+  .hero-sub .dotw{width:5px;height:5px;border-radius:50%;background:var(--muted)}
+  .home-dash{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;margin-top:34px}
+  .panel{padding:26px 28px}
+  .p-t{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
+  .p-t h3{font-size:17px;font-weight:700}
+  .p-t .cnt{font-size:14px;color:var(--muted);letter-spacing:.08em}
+  .todo-row{display:flex;align-items:center;gap:13px;padding:13px 4px;border-bottom:1px solid var(--line)}
+  .todo-row:last-child{border-bottom:none}
+  .todo-check{width:20px;height:20px;border-radius:7px;border:1.5px solid var(--muted);flex-shrink:0;
+    display:grid;place-items:center;color:transparent;cursor:pointer;transition:all .25s;background:transparent}
+  .todo-check svg{stroke:currentColor;width:12px;height:12px}
+  .todo-row.done .todo-check{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+  .todo-name{flex:1;font-size:16px;font-weight:500}
+  .todo-row.done .todo-name{opacity:.4;text-decoration:line-through}
+  .tl-day{font-size:14px;font-weight:700;color:var(--muted);letter-spacing:.1em;margin:12px 0 4px}
+  .tl-row{display:flex;align-items:center;gap:11px;padding:10px 4px;font-size:15px;color:var(--muted);border-bottom:1px solid var(--line)}
+  .tl-row:last-child{border-bottom:none}
+  .tl-type{font-size:12.5px;font-weight:700;padding:3px 9px;border-radius:999px;flex-shrink:0;letter-spacing:.06em;
+    background:var(--card-sub);border:1px solid var(--line)}
+  .tl-text b{color:var(--fg);font-weight:600}
+  .tl-more{width:100%;text-align:center;padding:11px;margin-top:6px;border:1px dashed var(--line);border-radius:12px;
+    background:transparent;color:var(--muted);font-family:inherit;font-size:15px;cursor:pointer;transition:all .3s}
+  .tl-more:hover{color:var(--fg);border-color:var(--muted)}
+  .home-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:20px}
+  .stat{padding:18px;border-radius:16px;background:var(--card-sub);backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);border:1px solid var(--line);transition:transform .3s,background .3s}
+  .stat:hover{transform:translateY(-4px);background:var(--hover-bg)}
+  .stat b{font-size:30px;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+  .stat b small{font-size:15px;color:var(--muted);font-weight:400;margin-left:3px}
+  .stat span{display:block;font-size:12.5px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;margin-top:3px}
+
+  /* ============ 当前项目二级导航 ============ */
+  .tabs{display:flex;gap:4px;padding:4px;border-radius:16px;background:var(--card-sub);
+    border:1px solid var(--line);width:fit-content;margin-bottom:22px}
+  .tab{padding:9px 17px;border-radius:12px;border:none;background:transparent;cursor:pointer;font-family:inherit;
+    font-size:15.5px;font-weight:600;color:var(--muted);transition:all .25s}
+  .tab:hover{color:var(--fg)}
+  .tab.active{background:var(--solid-bg);color:var(--solid-fg)}
+  .sub-page{display:none;animation:pageIn .4s var(--ease) both}
+  .sub-page.active{display:block}
+
+  /* 概览 */
+  .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 32px}
+  .meta-item .k{font-size:14px;color:var(--muted);margin-bottom:4px;letter-spacing:.05em}
+  .meta-item .v{font-size:16.5px;font-weight:600}
+  .cf-row{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:11px;background:var(--card-sub);
+    border:1px solid var(--line);margin-top:8px;font-size:15.5px}
+  .cf-row .k{font-weight:700;color:var(--muted)}
+  .cf-row .v{flex:1}
+
+  /* 工作事项 / 周期 */
+  .task-row{display:flex;align-items:center;gap:13px;padding:14px 4px;border-bottom:1px solid var(--line)}
+  .task-row:last-child{border-bottom:none}
+  .task-main{flex:1;min-width:0}
+  .task-name{font-size:16.5px;font-weight:600}
+  .task-content{font-size:14.5px;color:var(--muted);margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .cycle-group{margin-bottom:16px}
+
+  /* GF-01 */
+  .gf-list{display:flex;flex-direction:column;align-items:center;padding:18px 0}
+  .gf-node{width:min(400px,100%)}
+  .gf-node .node{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);border-radius:16px;padding:15px 19px;display:flex;align-items:center;gap:13px;
+    box-shadow:var(--shadow);transition:all .3s}
+  .gf-node:hover .node{transform:translateY(-3px)}
+  .gf-node .no{width:32px;height:32px;border-radius:11px;display:grid;place-items:center;flex-shrink:0;
+    background:var(--solid-bg);color:var(--solid-fg);font-size:15px;font-weight:700;font-variant-numeric:tabular-nums}
+  .gf-node .nm{font-size:17px;font-weight:700}
+  .gf-node .ds{font-size:14.5px;color:var(--muted);margin-top:2px}
+  .gf-link{display:grid;place-items:center;height:32px;color:var(--muted)}
+
+  /* 附件行 */
+  .attach-row{display:flex;align-items:center;gap:12px;padding:12px 14px;border-radius:12px;background:var(--card-sub);
+    border:1px solid var(--line);margin-top:8px;cursor:pointer;transition:all .25s;font-size:15.5px}
+  .attach-row:hover{background:var(--hover-bg);transform:translateX(3px)}
+  .attach-ico{width:32px;height:32px;border-radius:9px;display:grid;place-items:center;flex-shrink:0;
+    background:var(--solid-bg);color:var(--solid-fg);font-size:11.5px;font-weight:700}
+  .attach-name{flex:1;font-weight:600}
+  .attach-src{font-size:14px;color:var(--muted)}
+
+  /* 客户卡（关系分层） */
+  .client-card{display:flex;flex-direction:column;gap:10px;text-decoration:none;color:inherit;cursor:pointer}
+  .cc-top{display:flex;align-items:center;gap:12px}
+  .avatar{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;flex-shrink:0;
+    background:var(--solid-bg);color:var(--solid-fg);font-size:18px;font-weight:700}
+  .cc-name{font-size:17px;font-weight:700}
+  .cc-role{font-size:14px;color:var(--muted);margin-top:2px}
+  .cc-rel{margin-top:8px;padding:10px 12px;border-radius:10px;background:var(--card-sub);border:1px solid var(--line);
+    font-size:14.5px;color:var(--muted);line-height:1.6}
+  .cc-bot{display:flex;align-items:center;justify-content:space-between;margin-top:6px}
+
+  /* 客户详情 / 成就详情 */
+  .detail-sec{margin-bottom:16px}
+  .sec-t{font-size:13.5px;font-weight:700;color:var(--muted);letter-spacing:.14em;margin-bottom:10px;text-transform:uppercase}
+  .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 28px}
+  .d-item .k{font-size:14px;color:var(--muted)}
+  .d-item .v{font-size:16px;font-weight:600;margin-top:3px}
+
+  /* 知识库三级 */
+  .topic-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .topic-card{padding:22px;cursor:pointer;text-decoration:none;color:inherit;display:flex;flex-direction:column;gap:8px}
+  .topic-card .t{font-size:19px;font-weight:700}
+  .topic-card .c{font-size:14px;color:var(--muted)}
+  .kb-layout{display:grid;grid-template-columns:240px 1fr;gap:20px}
+  .topic-list{display:flex;flex-direction:column;gap:4px;padding:14px}
+  .topic-item{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:11px;border:none;cursor:pointer;
+    background:transparent;font-family:inherit;font-size:15.5px;font-weight:600;color:var(--muted);
+    text-align:left;transition:all .25s}
+  .topic-item:hover{background:var(--hover-bg);color:var(--fg)}
+  .topic-item.active{background:var(--solid-bg);color:var(--solid-fg)}
+  .kb-entry .excerpt{font-size:15.5px;line-height:1.8;color:var(--muted)}
+  .kb-meta{display:flex;align-items:center;gap:10px;margin-top:12px}
+
+  /* 灵感 */
+  .idea-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .idea-card{display:flex;flex-direction:column;gap:10px;padding:20px;cursor:pointer;text-decoration:none;color:inherit}
+  .idea-card .content{font-size:15.5px;line-height:1.7;color:var(--muted);display:-webkit-box;
+    -webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden}
+  .idea-foot{display:flex;align-items:center;gap:8px;margin-top:2px}
+
+  /* 时间轴 / 附件 */
+  .tl-year{font-size:22px;font-weight:800;margin:24px 0 10px;letter-spacing:-.01em}
+  .tl-month{font-size:16px;font-weight:700;color:var(--muted);margin:16px 0 8px}
+  .tl-day-l{font-size:14.5px;font-weight:700;color:var(--muted);margin:12px 0 6px;letter-spacing:.1em}
+  .tl-entry{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:11px;font-size:15.5px}
+  .tl-entry:hover{background:var(--hover-bg)}
+  .attach-item{display:flex;align-items:center;gap:14px;padding:15px 17px;cursor:pointer;transition:all .25s}
+  .attach-item:hover{transform:translateX(3px)}
+  .src-path{font-size:14px;color:var(--muted);margin-top:3px}
+  .src-path b{color:var(--fg);font-weight:600}
+
+  /* 展开更多 */
+  .more-btn{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:12px;margin-top:8px;
+    border:1px dashed var(--line);border-radius:12px;background:transparent;cursor:pointer;font-family:inherit;
+    font-size:15.5px;font-weight:600;color:var(--muted);transition:all .25s}
+  .more-btn:hover{border-color:var(--muted);color:var(--fg);background:var(--hover-bg)}
+
+  /* ============ 弹窗 / Toast / 搜索 ============ */
+  .modal-mask{position:fixed;inset:0;background:var(--mask);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    display:none;place-items:center;z-index:100}
+  .modal-mask.open{display:grid}
+  .modal{width:480px;max-width:calc(100vw-32px);border-radius:26px;background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);border:1px solid var(--glass-border);
+    box-shadow:var(--shadow);padding:28px;animation:modalIn .35s var(--ease) both}
+  .modal.wide{width:640px}
+  @keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.98)}to{opacity:1;transform:none}}
+  .modal h2{font-size:21px;font-weight:700;margin-bottom:20px}
+  .form-group{margin-bottom:15px}
+  .form-group label{display:block;font-size:15px;font-weight:600;margin-bottom:7px;color:var(--muted)}
+  .form-group label .req{color:#d70015}
+  .form-group input,.form-group textarea,.form-group select{width:100%;height:40px;padding:0 13px;border-radius:12px;
+    border:1px solid var(--line);background:var(--input-bg);font-family:inherit;font-size:15.5px;color:var(--fg);
+    transition:all .25s}
+  .form-group textarea{height:88px;padding:10px 13px;resize:vertical;line-height:1.6}
+  .form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--muted);
+    box-shadow:0 0 0 3px rgba(255,255,255,.08)}
+  .auto-proj{display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding:11px 13px;border-radius:12px;
+    background:var(--card-sub);border:1px solid var(--line);font-size:15px}
+  .modal-actions{display:flex;justify-content:flex-end;gap:12px;margin-top:22px}
+  .choice-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .choice-btn{padding:16px;border-radius:14px;border:1px solid var(--line);background:var(--card-sub);cursor:pointer;
+    font-family:inherit;font-size:15.5px;font-weight:600;color:var(--fg);text-align:left;transition:all .25s;display:flex;gap:10px;align-items:center}
+  .choice-btn:hover{border-color:var(--muted);background:var(--hover-bg);transform:translateY(-2px)}
+  .choice-btn .ci{font-size:18px}
+
+  .toast{position:fixed;top:24px;left:50%;transform:translateX(-50%) translateY(-80px);display:flex;align-items:center;gap:10px;
+    background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:1px solid var(--glass-border);box-shadow:var(--shadow);border-radius:999px;padding:12px 22px;
+    font-size:16px;font-weight:600;z-index:200;opacity:0;transition:all .35s var(--ease);pointer-events:none}
+  .toast.show{transform:translateX(-50%) translateY(0);opacity:1}
+  .toast .tdot{width:8px;height:8px;border-radius:50%}
+  .toast.ok .tdot{background:#1f9d66}
+  .toast.err .tdot{background:#d70015}
+
+  /* 搜索弹层 */
+  .search-modal{padding:0;overflow:hidden}
+  .search-input-row{display:flex;align-items:center;gap:12px;padding:18px 22px;border-bottom:1px solid var(--line)}
+  .search-input-row input{flex:1;border:none;outline:none;background:transparent;font-family:inherit;font-size:18px;color:var(--fg)}
+  .search-input-row input::placeholder{color:var(--muted)}
+  .search-results{max-height:420px;overflow-y:auto;padding:10px 12px 16px}
+  .sr-group{margin-top:10px}
+  .g-t{font-size:13px;font-weight:700;color:var(--muted);letter-spacing:.14em;padding:4px 10px;text-transform:uppercase}
+  .sr-item{display:flex;align-items:center;gap:12px;padding:11px 12px;border-radius:10px;cursor:pointer;transition:background .15s;font-size:16px}
+  .sr-item:hover{background:var(--hover-bg)}
+  .sr-item .type{font-size:12.5px;font-weight:700;padding:2.5px 8px;border-radius:999px;background:var(--card-sub);
+    border:1px solid var(--line);color:var(--muted);flex-shrink:0}
+  .sr-item .title{flex:1;font-weight:600}
+  .sr-item .sub{font-size:14px;color:var(--muted)}
+  .search-empty{padding:40px;text-align:center;color:var(--muted);font-size:16px}
+
+  /* 主题切换（顶部胶囊） */
+
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity .8s,transform .8s var(--ease)}
+  .reveal.in{opacity:1;transform:none}
+
+  @media(max-width:1080px){
+    .grid-3,.topic-grid,.idea-grid{grid-template-columns:1fr 1fr}
+    .home-dash{grid-template-columns:1fr}
+  }
+  @media(max-width:860px){
+    .topbar{top:6px;padding:10px 12px;border-radius:18px;width:max-content;max-width:98vw}
+    .brand-sub{display:none}
+    .tb-row1{min-height:38px}
+    .tb-search{width:min(240px,40vw)}
+    .tb-nav{padding-bottom:4px;margin-top:0}
+    .nav-item{padding:6px 10px;font-size:14.5px}
+    .nav-item svg{width:13px;height:13px}
+    .main{padding:132px 16px 50px}
+    .grid-3,.grid-2,.topic-grid,.idea-grid{grid-template-columns:1fr}
+    .home-stats{grid-template-columns:1fr 1fr}
+    .meta-grid,.detail-grid{grid-template-columns:1fr}
+    .kb-layout{grid-template-columns:1fr}
+    .page-head{flex-direction:column;align-items:flex-start}
+  }
+  @media(prefers-reduced-motion:reduce){
+    *,*::before,*::after{animation-duration:.01ms !important;transition-duration:.01ms !important}
+    .blob,.aurora,#particles,.glass::after{display:none !important}
+  }
+</style>
+</head>
+<body data-theme="light">
+
+<!-- 三背景动效层 -->
+<canvas id="particles"></canvas>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+<div class="aurora">
+  <div class="band a1"></div><div class="band a2"></div><div class="band a3"></div>
+  <div class="streak"></div><div class="streak s2"></div><div class="streak s3"></div>
+</div>
+
+<div class="shell">
+
+  <!-- ============ 侧边导航（完整目录） ============ -->
+    <!-- 顶部双层导航：第一行 品牌+全局搜索+主题；第二行 目录 -->
+  <header class="topbar" role="navigation" aria-label="全局导航">
+    <div class="tb-row1">
+      <div class="brand">
+        <div class="brand-mark" aria-hidden="true">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
+        </div>
+        <div><div class="brand-name">个人信息台</div><div class="brand-sub">PERSONAL INFO · DESK</div></div>
+      </div>
+      <button class="tb-search" id="topSearchBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+        搜索… <kbd>⌘K</kbd>
+      </button>
+      </div>
+    <nav class="tb-nav">
+      <button class="nav-item active" data-nav="home"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5"/><path d="M5 9.5V21h14V9.5"/></svg>首页</button>
+      <button class="nav-item" data-nav="project"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="3"/><path d="M3 9h18M9 4v16"/></svg>当前项目</button>
+      <button class="nav-item" data-nav="projects"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 7l8 4 8-4-8-4Z"/><path d="m4 12 8 4 8-4"/><path d="m4 17 8 4 8-4"/></svg>项目库</button>
+      <button class="nav-item" data-nav="clients"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg>客户信息库</button>
+      <button class="nav-item" data-nav="achievements"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5 7 22l5-3 5 3-1.5-9.5"/></svg>个人成就</button>
+      <button class="nav-item" data-nav="knowledge"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20V4a2 2 0 0 0-2-2H6.5A2.5 2.5 0 0 0 4 4.5v15Z"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20v-5"/></svg>个人知识库</button>
+      <button class="nav-item" data-nav="ideas"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.4 1 2.3h6c0-.9.4-1.8 1-2.3A7 7 0 0 0 12 2Z"/></svg>灵感记录</button>
+      <span class="nav-sep" aria-hidden="true"></span>
+      <button class="nav-item" data-nav="timeline"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>时间轴</button>
+      <button class="nav-item" data-nav="attachments"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="m21.44 11.05-9.19 9.19a6 6 0 0 1-8.49-8.49l8.57-8.57A4 4 0 1 1 18 8.84l-8.59 8.57a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>附件中心</button>
+    </nav>
+  </header>
+
+
+  <!-- ============ 主内容 ============ -->
+  <main class="main">
+
+    <!-- ===== 首页 ===== -->
+    <section class="page active" id="page-home" aria-label="首页">
+      <div class="hero-line">
+        <div class="hero-date"><span class="mid" id="bigDate">8月15日</span></div>
+        <div class="hero-sub"><span id="bigWeek">星期六</span><span class="dotw"></span><span>上海</span></div>
+      </div>
+
+      <div class="home-dash">
+        <div class="glass panel">
+          <div class="p-t"><h3>当前待办</h3><span class="cnt" id="todoCnt">0 项待处理</span></div>
+          <div id="todoList"></div>
+          <div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--muted)">
+            <span>自动读取当前项目 · 待处理事项</span><span>→</span>
+          </div>
+        </div>
+        <div class="glass panel">
+          <div class="p-t"><h3>最近时间轴</h3><span class="cnt">3 条记录</span></div>
+          <div class="tl-day">8月15日</div>
+          <div class="tl-row"><span class="tl-type">完成事项</span><span class="tl-text"><b>ISO 内审资料整理</b></span></div>
+          <div class="tl-row"><span class="tl-type">新增客户</span><span class="tl-text"><b>张三</b> · 云南白药上海国际中心</span></div>
+          <div class="tl-row"><span class="tl-type">新增知识</span><span class="tl-text">ESG 信息披露相关政策</span></div>
+          <div class="tl-day">8月14日</div>
+          <div class="tl-row"><span class="tl-type">更新项目</span><span class="tl-text">补充项目服务模式</span></div>
+          <button class="tl-more" data-goto="timeline">查看完整时间轴 →</button>
+        </div>
+      </div>
+
+      <div class="home-stats">
+        <div class="stat"><b>12<small>项</small></b><span>工作事项</span></div>
+        <div class="stat"><b>8<small>位</small></b><span>关键联系人</span></div>
+        <div class="stat"><b>23<small>条</small></b><span>知识沉淀</span></div>
+        <div class="stat"><b>5<small>条</small></b><span>灵感记录</span></div>
+      </div>
+    </section>
+
+    <!-- ===== 当前项目 ===== -->
+    <section class="page" id="page-project" aria-label="当前项目">
+      <div class="page-head">
+        <div>
+          <div class="crumbs">首页 <b>›</b> 当前项目</div>
+          <div class="page-title">云南白药上海国际中心</div>
+          <div class="page-desc">行政设施管理 · 园区运营 · 酬金制服务</div>
+        </div>
+        <div style="display:flex;gap:10px">
+          <button class="btn btn-ghost btn-md" id="btnQuickAdd">＋ 新增</button>
+          <button class="btn btn-solid btn-md" id="btnAddTask2">＋ 新增事项</button>
+        </div>
+      </div>
+
+      <div class="tabs" role="tablist" aria-label="当前项目二级导航">
+        <button class="tab active" data-sub="overview">项目概览</button>
+        <button class="tab" data-sub="tasks">工作事项</button>
+        <button class="tab" data-sub="cycle">周期工作</button>
+        <button class="tab" data-sub="flow">工作流程</button>
+        <button class="tab" data-sub="sop">SOP</button>
+        <button class="tab" data-sub="pclients">客户信息</button>
+      </div>
+
+      <!-- 概览 -->
+      <div class="sub-page active" data-sp="overview">
+        <div class="glass panel">
+          <div class="p-t"><h3>项目概览</h3><button class="btn btn-ghost btn-md">编辑</button></div>
+          <div class="meta-grid">
+            <div class="meta-item"><div class="k">项目名称</div><div class="v">云南白药上海国际中心</div></div>
+            <div class="meta-item"><div class="k">项目性质</div><div class="v">产业园区 · 写字楼</div></div>
+            <div class="meta-item"><div class="k">项目体量</div><div class="v">14.2 万㎡</div></div>
+            <div class="meta-item"><div class="k">甲方名称</div><div class="v">上海颐健实业</div></div>
+            <div class="meta-item"><div class="k">我的岗位</div><div class="v">行政设施管理</div></div>
+            <div class="meta-item"><div class="k">服务模式</div><div class="v">酬金制（成本 + 5% 酬金）</div></div>
+            <div class="meta-item"><div class="k">开始时间</div><div class="v">2025-03</div></div>
+            <div class="meta-item"><div class="k">项目状态</div><div class="v"><span class="tag solid"><span class="dot"></span>当前项目</span></div></div>
+          </div>
+          <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+            <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">项目简介</div>
+            <div style="font-size:15.5px;line-height:1.75;color:var(--muted)">对接甲方，统筹服务中心、工程、安保、保洁、厨房等部门日常运营，负责考勤制度、ISO 内审、培训组织与运营文书。</div>
+          </div>
+          <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+            <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">自定义字段</div>
+            <div class="cf-row"><span class="k">建筑面积</span><span class="v">142,000 ㎡</span></div>
+            <div class="cf-row"><span class="k">合同类型</span><span class="v">酬金制物业服务合同</span></div>
+            <button class="btn btn-ghost btn-md" style="margin-top:12px">＋ 添加自定义字段</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 工作事项 -->
+      <div class="sub-page" data-sp="tasks">
+        <div class="filter-bar">
+          <button class="filter-chip active" data-tf="all">全部</button>
+          <button class="filter-chip" data-tf="甲方对接">甲方对接</button>
+          <button class="filter-chip" data-tf="公司对接">公司对接</button>
+          <button class="filter-chip" data-tf="个人工作">个人工作</button>
+          <button class="filter-chip" data-tf="紧急处理">紧急处理</button>
+        </div>
+        <div class="glass panel" style="padding:8px 22px" id="taskList"></div>
+      </div>
+
+      <!-- 周期工作 -->
+      <div class="sub-page" data-sp="cycle">
+        <div class="filter-bar">
+          <button class="btn btn-solid btn-md">＋ 新增工作</button>
+          <button class="filter-chip active">全部周期</button>
+          <button class="filter-chip">每日</button>
+          <button class="filter-chip">每周</button>
+          <button class="filter-chip">每月</button>
+          <button class="filter-chip">每季度</button>
+        </div>
+        <div class="glass panel">
+          <div class="p-t" style="margin-bottom:8px"><h3>每日</h3><span class="cnt">1 项</span></div>
+          <div class="task-row"><div class="task-main"><div class="task-name">园区晨间巡检</div><div class="task-content">重点区域设施状态确认</div></div></div>
+        </div>
+        <div class="glass panel" style="margin-top:16px">
+          <div class="p-t" style="margin-bottom:8px"><h3>每周</h3><span class="cnt">2 项</span></div>
+          <div class="task-row"><div class="task-main"><div class="task-name">周报与工作计划</div><div class="task-content">每周五下班前提交</div></div></div>
+          <div class="task-row"><div class="task-main"><div class="task-name">园区周巡查记录</div><div class="task-content">覆盖工程、安保、保洁重点区域</div></div></div>
+        </div>
+        <div class="glass panel" style="margin-top:16px">
+          <div class="p-t" style="margin-bottom:8px"><h3>每月</h3><span class="cnt">3 项</span></div>
+          <div class="task-row"><div class="task-main"><div class="task-name">月度培训组织</div><div class="task-content">按年度培训计划执行</div></div></div>
+          <div class="task-row"><div class="task-main"><div class="task-name">月度就餐明细确认</div><div class="task-content">用于成本据实结算</div></div></div>
+          <div class="task-row"><div class="task-main"><div class="task-name">客户月度沟通</div><div class="task-content">汇总问题与改进项</div></div></div>
+        </div>
+      </div>
+
+      <!-- 工作流程：卡片库 → 详情 -->
+      <div class="sub-page" data-sp="flow">
+        <div id="flowLib">
+          <div class="filter-bar">
+            <button class="btn btn-solid btn-md" id="btnAddFlow">＋ 新增流程</button>
+          </div>
+          <div class="grid-2">
+            <div class="glass pcard hover-lift" data-flow="keSu">
+              <div class="top"><span class="tag solid">6 步</span><span>更新于 7 月</span></div>
+              <div class="pn">客户投诉处理</div><div class="ps">客户投诉从接收到关闭的完整处理步骤</div>
+              <span class="go">查看流程 →</span>
+            </div>
+            <div class="glass pcard hover-lift" data-flow="iso">
+              <div class="top"><span class="tag solid">5 步</span><span>更新于 6 月</span></div>
+              <div class="pn">ISO 内审流程</div><div class="ps">从内审准备到整改关闭</div>
+              <span class="go">查看流程 →</span>
+            </div>
+            <div class="glass pcard hover-lift" data-flow="train">
+              <div class="top"><span class="tag solid">5 步</span><span>更新于 6 月</span></div>
+              <div class="pn">培训组织流程</div><div class="ps">培训计划、通知、执行与归档</div>
+              <span class="go">查看流程 →</span>
+            </div>
+          </div>
+        </div>
+        <div id="flowDetail" style="display:none">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+            <button class="btn btn-ghost btn-md" id="flowBack">← 工作流程</button>
+            <span style="font-size:17px;font-weight:700" id="flowDetailName"></span>
+            <span style="margin-left:auto"><button class="btn btn-ghost btn-md">✎ 编辑流程</button></span>
+          </div>
+          <div class="glass panel"><div class="gf-list" id="flowDetailBody"></div></div>
+        </div>
+      </div>
+
+      <!-- SOP -->
+      <div class="sub-page" data-sp="sop">
+        <div class="filter-bar"><button class="btn btn-solid btn-md">＋ 新增 SOP</button></div>
+        <div class="grid-2">
+          <div class="glass pcard hover-lift"><div class="pn">客诉处理 SOP</div><div class="ps">适用：业主/客户投诉受理与闭环</div></div>
+          <div class="glass pcard hover-lift"><div class="pn">ISO 内审 SOP</div><div class="ps">适用：年度内审组织与整改</div></div>
+        </div>
+        <div class="glass panel" style="margin-top:20px">
+          <div class="p-t"><h3>ISO 内审 SOP · 附件</h3><button class="btn btn-ghost btn-md">＋ 添加附件</button></div>
+          <div class="attach-row"><div class="attach-ico">XLS</div><span class="attach-name">内审检查表.xlsx</span><span class="attach-src">2026-06 · 1.2 MB</span></div>
+          <div class="attach-row"><div class="attach-ico">PDF</div><span class="attach-name">内审流程说明.pdf</span><span class="attach-src">2026-06 · 860 KB</span></div>
+          <div class="attach-row"><div class="attach-ico">DOC</div><span class="attach-name">内审报告模板.docx</span><span class="attach-src">2026-06 · 45 KB</span></div>
+        </div>
+      </div>
+
+      <!-- 客户信息 -->
+      <div class="sub-page" data-sp="pclients">
+        <div class="filter-bar"><button class="btn btn-solid btn-md" id="btnAddClient">＋ 新增客户</button></div>
+        <div class="grid-3">
+          <div class="glass pcard client-card">
+            <div class="cc-top"><div class="avatar">李</div><div><div class="cc-name">李维</div><div class="cc-role">项目对接负责人 · 上海颐健实业</div></div></div>
+            <div class="cc-rel">与我的工作关系：甲方主要对接人，季度考核确认。</div>
+            <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
+          </div>
+          <div class="glass pcard client-card">
+            <div class="cc-top"><div class="avatar">周</div><div><div class="cc-name">周敏</div><div class="cc-role">财务 · 上海颐健实业</div></div></div>
+            <div class="cc-rel">与我的工作关系：酬金结算数据对接。</div>
+            <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
+          </div>
+          <div class="glass pcard client-card">
+            <div class="cc-top"><div class="avatar">陈</div><div><div class="cc-name">陈工</div><div class="cc-role">园区工程负责人</div></div></div>
+            <div class="cc-rel">与我的工作关系：工程维修事项协同。</div>
+            <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月8日</span></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 项目库 ===== -->
+    <section class="page" id="page-projects" aria-label="项目库">
+      <div class="page-head">
+        <div><div class="page-title">项目库</div><div class="page-desc">当前项目 + 历史项目 · 结束不等于删除</div></div>
+        <button class="btn btn-solid btn-md">＋ 新建项目</button>
+      </div>
+      <div class="grid-2">
+        <div class="glass pcard hover-lift">
+          <div class="top"><span class="tag solid"><span class="dot"></span>当前</span></div>
+          <div class="pn">云南白药上海国际中心</div><div class="ps">行政设施管理 · 2025-03 至今</div>
+          <span class="go">进入项目档案 →</span>
+        </div>
+        <div class="glass pcard hover-lift">
+          <div class="top"><span class="tag">已结束</span></div>
+          <div class="pn">某商办综合体驻场服务</div><div class="ps">物业项目经理 · 2022-06 至 2024-12</div>
+          <span class="go">查看历史档案 →</span>
+        </div>
+        <div class="glass pcard hover-lift">
+          <div class="top"><span class="tag">已结束</span></div>
+          <div class="pn">早期住宅项目客服主管</div><div class="ps">客户服务 · 2019-04 至 2022-05</div>
+          <span class="go">查看历史档案 →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 客户信息库 ===== -->
+    <section class="page" id="page-clients" aria-label="客户信息库">
+      <div class="page-head">
+        <div><div class="page-title">客户信息库</div><div class="page-desc">全部项目客户总库 · 多项目关联 · 卡片 → 详情</div></div>
+        <button class="btn btn-solid btn-md">＋ 新增客户</button>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-chip active">全部项目</button>
+        <button class="filter-chip">云南白药上海国际中心</button>
+        <button class="filter-chip">某商办综合体</button>
+      </div>
+      <div class="grid-3">
+        <div class="glass pcard client-card">
+          <div class="cc-top"><div class="avatar">李</div><div><div class="cc-name">李维</div><div class="cc-role">项目对接负责人</div></div></div>
+          <div class="cc-rel">甲方主要对接人，季度考核确认。</div>
+          <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
+        </div>
+        <div class="glass pcard client-card">
+          <div class="cc-top"><div class="avatar">周</div><div><div class="cc-name">周敏</div><div class="cc-role">财务 · 颐健实业</div></div></div>
+          <div class="cc-rel">酬金结算数据对接。</div>
+          <div class="cc-bot"><span class="tag">云南白药</span><span class="attach-src">8月10日</span></div>
+        </div>
+        <div class="glass pcard client-card">
+          <div class="cc-top"><div class="avatar">王</div><div><div class="cc-name">王经理</div><div class="cc-role">原项目甲方代表</div></div></div>
+          <div class="cc-rel">历史项目对接，保持联系。</div>
+          <div class="cc-bot"><span class="tag">云南白药</span><span class="tag">商办综合体</span><span class="attach-src">7月</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 个人成就 ===== -->
+    <section class="page" id="page-achievements" aria-label="个人成就">
+      <div id="achLib">
+        <div class="page-head">
+          <div><div class="page-title">个人成就</div><div class="page-desc">职业成果档案 · 成就卡片 → 详情</div></div>
+          <button class="btn btn-solid btn-md" id="btnAddAch">＋ 新增成就</button>
+        </div>
+        <div class="grid-2">
+          <div class="glass pcard hover-lift" data-ach="0">
+            <div class="top"><span class="tag">系统开发</span><span>2026</span></div>
+            <div class="pn">云南白药智慧工作台</div><div class="ps">个人系统开发 / 工作数字化</div>
+            <span class="go">查看成就 →</span>
+          </div>
+          <div class="glass pcard hover-lift" data-ach="1">
+            <div class="top"><span class="tag">制度建设</span><span>2026</span></div>
+            <div class="pn">ISO 9001 内审体系落地</div><div class="ps">内审组织 / 体系梳理</div>
+            <span class="go">查看成就 →</span>
+          </div>
+          <div class="glass pcard hover-lift" data-ach="2">
+            <div class="top"><span class="tag">培训管理</span><span>2025</span></div>
+            <div class="pn">培训体系从 0 到 1</div><div class="ps">年度计划 + 月度落地</div>
+            <span class="go">查看成就 →</span>
+          </div>
+          <div class="glass pcard hover-lift" data-ach="3">
+            <div class="top"><span class="tag">项目管理</span><span>2024</span></div>
+            <div class="pn">季度考核连续达标</div><div class="ps">酬金制考核 ≥90 分</div>
+            <span class="go">查看成就 →</span>
+          </div>
+        </div>
+      </div>
+      <div id="achDetail" style="display:none">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+          <button class="btn btn-ghost btn-md" id="achBack">← 个人成就</button>
+          <span style="font-size:17px;font-weight:700" id="achDetailName"></span>
+          <span style="margin-left:auto"><button class="btn btn-ghost btn-md">✎ 编辑</button></span>
+        </div>
+        <div class="glass panel" id="achDetailBody"></div>
+      </div>
+    </section>
+
+    <!-- ===== 个人知识库（三级：主题 → 主题详情 → 知识详情） ===== -->
+    <section class="page" id="page-knowledge" aria-label="个人知识库">
+      <!-- 主题卡片层 -->
+      <div id="kbTopics">
+        <div class="page-head">
+          <div><div class="page-title">个人知识库</div><div class="page-desc">先记录，再整理 · 知识主题 → 主题详情 → 知识详情</div></div>
+          <button class="btn btn-solid btn-md" id="btnAddTopic">＋ 新增主题</button>
+        </div>
+        <div class="topic-grid">
+          <div class="glass pcard hover-lift topic-card" data-topic="ESG"><div class="t">ESG</div><div class="c">8 条知识 · 政策 / 碳排放 / 案例</div><span class="go">进入主题 →</span></div>
+          <div class="glass pcard hover-lift topic-card" data-topic="ISO"><div class="t">ISO</div><div class="c">6 条知识 · 体系 / 内审</div><span class="go">进入主题 →</span></div>
+          <div class="glass pcard hover-lift topic-card" data-topic="物业管理"><div class="t">物业管理</div><div class="c">4 条知识 · 案例 / 运营</div><span class="go">进入主题 →</span></div>
+          <div class="glass pcard hover-lift topic-card" data-topic="AI"><div class="t">AI</div><div class="c">5 条知识 · 工具 / 实践</div><span class="go">进入主题 →</span></div>
+        </div>
+      </div>
+      <!-- 主题详情层 -->
+      <div id="kbTopic" style="display:none">
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
+          <button class="btn btn-ghost btn-md" id="kbBack">← 知识库</button>
+          <span style="font-size:19px;font-weight:700" id="kbTopicName"></span>
+          <span style="margin-left:auto"><button class="btn btn-solid btn-md" id="btnAddKb">＋ 新增知识</button></span>
+        </div>
+        <div class="kb-layout">
+          <div class="glass topic-list">
+            <button class="topic-item active">ESG</button>
+            <button class="topic-item">ISO</button>
+            <button class="topic-item">物业管理</button>
+            <button class="topic-item">AI</button>
+          </div>
+          <div class="kb-stream" id="kbStream"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== 灵感记录 ===== -->
+    <section class="page" id="page-ideas" aria-label="灵感记录">
+      <div class="page-head">
+        <div><div class="page-title">灵感记录</div><div class="page-desc">轻量随手记录 · 灵感就是灵感</div></div>
+        <button class="btn btn-solid btn-md" id="btnAddIdea">＋ 新增灵感</button>
+      </div>
+      <div class="filter-bar">
+        <button class="filter-chip active">全部</button>
+        <button class="filter-chip">产品想法</button>
+        <button class="filter-chip">工作优化</button>
+        <button class="filter-chip">待定事项</button>
+      </div>
+      <div class="idea-grid">
+        <div class="glass idea-card hover-lift"><div class="content">给园区客户做一份「客户画像速查表」，见客户前扫一眼沟通偏好和关注点。</div><div class="idea-foot"><span class="tag">产品想法</span><span class="attach-src" style="margin-left:auto">今天</span></div></div>
+        <div class="glass idea-card hover-lift"><div class="content">培训签到改用企业微信扫码？省去纸质签到表整理时间。</div><div class="idea-foot"><span class="tag">工作优化</span><span class="attach-src" style="margin-left:auto">昨天</span></div></div>
+        <div class="glass idea-card hover-lift"><div class="content">季度考核材料提前两周启动数据汇总，先对齐口径再出表。</div><div class="idea-foot"><span class="tag">待定事项</span><span class="attach-src" style="margin-left:auto">8月12日</span></div></div>
+        <div class="glass idea-card hover-lift"><div class="content">工作台是否需要一个「本周看点」模块？把周期事项和待办合并展示。</div><div class="idea-foot"><span class="tag">产品想法</span><span class="attach-src" style="margin-left:auto">8月10日</span></div></div>
+      </div>
+    </section>
+
+    <!-- ===== 时间轴 ===== -->
+    <section class="page" id="page-timeline" aria-label="完整时间轴">
+      <div class="page-head">
+        <div><div class="page-title">个人工作时间轴</div><div class="page-desc">回顾自己什么时候做过什么</div></div>
+        <div class="filter-bar" style="margin-bottom:0">
+          <button class="filter-chip active">全部</button>
+          <button class="filter-chip">事项</button>
+          <button class="filter-chip">客户</button>
+          <button class="filter-chip">知识</button>
+          <button class="filter-chip">灵感</button>
+        </div>
+      </div>
+      <div class="glass panel">
+        <div class="tl-year">2026</div>
+        <div class="tl-month">8 月</div>
+        <div class="tl-day-l">15 日</div>
+        <div class="tl-entry"><span class="tl-type">新增客户</span><span class="tl-text"><b>张三</b> · 云南白药上海国际中心</span></div>
+        <div class="tl-entry"><span class="tl-type">新增知识</span><span class="tl-text">ESG 信息披露政策</span></div>
+        <div class="tl-entry"><span class="tl-type">完成事项</span><span class="tl-text">ISO 内审资料整理</span></div>
+        <div class="tl-day-l">14 日</div>
+        <div class="tl-entry"><span class="tl-type">更新项目</span><span class="tl-text">补充项目服务模式</span></div>
+        <div class="tl-entry"><span class="tl-type">新增事项</span><span class="tl-text">客户接待流程优化</span></div>
+        <div class="tl-month">7 月</div>
+        <div class="tl-day-l">28 日</div>
+        <div class="tl-entry"><span class="tl-type">完成成就</span><span class="tl-text">云南白药智慧工作台 · 模块上线</span></div>
+      </div>
+    </section>
+
+    <!-- ===== 附件中心 ===== -->
+    <section class="page" id="page-attachments" aria-label="附件中心">
+      <div class="page-head">
+        <div><div class="page-title">附件中心</div><div class="page-desc">集中查看全站附件 · 每个附件都记得来源</div></div>
+      </div>
+      <div class="glass panel" style="padding:12px 18px">
+        <div class="attach-item"><div class="attach-ico">XLS</div>
+          <div style="flex:1"><div class="attach-name">内审检查表.xlsx</div><div class="src-path">来源：<b>云南白药上海国际中心</b> → ISO 内审 SOP</div></div>
+          <span class="attach-src">1.2 MB</span></div>
+        <div class="attach-item"><div class="attach-ico">DOC</div>
+          <div style="flex:1"><div class="attach-name">内审报告模板.docx</div><div class="src-path">来源：<b>云南白药上海国际中心</b> → ISO 内审 SOP</div></div>
+          <span class="attach-src">45 KB</span></div>
+        <div class="attach-item"><div class="attach-ico">PDF</div>
+          <div style="flex:1"><div class="attach-name">培训组织流程说明.pdf</div><div class="src-path">来源：<b>云南白药上海国际中心</b> → 工作流程</div></div>
+          <span class="attach-src">860 KB</span></div>
+        <div class="attach-item"><div class="attach-ico">IMG</div>
+          <div style="flex:1"><div class="attach-name">智慧工作台-首页截图.png</div><div class="src-path">来源：<b>个人成就</b> → 云南白药智慧工作台</div></div>
+          <span class="attach-src">2.4 MB</span></div>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ===== 新增事项弹窗 ===== -->
+<div class="modal-mask" id="taskModal">
+  <div class="modal">
+    <h2>新增事项</h2>
+    <div class="form-group"><label>分类 <span class="req">*</span></label>
+      <select id="f-cat"><option>甲方对接</option><option>公司对接</option><option>个人工作</option><option>紧急处理</option><option>项目待办</option></select></div>
+    <div class="form-group"><label for="f-name">标题（选填）</label><input id="f-name" placeholder="例如：ISO 内审资料整理"></div>
+    <div class="form-group"><label for="f-note">内容 <span class="req">*</span></label><textarea id="f-note" placeholder="描述要做的事情"></textarea></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveTask">保存</button></div>
+    <p style="font-size:14px;color:var(--muted);margin-top:12px">无截止时间 · 保存后自动归入 当前项目 → 工作事项</p>
+  </div>
+</div>
+
+<!-- ===== 快速新增类型选择（v0.5 项目概览左上角 ＋新增） ===== -->
+<div class="modal-mask" id="quickAddModal">
+  <div class="modal">
+    <h2>＋ 新增</h2>
+    <p style="font-size:15px;color:var(--muted);margin-bottom:16px">选择要新增的内容类型（保存后自动归入对应目录）</p>
+    <div class="choice-grid">
+      <button class="choice-btn" data-close><span class="ci">📋</span>工作事项</button>
+      <button class="choice-btn" data-close><span class="ci">🔁</span>周期工作</button>
+      <button class="choice-btn" data-close><span class="ci">🔗</span>工作流程</button>
+      <button class="choice-btn" data-close><span class="ci">📄</span>SOP</button>
+      <button class="choice-btn" data-close id="qcClient"><span class="ci">👤</span>客户信息</button>
+      <button class="choice-btn" data-close><span class="ci">🛠</span>项目自定义信息</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 新增客户弹窗（自动关联当前项目） ===== -->
+<div class="modal-mask" id="clientModal">
+  <div class="modal">
+    <h2>新增客户</h2>
+    <div class="form-group"><label>关联项目</label>
+      <div class="auto-proj"><span class="tag solid"><span class="dot"></span>云南白药上海国际中心（当前项目）</span><span style="font-size:14px;color:var(--muted)">＋ 追加其他项目</span></div></div>
+    <div class="form-group"><label for="c-name">姓名</label><input id="c-name" placeholder="客户姓名"></div>
+    <div class="form-group"><label for="c-company">所属公司</label><input id="c-company" placeholder="公司名称"></div>
+    <div class="form-group"><label for="c-role">职位</label><input id="c-role" placeholder="职位"></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveClient">保存</button></div>
+  </div>
+</div>
+
+<!-- ===== 新增成就弹窗 ===== -->
+<div class="modal-mask" id="achModal">
+  <div class="modal">
+    <h2>新增成就</h2>
+    <div class="form-group"><label for="a-name">名称</label><input id="a-name" placeholder="例如：云南白药智慧工作台"></div>
+    <div class="form-group"><label for="a-time">时间</label><input id="a-time" placeholder="例如：2026"></div>
+    <div class="form-group"><label for="a-topic">相关主题</label><input id="a-topic" placeholder="系统开发 / 工作优化 / 制度建设…"></div>
+    <div class="form-group"><label>相关项目</label>
+      <div class="auto-proj"><span class="tag solid"><span class="dot"></span>云南白药上海国际中心</span></div></div>
+    <div class="form-group"><label for="a-desc">说明（选填）</label><textarea id="a-desc" placeholder="背景 / 我做了什么 / 最终结果…"></textarea></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-solid btn-md" id="saveAch">保存</button></div>
+  </div>
+</div>
+
+<!-- ===== 删除二次确认 ===== -->
+<div class="modal-mask" id="confirmModal">
+  <div class="modal" style="width:400px">
+    <h2>删除确认</h2>
+    <p style="font-size:16px;color:var(--muted);line-height:1.8">确定删除这条内容吗？<br>删除后将无法恢复。</p>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>取消</button><button class="btn btn-danger btn-md" id="confirmDelete">删除</button></div>
+  </div>
+</div>
+
+<!-- ===== 全局搜索 ===== -->
+<div class="modal-mask" id="searchModal">
+  <div class="modal search-modal">
+    <div class="search-input-row">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
+      <input id="searchInput" placeholder="搜索项目、客户、事项、知识、灵感…" autocomplete="off">
+      <kbd style="font-size:13px;color:var(--muted);background:var(--hover-bg);padding:2px 8px;border-radius:7px;font-family:inherit">ESC</kbd>
+    </div>
+    <div class="search-results" id="searchResults">
+      <div class="sr-group"><div class="g-t">客户</div>
+        <div class="sr-item"><span class="type">客户</span><span class="title">张三</span><span class="sub">云南白药上海国际中心</span></div>
+        <div class="sr-item"><span class="type">客户</span><span class="title">李维</span><span class="sub">项目对接负责人</span></div></div>
+      <div class="sr-group"><div class="g-t">工作事项</div>
+        <div class="sr-item"><span class="type">事项</span><span class="title">ISO 内审资料整理</span><span class="sub">当前项目 · 待处理</span></div></div>
+      <div class="sr-group"><div class="g-t">知识</div>
+        <div class="sr-item"><span class="type">知识</span><span class="title">ESG 信息披露政策</span><span class="sub">ESG</span></div></div>
+      <div class="sr-group"><div class="g-t">灵感</div>
+        <div class="sr-item"><span class="type">灵感</span><span class="title">关于园区客户画像的想法</span><span class="sub">产品想法</span></div></div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
+
+<script>
+  const $=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+  const html=document.documentElement, reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function toast(msg,type='ok'){const t=$('#toast');t.className='toast '+type;$('#toastText').textContent=msg;
+    t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);}
+
+
+
+  /* ===== 日期 ===== */
+  (function(){const n=new Date();
+    $('#bigDate').textContent=`${n.getMonth()+1}月${n.getDate()}日`;
+    $('#bigWeek').textContent=new Intl.DateTimeFormat('zh-CN',{weekday:'long'}).format(n);})();
+
+  /* ===== 导航 ===== */
+  const navMap={home:'page-home',project:'page-project',projects:'page-projects',clients:'page-clients',
+    achievements:'page-achievements',knowledge:'page-knowledge',ideas:'page-ideas',
+    timeline:'page-timeline',attachments:'page-attachments'};
+  $$('.nav-item[data-nav]').forEach(btn=>btn.addEventListener('click',()=>{
+    $$('.nav-item[data-nav]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+    $$('.page').forEach(p=>p.classList.remove('active'));$('#'+navMap[btn.dataset.nav]).classList.add('active');
+    window.scrollTo({top:0,behavior:'smooth'});}));
+  $$('[data-goto]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();
+    const n=$(`.nav-item[data-nav="${a.dataset.goto}"]`);if(n)n.click();}));
+
+  /* ===== 二级 Tab ===== */
+  $$('.tab[data-sub]').forEach(tab=>tab.addEventListener('click',()=>{
+    $$('.tab').forEach(t=>t.classList.remove('active'));tab.classList.add('active');
+    $$('.sub-page').forEach(p=>p.classList.remove('active'));
+    $(`.sub-page[data-sp="${tab.dataset.sub}"]`).classList.add('active');}));
+
+  /* ===== 工作事项 ===== */
+  const TASKS=[
+    {cat:'甲方对接',name:'完成 ISO 内审资料整理',content:'体系文件清单 + 检查表',st:0},
+    {cat:'公司对接',name:'更新客户沟通记录',content:'本周与甲方例会纪要归档',st:0},
+    {cat:'个人工作',name:'完成本月培训资料',content:'月度培训课件与签到表',st:1},
+    {cat:'紧急处理',name:'跟进园区专项维修',content:'水泵房设备检修进度',st:0},
+    {cat:'项目待办',name:'客户接待流程优化',content:'梳理接待动线与物料',st:0},
+    {cat:'甲方对接',name:'季度考核材料准备',content:'数据汇总与口径对齐',st:0},
+    {cat:'个人工作',name:'整理周报素材',content:'本周重点事项回顾',st:0},
+    {cat:'公司对接',name:'制度调整建议',content:'考勤制度优化点梳理',st:0}];
+  const STC=['tag','tag solid'];
+  let tFilter='all';
+  function renderTasks(){
+    const list=$('#taskList');const expanded=list.dataset.expanded==='1';
+    let fs=tFilter==='all'?TASKS:TASKS.filter(t=>t.cat===tFilter);
+    const vis=expanded?fs:fs.slice(0,6),more=fs.length-6;
+    list.innerHTML=vis.map(t=>`
+      <div class="task-row">
+        <div class="task-main"><div class="task-name">${t.name}</div><div class="task-content">${t.content}</div></div>
+        <span class="tag">${t.cat}</span>
+        <span class="${STC[t.st]}"><span class="dot"></span>${t.st?'已完成':'待处理'}</span>
+        <button class="icon-btn" aria-label="编辑"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></button>
+        <button class="icon-btn" aria-label="删除" data-del><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button>
+      </div>`).join('')+(more>0&&!expanded?`<button class="more-btn" id="moreBtn">展开更多 ${more} 条</button>`:'');
+    const mb=$('#moreBtn');if(mb)mb.addEventListener('click',()=>{list.dataset.expanded='1';renderTasks();});
+    $$('[data-del]',list).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
+      const row=b.closest('.task-row');$('#confirmModal').classList.add('open');
+      $('#confirmDelete').onclick=()=>{row.remove();$('#confirmModal').classList.remove('open');toast('已删除');};}));
+  }
+  $$('.filter-chip[data-tf]').forEach(chip=>chip.addEventListener('click',()=>{
+    $$('.filter-chip[data-tf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
+    tFilter=chip.dataset.tf;$('#taskList').dataset.expanded='0';renderTasks();}));
+
+  /* ===== 首页待办 ===== */
+  function renderTodos(){
+    const list=$('#todoList');
+    const undone=TASKS.filter(t=>t.st===0);
+    list.innerHTML=undone.map(t=>`
+      <div class="todo-row" data-i="${TASKS.indexOf(t)}">
+        <span class="todo-check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+        <span class="todo-name">${t.name}</span><span class="tag">${t.cat}</span>
+      </div>`).join('');
+    $('#todoCnt').textContent=`${undone.length} 项待处理`;
+    $$('.todo-row',list).forEach(row=>row.addEventListener('click',()=>{
+      row.classList.add('done');toast(`「${row.querySelector('.todo-name').textContent}」已完成`);}));
+  }
+
+  /* ===== 流程卡片 → 详情 ===== */
+  const FLOWS={keSu:{name:'客户投诉处理',steps:[['接收投诉','渠道：电话 / 现场 / 平台'],['了解情况','记录诉求与现场信息'],['联系责任部门','派单至工程 / 安保 / 保洁'],['跟进处理','节点截止时间跟踪'],['客户回访','满意度确认'],['记录结果','写入报修台账']]},
+    iso:{name:'ISO 内审流程',steps:[['内审计划编制','T-4 周 · 确定审核范围'],['内审员培训','T-3 周 · 明确检查表'],['现场审核','T-1 周 · 记录不符合项'],['整改验证','T+2 周 · 跟踪闭环'],['内审报告','T+4 周 · 管理评审输入']]},
+    train:{name:'培训组织流程',steps:[['需求收集','调研部门痛点'],['讲师排期','确认档期与场地'],['材料准备','课件 / 签到表 / 评估问卷'],['组织实施','现场签到与课堂支持'],['复盘归档','评估汇总，沉淀档案']]}};
+  function renderFlow(k){const d=FLOWS[k];$('#flowDetailName').textContent=d.name;
+    $('#flowDetailBody').innerHTML=d.steps.map((s,i)=>`
+      <div class="gf-node"><div class="node"><span class="no">${String(i+1).padStart(2,'0')}</span><div><div class="nm">${s[0]}</div><div class="ds">${s[1]}</div></div></div>
+      ${i<d.steps.length-1?`<div class="gf-link"><svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 2 C 12 10, 12 14, 12 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="12" cy="21" r="2.4" fill="currentColor"/></svg></div>`:''}`).join('');}
+  $$('[data-flow]').forEach(c=>c.addEventListener('click',()=>{$('#flowLib').style.display='none';$('#flowDetail').style.display='block';renderFlow(c.dataset.flow);}));
+  $('#flowBack').addEventListener('click',()=>{$('#flowDetail').style.display='none';$('#flowLib').style.display='block';});
+  $('#btnAddFlow').addEventListener('click',()=>toast('新建流程：先填写流程名称与简介，保存后进入编辑页'));
+
+  /* ===== 成就卡片 → 详情 ===== */
+  const ACHS=[{name:'云南白药智慧工作台',time:'2026',topic:'系统开发',proj:'云南白药上海国际中心',desc:'14 个业务模块的产品设计与推进，从需求梳理到技术落地，目前仍在迭代开发中。'},
+    {name:'ISO 9001 内审体系落地',time:'2026',topic:'制度建设',proj:'云南白药上海国际中心',desc:'主导体系文件梳理与内审组织，完成年度内审闭环。'},
+    {name:'培训体系从 0 到 1',time:'2025',topic:'培训管理',proj:'云南白药上海国际中心',desc:'年度培训计划 + 月度落地执行，到场率提升约 40%。'},
+    {name:'季度考核连续达标',time:'2024',topic:'项目管理',proj:'某商办综合体',desc:'酬金制考核稳定在 90 分以上。'}];
+  function renderAch(i){const a=ACHS[i];$('#achDetailName').textContent=a.name;
+    $('#achDetailBody').innerHTML=`
+      <div class="meta-grid">
+        <div class="meta-item"><div class="k">时间</div><div class="v">${a.time}</div></div>
+        <div class="meta-item"><div class="k">相关主题</div><div class="v"><span class="tag">${a.topic}</span></div></div>
+        <div class="meta-item"><div class="k">相关项目</div><div class="v"><span class="tag">${a.proj}</span></div></div></div>
+      <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+        <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">说明</div>
+        <div style="font-size:15.5px;line-height:1.75;color:var(--muted)">${a.desc}</div></div>
+      <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
+        <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">相关附件</div>
+        <div class="attach-row"><div class="attach-ico">IMG</div><span class="attach-name">工作台-首页截图.png</span><span class="attach-src">2.4 MB</span></div></div>`;}
+  $$('[data-ach]').forEach(c=>c.addEventListener('click',()=>{$('#achLib').style.display='none';$('#achDetail').style.display='block';renderAch(+c.dataset.ach);}));
+  $('#achBack').addEventListener('click',()=>{$('#achDetail').style.display='none';$('#achLib').style.display='block';});
+
+  /* ===== 知识库三级 ===== */
+  const KBS={ESG:[['政策','2026-08 园区类 ESG 披露指引更新，范围一/二排放核算边界…'],['案例','物业 ESG 实践：能耗监控 + 绿色耗材，年能耗降 12%']],
+    ISO:[['体系','ISO 9001 条款速查与内审要点'],['内审','不符合项分级与整改验证流程']],
+    '物业管理':[['运营','酬金制结算口径与季度考核联动'],['案例','园区报修台账分类模板']],
+    AI:[['工具','AI 辅助文档写作实践'],['实践','提示词模板库积累']]};
+  function renderKb(topic){
+    $('#kbTopicName').textContent=topic;
+    $('#kbStream').innerHTML=(KBS[topic]||[]).map((k,i)=>`
+      <div class="glass panel kb-entry">
+        <div style="display:flex;gap:6px;margin-bottom:10px"><span class="tag">${k[0]}</span><span class="tag">${topic}</span></div>
+        <div class="excerpt">${k[1]}</div>
+        <div class="kb-meta"><span style="font-size:14px;color:var(--muted)">${i===0?'今天 · 09:24':'8月12日'}</span>
+        <span style="margin-left:auto;display:flex;gap:4px">
+          <button class="icon-btn" aria-label="编辑"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></button>
+          <button class="icon-btn" aria-label="删除"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg></button></span></div>
+      </div>`).join('');}
+  let curTopic='ESG';
+  $$('[data-topic]').forEach(c=>c.addEventListener('click',()=>{
+    $('#kbTopics').style.display='none';$('#kbTopic').style.display='block';
+    curTopic=c.dataset.topic;renderKb(curTopic);}));
+  $('#kbBack').addEventListener('click',()=>{$('#kbTopic').style.display='none';$('#kbTopics').style.display='block';});
+  $$('.topic-item').forEach(t=>t.addEventListener('click',()=>{
+    $$('.topic-item').forEach(x=>x.classList.remove('active'));t.classList.add('active');renderKb(t.textContent.trim());}));
+  $('#btnAddTopic').addEventListener('click',()=>toast('新建主题：输入主题名称后生成主题卡片'));
+  $('#btnAddKb').addEventListener('click',()=>toast(`新增知识：当前主题自动为「${curTopic}」`));
+
+  /* ===== 弹窗 ===== */
+  function openModal(id){$('#'+id).classList.add('open');}
+  function closeModal(m){m.classList.remove('open');}
+  $$('.modal-mask').forEach(m=>{m.addEventListener('click',e=>{if(e.target===m)closeModal(m);});
+    $$('[data-close]',m).forEach(b=>b.addEventListener('click',()=>closeModal(m)));});
+  $('#btnAddTask2').addEventListener('click',()=>openModal('taskModal'));
+  $('#btnQuickAdd').addEventListener('click',()=>openModal('quickAddModal'));
+  $('#btnAddClient').addEventListener('click',()=>openModal('clientModal'));
+  $('#qcClient').addEventListener('click',()=>{closeModal($('#quickAddModal'));openModal('clientModal');});
+  $('#btnAddAch').addEventListener('click',()=>openModal('achModal'));
+  $('#btnAddIdea').addEventListener('click',()=>toast('已打开新增灵感（内容必填 · 分类/标签选填 · 演示）'));
+  $('#saveTask').addEventListener('click',()=>{const c=$('#f-note').value.trim();if(!c){toast('内容为必填','err');return;}
+    TASKS.unshift({cat:$('#f-cat').value,name:$('#f-name').value.trim()||'(未命名事项)',content:c,st:0});
+    $('#f-name').value='';$('#f-note').value='';closeModal($('#taskModal'));renderTasks();renderTodos();toast('已保存 · 自动归入 工作事项');});
+  $('#saveClient').addEventListener('click',()=>{const n=$('#c-name').value.trim();if(!n){toast('请填写客户姓名','err');return;}
+    $('#c-name').value='';$('#c-company').value='';$('#c-role').value='';closeModal($('#clientModal'));toast('已保存客户 · 自动关联当前项目');});
+  $('#saveAch').addEventListener('click',()=>{const n=$('#a-name').value.trim();if(!n){toast('请填写成就名称','err');return;}
+    ['a-name','a-time','a-topic','a-desc'].forEach(i=>$('#'+i).value='');closeModal($('#achModal'));toast('已保存成就');});
+
+  /* ===== 全局搜索 ===== */
+  function openSearch(){$('#searchModal').classList.add('open');setTimeout(()=>$('#searchInput').focus(),80);}
+  $('#topSearchBtn').addEventListener('click',openSearch);
+  $('#searchInput').addEventListener('input',e=>{
+    const q=e.target.value.trim().toLowerCase();
+    const groups=[{t:'客户',it:[['张三','云南白药上海国际中心'],['李维','项目对接负责人'],['周敏','财务 · 颐健实业']]},
+      {t:'工作事项',it:[['ISO 内审资料整理','当前项目 · 待处理'],['更新客户沟通记录','当前项目'],['季度考核材料准备','当前项目']]},
+      {t:'知识',it:[['ESG 信息披露政策','ESG'],['能耗监控平台案例','物业管理']]},
+      {t:'灵感',it:[['关于园区客户画像的想法','产品想法'],['培训签到扫码优化','工作优化']]}];
+    const h=[];
+    if(!q){groups.forEach(g=>{h.push(`<div class="sr-group"><div class="g-t">${g.t}</div>`+g.it.slice(0,2).map(i=>`<div class="sr-item"><span class="type">${g.t.slice(0,2)}</span><span class="title">${i[0]}</span><span class="sub">${i[1]}</span></div>`).join('')+`</div>`);});}
+    else{let hit=0;groups.forEach(g=>{const m=g.it.filter(i=>(i[0]+i[1]).toLowerCase().includes(q));
+      if(m.length){hit+=m.length;h.push(`<div class="sr-group"><div class="g-t">${g.t}</div>`+m.map(i=>`<div class="sr-item"><span class="type">${g.t.slice(0,2)}</span><span class="title">${i[0]}</span><span class="sub">${i[1]}</span></div>`).join('')+`</div>`);}});
+      if(!hit)h.push(`<div class="search-empty">未找到与「${q}」相关的内容</div>`);}
+    $('#searchResults').innerHTML=h.join('');});
+  document.addEventListener('keydown',e=>{
+    if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}
+    if(e.key==='Escape')$$('.modal-mask.open').forEach(closeModal);});
+
+  /* ===== 动态玻璃特效 ===== */
+  const hero=$('.page.active .glass');
+  addEventListener('mousemove',e=>{
+    document.querySelectorAll('.page.active .glass, .glass').forEach(g=>{
+      const r=g.getBoundingClientRect();
+      if(e.clientX>r.left&&e.clientX<r.right&&e.clientY>r.top&&e.clientY<r.bottom){
+        g.style.setProperty('--mx',((e.clientX-r.left)/r.width*100)+'%');
+        g.style.setProperty('--my',((e.clientY-r.top)/r.height*100)+'%');}});
+  });
+
+  /* 粒子网络（黑） */
+  const cv=$('#particles'),ctx=cv.getContext('2d');let W,H,pts=[],run=false;const mouse={x:-999,y:-999};
+  function resize(){W=cv.width=innerWidth;H=cv.height=innerHeight;
+    pts=Array.from({length:Math.min(90,Math.floor(W*H/26000))},()=>({x:Math.random()*W,y:Math.random()*H,
+      vx:(Math.random()-.5)*.5,vy:(Math.random()-.5)*.5,r:Math.random()*1.6+.6}));}
+  resize();addEventListener('resize',resize);
+  addEventListener('mousemove',e=>{mouse.x=e.clientX;mouse.y=e.clientY});
+  addEventListener('mouseleave',()=>{mouse.x=-999;mouse.y=-999});
+  function frame(){ctx.clearRect(0,0,W,H);
+    const c='240,240,242';
+    for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0||p.x>W)p.vx*=-1;if(p.y<0||p.y>H)p.vy*=-1;
+      const dx=mouse.x-p.x,dy=mouse.y-p.y,d=Math.hypot(dx,dy);if(d<180&&d>0){p.x+=dx/d*1.2;p.y+=dy/d*1.2}
+      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,7);ctx.fillStyle=`rgba(${c},.55)`;ctx.fill();}
+    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const a=pts[i],b=pts[j],d=Math.hypot(a.x-b.x,a.y-b.y);
+      if(d<130){ctx.strokeStyle=`rgba(${c},${0.16*(1-d/130)})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);ctx.stroke();}}
+    for(const p of pts){const d=Math.hypot(mouse.x-p.x,mouse.y-p.y);
+      if(d<160){ctx.strokeStyle=`rgba(${c},${0.28*(1-d/160)})`;ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(mouse.x,mouse.y);ctx.lineTo(p.x,p.y);ctx.stroke();}}
+    if(run)requestAnimationFrame(frame);}
+  // 固定主题：白 · 玻璃仪表盘；黑色版启用粒子动画
+  const syncFx=()=>{run=false;if(run)requestAnimationFrame(frame);};
+  syncFx();
+
+  /* ===== 初始化 ===== */
+  renderTasks();renderTodos();
+  if(!reduced){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}});},{threshold:.1});
+    $$('.glass').forEach((el,i)=>{el.classList.add('reveal');el.style.transitionDelay=(i%6*.04)+'s';io.observe(el)});}
+</script>
+</body>
+</html>
