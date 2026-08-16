@@ -29,10 +29,10 @@
   }
   html[data-theme="light"]{
     --bg:linear-gradient(168deg,#f6f7fa 0%,#eceff4 55%,#e4e8ef 100%); --fg:#17181a; --muted:#6b6e76; --line:rgba(20,22,26,.1);
-    --glass-bg:linear-gradient(160deg,rgba(255,255,255,.70),rgba(255,255,255,.46));
-    --glass-border:rgba(255,255,255,.62);
-    --glass-blur:blur(42px) saturate(1.9);
-    --shadow:0 30px 70px rgba(30,32,38,.10), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(30,32,38,.04);
+    --glass-bg:linear-gradient(160deg,rgba(255,255,255,.48) 0%,rgba(255,255,255,.40) 45%,rgba(255,255,255,.34) 100%);
+    --glass-border:rgba(255,255,255,.2);
+    --glass-blur:blur(20px) saturate(1.6);
+    --shadow:0 36px 80px rgba(30,32,38,.16), 0 10px 30px rgba(30,32,38,.08), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(30,32,38,.04);
     --solid-bg:#17181a; --solid-fg:#f4f4f5;
     --hover-bg:rgba(20,22,26,.07);
     --card-sub:rgba(255,255,255,.65);
@@ -83,10 +83,10 @@
 
   /* ============ 玻璃 ============ */
   .glass{background:var(--glass-bg);backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
-    border:1px solid var(--glass-border);border-radius:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;
+    border:0.5px solid var(--glass-border);border-radius:22px;box-shadow:var(--shadow);position:relative;overflow:hidden;
     transition:transform .5s cubic-bezier(.34,1.56,.64,1),box-shadow .4s var(--ease)}
   .glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
-    background:linear-gradient(180deg,rgba(255,255,255,.42),rgba(255,255,255,.08) 34%,transparent 58%);
+    background:linear-gradient(180deg,rgba(255,255,255,.45),rgba(255,255,255,.09) 34%,transparent 58%);
     mix-blend-mode:overlay}
   .glass::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;z-index:0;
     background:radial-gradient(360px 230px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.85) 0%,rgba(255,255,255,.35) 40%,transparent 72%);
@@ -94,8 +94,11 @@
   .glass > *{position:relative;z-index:1}
   .glass:hover::after{opacity:1}
   .glass:hover::after{opacity:1}
+  /* 关键文字微投影（opacity 10% · blur 2pt） */
+  .page-title,.hero-date,.brand-name,.p-t h3,.pcard .pn,.topic-card .t,.cc-name,.gf-node .nm,.tl-year{text-shadow:0 1px 2.7px rgba(30,32,38,.10)}
+
   .hover-lift:hover{transform:translateY(-8px)}
-  html[data-theme="light"] .hover-lift:hover{box-shadow:0 44px 90px rgba(30,32,38,.2), inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(255,255,255,.5)}
+  html[data-theme="light"] .hover-lift:hover{box-shadow:0 50px 110px rgba(30,32,38,.26), 0 14px 38px rgba(30,32,38,.12), inset 0 1px 0 rgba(255,255,255,1), inset 0 0 0 1px rgba(255,255,255,.5)}
 
   /* ============ 应用外壳 ============ */
   .shell{position:relative;z-index:2;min-height:100vh}
@@ -480,7 +483,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v11</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v12</div></div>
       </div>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
