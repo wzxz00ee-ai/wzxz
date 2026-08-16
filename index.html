@@ -706,12 +706,12 @@
   /* 工作台（首页） */
   .workbench{position:relative;min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding-bottom:10px}
   .wb-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);animation:wbSpin 70s linear infinite;pointer-events:none}
-  .wb-ring.r1{width:min(62vw,580px);height:min(62vw,580px);background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.05) 50%,transparent 51%)}
-  .wb-ring.r2{width:min(44vw,400px);height:min(44vw,400px);animation-direction:reverse;animation-duration:45s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.06) 50%,transparent 51%)}
-  .wb-ring.r3{width:min(28vw,260px);height:min(28vw,260px);animation-duration:30s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.08) 50%,transparent 51%);opacity:.7}
+  .wb-ring.r1{width:min(80vw,660px);height:min(80vw,660px);background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.05) 50%,transparent 51%)}
+  .wb-ring.r2{width:min(56vw,460px);height:min(56vw,460px);animation-direction:reverse;animation-duration:45s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.06) 50%,transparent 51%)}
+  .wb-ring.r3{width:min(34vw,300px);height:min(34vw,300px);animation-duration:30s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.08) 50%,transparent 51%);opacity:.7}
   @keyframes wbSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
-  .wb-core{width:min(250px,32vw);height:min(250px,32vw);z-index:6;
-    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:16px;
+  .wb-core{width:min(290px,36vw);height:min(290px,36vw);z-index:6;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:34px;
     border-radius:50%;overflow:hidden;animation:wbCoreMorph 16s ease-in-out infinite;transition:box-shadow .4s}
   html[data-theme="dark"] .wb-core{box-shadow:0 26px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3)}
   .wb-core:hover{box-shadow:0 40px 110px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.2)}
@@ -719,12 +719,12 @@
     0%,100%{border-radius:49.4% 50.6% 49.8% 50.2% / 50.2% 49.6% 50.4% 49.8%}
     33%{border-radius:50.6% 49.4% 50.2% 49.8% / 49.8% 50.4% 49.6% 50.2%}
     66%{border-radius:50% 50% 50.6% 49.4% / 49.6% 50.2% 49.8% 50.4%}}
-  .wb-core .wb-date{font-size:clamp(28px,3.6vw,40px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
-  .wb-core .wb-week{font-size:10.5px;color:var(--muted);letter-spacing:.2em;text-transform:uppercase;margin-top:3px;font-weight:600}
-  .wb-core .wb-project{font-size:12.5px;font-weight:700;margin-top:6px;color:var(--fg);letter-spacing:.02em}
-  .wb-core .wb-todo{font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+  .wb-core .wb-date{font-size:clamp(44px,5.5vw,62px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+  .wb-core .wb-week{font-size:12.5px;color:var(--muted);letter-spacing:.24em;text-transform:uppercase;margin-top:6px;font-weight:600}
+  .wb-core .wb-project{font-size:14.5px;font-weight:700;margin-top:14px;color:var(--fg);letter-spacing:.02em}
+  .wb-core .wb-todo{font-size:12.5px;color:var(--muted);margin-top:5px}
   .wb-core .wb-week,.wb-core .wb-project,.wb-core .wb-todo{max-width:100%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .wb-core .wb-enter{margin-top:8px;height:30px;padding:0 16px;border-radius:999px;border:.5px solid var(--lg-border);
+  .wb-core .wb-enter{margin-top:16px;height:38px;padding:0 24px;border-radius:999px;border:.5px solid var(--lg-border);
     background:radial-gradient(ellipse 80% 50% at 35% 0%,rgba(255,255,255,.55),transparent 60%),
       radial-gradient(circle at 70% 100%,rgba(0,0,0,.08),transparent 50%),rgba(255,255,255,.94);
     color:#0b0b0e;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;
@@ -732,7 +732,7 @@
     box-shadow:inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo),0 8px 24px rgba(255,255,255,.18);
     animation:btnLiquid 5s ease-in-out infinite}
   .wb-core .wb-enter:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,255,255,.2);animation-duration:2.2s}
-  .wb-node{position:absolute;left:50%;top:50%;z-index:5;width:92px;height:92px;margin:-46px 0 0 -46px;
+  .wb-node{position:absolute;left:50%;top:50%;z-index:5;width:104px;height:104px;margin:-52px 0 0 -52px;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;
     background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.32),transparent 55%),
       linear-gradient(155deg,rgba(255,255,255,.16),rgba(255,255,255,.03));
@@ -749,15 +749,16 @@
   @keyframes wbNodeHover{
     0%,100%{border-radius:49.2% 50.8% 49.6% 50.4% / 50.4% 49.4% 50.6% 49.8%}
     50%{border-radius:50.6% 49.4% 50.4% 49.6% / 49.6% 50.6% 49.4% 50.4%}}
-  .wb-node .w-ico{font-size:24px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.25))}
+  .wb-node .w-ico{font-size:26px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.25))}
   .wb-node .w-name{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--fg);white-space:nowrap}
   .wb-node .w-count{font-size:9.5px;color:var(--muted);letter-spacing:.03em}
-  @media(max-width:960px){.wb-node{width:70px;height:70px;margin:-35px 0 0 -35px}.wb-node .w-ico{font-size:17px}.wb-node .w-name{font-size:10.5px}
-    .wb-core{width:min(220px,58vw);height:min(220px,58vw);padding:16px}
-    .wb-core .wb-date{font-size:clamp(26px,7vw,36px)}
-    .wb-core .wb-week{font-size:10px}
-    .wb-core .wb-project{font-size:12px}
-    .wb-core .wb-enter{height:30px;padding:0 14px;font-size:11.5px}}
+  @media(max-width:960px){.wb-node{width:82px;height:82px;margin:-41px 0 0 -41px}.wb-node .w-ico{font-size:20px}.wb-node .w-name{font-size:11px}
+    .wb-core{width:min(230px,60vw);height:min(230px,60vw);padding:20px}
+    .wb-core .wb-date{font-size:clamp(30px,8vw,42px)}
+    .wb-core .wb-week{font-size:10.5px}
+    .wb-core .wb-project{font-size:12.5px}
+    .wb-core .wb-todo{font-size:11.5px}
+    .wb-core .wb-enter{height:32px;padding:0 16px;font-size:12px}}
   html[data-theme="light"] #dock,html[data-theme="light"] #wbWrap{display:none!important}
 
   /* ===== 液态档案版页面样式（深色） ===== */
@@ -774,21 +775,26 @@
   .cyc-group{margin-top:12px}
   .cyc-empty{font-size:13px;color:var(--muted);padding:6px 4px;line-height:1.4}
   html[data-theme="dark"] #cycleList .glass.panel{padding:14px 18px}
-  html[data-theme="dark"] #taskList .task-row,html[data-theme="dark"] #cycleList .task-row{position:relative;padding:9px 12px 9px 28px;margin-bottom:6px;
-    border-radius:14px;border:.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04)}
-  html[data-theme="dark"] #taskList .task-row::before,html[data-theme="dark"] #cycleList .task-row::before{content:"";position:absolute;left:11px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9)}
-  html[data-theme="dark"] #taskList .task-row .task-name,html[data-theme="dark"] #cycleList .task-row .task-name{font-size:14.5px;font-weight:700;line-height:1.35}
-  html[data-theme="dark"] #taskList .task-row .task-content,html[data-theme="dark"] #cycleList .task-row .task-content{font-size:12.5px;font-weight:300;color:var(--muted);margin-top:2px;line-height:1.45}
-  html[data-theme="dark"] #taskList .task-row .icon-btn,html[data-theme="dark"] #cycleList .task-row .icon-btn{opacity:0;transition:opacity .25s}
+  html[data-theme="dark"] #taskList .task-row,html[data-theme="dark"] #cycleList .task-row{position:relative;padding:16px 18px 16px 38px;margin-bottom:8px;
+    border-radius:16px;border:.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
+    transition:background .3s,transform .3s}
+  html[data-theme="dark"] #taskList .task-row:hover,html[data-theme="dark"] #cycleList .task-row:hover{background:rgba(255,255,255,.07);transform:translateX(3px)}
+  html[data-theme="dark"] #taskList .task-row::before,html[data-theme="dark"] #cycleList .task-row::before{content:"";position:absolute;left:18px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9)}
+  html[data-theme="dark"] #taskList .task-row .task-name,html[data-theme="dark"] #cycleList .task-row .task-name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  html[data-theme="dark"] #taskList .task-row .task-content,html[data-theme="dark"] #cycleList .task-row .task-content{font-size:13.5px;font-weight:300;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  html[data-theme="dark"] #taskList .task-row .icon-btn,html[data-theme="dark"] #cycleList .task-row .icon-btn{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:var(--muted);opacity:0;transition:all .25s}
   html[data-theme="dark"] #taskList .task-row:hover .icon-btn,html[data-theme="dark"] #cycleList .task-row:hover .icon-btn{opacity:1}
-  /* 流程 → 液态节点 + 连接线（紧凑） */
-  html[data-theme="dark"] .gf-node .node{width:min(540px,100%);padding:13px 18px;border-radius:18px;gap:12px}
-  html[data-theme="dark"] .gf-node .no{width:36px;height:36px;border-radius:46% 54% 52% 48%/52% 48% 52% 48%;font-size:13.5px;
+  html[data-theme="dark"] #taskList .task-row .icon-btn:hover,html[data-theme="dark"] #cycleList .task-row .icon-btn:hover{color:var(--fg);background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.35)}
+  html[data-theme="dark"] #taskList .task-row .tag,html[data-theme="dark"] #cycleList .task-row .tag{font-size:11.5px;letter-spacing:.06em;padding:3px 10px;border-radius:999px;color:#d4d5da;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16)}
+  html[data-theme="dark"] #taskList .task-row .tag.solid,html[data-theme="dark"] #cycleList .task-row .tag.solid{color:#0b0b0e;background:rgba(255,255,255,.92);border-color:transparent}
+  /* 流程 → 液态节点 + 连接线（v12） */
+  html[data-theme="dark"] .gf-node .node{width:min(540px,100%);padding:22px 26px;border-radius:24px;gap:17px}
+  html[data-theme="dark"] .gf-node .no{width:42px;height:42px;border-radius:46% 54% 52% 48%/52% 48% 52% 48%;font-size:14.5px;
     background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.7));color:#0b0b0e;
     box-shadow:0 10px 30px rgba(255,255,255,.12),inset 0 1px 0 #fff}
-  html[data-theme="dark"] .gf-node .nm{font-size:15.5px;font-weight:700}
-  html[data-theme="dark"] .gf-node .ds{font-size:13px;font-weight:300;margin-top:3px;line-height:1.5}
-  html[data-theme="dark"] .gf-link{width:2px;height:30px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.08));position:relative}
+  html[data-theme="dark"] .gf-node .nm{font-size:17px;font-weight:700}
+  html[data-theme="dark"] .gf-node .ds{font-size:14px;font-weight:300;margin-top:6px;line-height:1.7}
+  html[data-theme="dark"] .gf-link{width:2px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.08));position:relative}
   html[data-theme="dark"] .gf-link svg{display:none}
   html[data-theme="dark"] .gf-link::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)}
   /* 卡片网格 → 档案版 auto-fill */
@@ -796,6 +802,10 @@
   html[data-theme="dark"] .pcard{padding:24px;border-radius:22px}
   html[data-theme="dark"] .pcard .pn{font-size:17.5px;font-weight:700;letter-spacing:-.01em}
   html[data-theme="dark"] .pcard .ps{font-size:14px;font-weight:300;color:var(--muted);line-height:1.7}
+  html[data-theme="dark"] .pcard::after{content:"";position:absolute;top:-60%;left:-40%;width:60%;height:200%;
+    background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.14) 48%,rgba(255,255,255,.05) 52%,transparent 68%);
+    transform:rotate(6deg) translateX(-140%);transition:transform 1s cubic-bezier(.2,.7,.2,1);pointer-events:none}
+  html[data-theme="dark"] .pcard:hover::after{transform:rotate(6deg) translateX(180%)}
   html[data-theme="dark"] .pcard:hover{border-color:rgba(255,255,255,.24)}
   /* 时间轴 → 竖线 + 圆点 */
   html[data-theme="dark"] #tlList{position:relative;padding-left:44px}
@@ -848,7 +858,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v26</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v27</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <div class="tb-search" id="topSearchBtn">
@@ -1428,7 +1438,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v26</div>
+      <div class="brand-sub">PERSONAL INFO · v27</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1564,7 +1574,7 @@
     $$('.nav-item[data-nav]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
     $$('.page').forEach(p=>p.classList.remove('active'));$('#'+navMap[btn.dataset.nav]).classList.add('active');
     const cr=$('#tbCrumb');
-    if(cr)cr.innerHTML=btn.dataset.nav==='home'?'首页':'首页 › <b>'+(CRUMBS[btn.dataset.nav]||btn.dataset.nav)+'</b>';
+    if(cr)cr.innerHTML=CRUMBS[btn.dataset.nav]||btn.dataset.nav;
     $$('#dock .d-item').forEach(d=>d.classList.toggle('active',d.dataset.nav===btn.dataset.nav));
     requestAnimationFrame(moveTabs);
     window.scrollTo({top:0,behavior:'smooth'});}));
@@ -2145,7 +2155,7 @@
       ['clients','◎','客户库',CLIENTS.length+' 客户'],['ideas','✎','灵感',IDEAS.length+' 条'],
       ['achievements','✦','成就',ACHS.length+' 项'],['projects','▤','项目库',PROJECTS.length+' 项目'],
       ['timeline','◷','时间轴',TL.length+' 条'],['attachments','▥','附件','0 个']];
-    const R=Math.min(Math.min(innerWidth,1200)*0.26,250);
+    const R=Math.min(Math.min(innerWidth,1200)*0.36,330);
     wrap.innerHTML=`<div class="wb-ring r1"></div><div class="wb-ring r2"></div><div class="wb-ring r3"></div>
       <div class="wb-core glass">
         <div class="wb-date">${d.getMonth()+1}.${d.getDate()}</div>
@@ -2269,7 +2279,7 @@
   (function(){const el=$('#tbDate');if(el){const n=new Date();el.textContent=n.getMonth()+1+'月'+n.getDate()+'日 星期'+'日一二三四五六'[n.getDay()];}})();
   (function(){const h=$('.nav-item.active')||$('.nav-item[data-nav="home"]');
     if(h){const cr=$('#tbCrumb');
-      if(cr)cr.innerHTML=h.dataset.nav==='home'?'首页':'首页 › <b>'+(CRUMBS[h.dataset.nav]||h.dataset.nav)+'</b>';
+      if(cr)cr.innerHTML=CRUMBS[h.dataset.nav]||h.dataset.nav;
       $$('#dock .d-item').forEach(d=>d.classList.toggle('active',d.dataset.nav===h.dataset.nav));}})();
   on('homeLock','click',relock);
   applyTheme(localStorage.getItem('pi-theme')||'light');
