@@ -35,10 +35,14 @@
   }
   html[data-theme="light"]{
     --bg:linear-gradient(168deg,#f6f7fa 0%,#eceff4 55%,#e4e8ef 100%); --fg:#17181a; --muted:#6b6e76; --line:rgba(20,22,26,.1);
-    --glass-bg:linear-gradient(165deg,rgba(255,255,255,.11),rgba(255,255,255,.025) 45%,rgba(255,255,255,.07));
-    --glass-border:rgba(255,255,255,.2);
+    --glass-bg:linear-gradient(165deg,rgba(255,255,255,.5),rgba(255,255,255,.18) 45%,rgba(255,255,255,.3));
+    --glass-border:rgba(255,255,255,.5);
     --glass-blur:blur(20px) saturate(1.5);
-    --shadow:0 26px 70px rgba(30,32,38,.16), 0 10px 30px rgba(30,32,38,.08), inset 0 1px 0 rgba(255,255,255,.9), inset 0 -1px 0 rgba(30,32,38,.06);
+    --shadow:0 26px 70px rgba(30,32,38,.18), 0 10px 30px rgba(30,32,38,.09),
+      inset 0 1px 0 rgba(255,255,255,.95),      /* Depth 顶部内高光 */
+      inset 0 -1px 0 rgba(30,32,38,.12),        /* Depth 底部内深度 */
+      inset 0 0 0 1px rgba(255,255,255,.6),     /* 内侧白色玻璃高光 */
+      0 0 0 .5px rgba(30,32,38,.14);            /* 外轮廓深描边（浅底可见） */
     --solid-bg:#17181a; --solid-fg:#f4f4f5;
     --hover-bg:rgba(20,22,26,.07);
     --card-sub:rgba(255,255,255,.65);
@@ -192,6 +196,9 @@
     background:transparent;color:var(--muted);transition:all .25s}
   .icon-btn:hover{background:var(--hover-bg);color:var(--fg)}
   .icon-btn svg{stroke:currentColor}
+  /* 强制 .task-row 内 icon-btn 可见（防 flex 上下文挤压） */
+  .task-row .icon-btn{display:inline-flex!important;width:30px!important;height:30px!important;flex-shrink:0}
+  .task-row .icon-btn svg{width:13px;height:13px}
   .tag{display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;padding:4px 12px;border-radius:999px;
     letter-spacing:.04em;background:var(--card-sub);border:1px solid var(--line);color:var(--muted)}
   .tag.solid{background:var(--solid-bg);color:var(--solid-fg);border-color:transparent}
@@ -566,86 +573,6 @@
   .ul-fx.run .spark{animation:fxSpark 3.2s var(--ease) forwards}
   @keyframes fxSpark{0%{opacity:0;transform:translate(0,0) scale(.4)}16%{opacity:1}46%{opacity:.85;transform:translate(var(--sx,200px),var(--sy,-160px)) scale(1.4)}70%{opacity:.6;transform:translate(calc(var(--sx,200px)*.6),calc(var(--sy,-160px)*.6)) scale(.9)}92%{opacity:.25;transform:translate(calc(var(--sx,200px)*1.15),calc(var(--sy,-160px)*1.15)) scale(.6)}100%{opacity:0}}
 
-  /* ================= 黑色主题（液态星云 · 全站深色版） ================= */
-  html[data-theme="dark"]{
-    --bg:#0a0a0b; --fg:#ededee; --muted:#8b8d93; --line:rgba(255,255,255,.1);
-    --glass-bg:rgba(255,255,255,.16);
-    --glass-border:rgba(255,255,255,.2);
-    --glass-blur:blur(20px) saturate(1.5);
-    --shadow:0 40px 90px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.42), inset 0 -24px 60px rgba(0,0,0,.22);
-    --solid-bg:#ededee; --solid-fg:#0a0a0b;
-    --hover-bg:rgba(255,255,255,.1);
-    --card-sub:rgba(255,255,255,.07);
-    --input-bg:rgba(255,255,255,.08);
-    --mask:rgba(0,0,0,.65);
-    --btn-ghost-bd:rgba(255,255,255,.24);
-  }
-  html[data-theme="dark"] body{background:#0a0a0b}
-  html[data-theme="dark"] .blob{opacity:.5;border-color:rgba(255,255,255,.09)}
-  html[data-theme="dark"] .b1{background:radial-gradient(circle,rgba(255,255,255,.07),rgba(255,255,255,.02))}
-  html[data-theme="dark"] .b2{background:radial-gradient(circle,rgba(255,255,255,.05),rgba(255,255,255,.015))}
-  html[data-theme="dark"] .b3{background:radial-gradient(circle,rgba(160,168,182,.06),rgba(160,168,182,.015))}
-  html[data-theme="dark"] .b4{background:radial-gradient(circle,rgba(255,255,255,.045),rgba(255,255,255,.012))}
-  html[data-theme="dark"] .tb-action{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.16)}
-  html[data-theme="dark"] .tb-action:hover{background:rgba(255,255,255,.15)}
-  html[data-theme="dark"] .btn-solid{background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.72));color:#0a0a0b;
-    box-shadow:inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.25),0 0 0 1px rgba(255,255,255,.35),0 1px 3px rgba(0,0,0,.5)}
-  html[data-theme="dark"] .btn-solid:hover{box-shadow:inset 0 1px 0 rgba(255,255,255,.6),inset 0 -1px 0 rgba(0,0,0,.3),0 0 0 1px rgba(255,255,255,.5),0 0 14px rgba(255,255,255,.25),0 14px 40px rgba(0,0,0,.5)}
-  html[data-theme="dark"] .btn-ghost{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.25);color:var(--fg);box-shadow:inset 0 1px 0 rgba(255,255,255,.18)}
-  html[data-theme="dark"] .btn-ghost:hover{background:rgba(255,255,255,.14)}
-  html[data-theme="dark"] .tabs{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.18);box-shadow:inset 0 1px 0 rgba(255,255,255,.15)}
-  html[data-theme="dark"] .tab-thumb{background:rgba(255,255,255,.92);box-shadow:0 8px 22px rgba(0,0,0,.4),inset 0 1px 0 rgba(255,255,255,.5),inset 0 -1px 0 rgba(0,0,0,.2)}
-  html[data-theme="dark"] .tab.active{color:#0a0a0b}
-  html[data-theme="dark"] .form-group input,html[data-theme="dark"] .form-group textarea,html[data-theme="dark"] .form-group select{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);color:var(--fg);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
-  html[data-theme="dark"] .form-group input:focus,html[data-theme="dark"] .form-group textarea:focus,html[data-theme="dark"] .form-group select:focus{border-color:rgba(255,255,255,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.2),0 0 0 3px rgba(255,255,255,.08)}
-  html[data-theme="dark"] .tb-search{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.14)}
-  html[data-theme="dark"] .tb-search:hover{background:rgba(255,255,255,.13);border-color:rgba(255,255,255,.4)}
-  html[data-theme="dark"] .modal{background:linear-gradient(165deg,rgba(255,255,255,.16),rgba(255,255,255,.07) 45%,rgba(255,255,255,.11));
-    border-color:rgba(255,255,255,.22);box-shadow:inset 0 1px 0 rgba(255,255,255,.35),inset 0 -1px 0 rgba(0,0,0,.25),0 40px 90px rgba(0,0,0,.6),0 0 36px rgba(255,255,255,.06)}
-  html[data-theme="dark"] .modal-mask{background:rgba(0,0,0,.65)}
-  html[data-theme="dark"] .hover-lift:hover{box-shadow:0 34px 80px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.4),inset 0 0 0 1px rgba(255,255,255,.18)}
-  html[data-theme="dark"] .glass::after{background:radial-gradient(360px 230px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.32),rgba(255,255,255,.1) 40%,transparent 72%)}
-  html[data-theme="dark"] .page-title,html[data-theme="dark"] .hero-date,html[data-theme="dark"] .brand-name,html[data-theme="dark"] .p-t h3,html[data-theme="dark"] .pcard .pn,html[data-theme="dark"] .topic-card .t,html[data-theme="dark"] .cc-name,html[data-theme="dark"] .gf-node .nm,html[data-theme="dark"] .tl-year{text-shadow:0 1px 3px rgba(0,0,0,.5)}
-  /* ===== 深色专属结构（液态星云文档 wp-* 布局） ===== */
-  .shanghai-dark{display:none}
-  html[data-theme="dark"] .shanghai-dark{display:inline}
-  html[data-theme="dark"] .main{max-width:1080px;padding-top:100px;padding-bottom:110px}
-  html[data-theme="dark"] #qaCard{display:none}
-  html[data-theme="dark"] .hero-date{font-size:clamp(48px,7vw,84px)}
-  html[data-theme="dark"] .hero-date .mid{font-weight:400}
-  html[data-theme="dark"] .hero-date .day{font-weight:700}
-  html[data-theme="dark"] .hero-sub{gap:12px}
-  html[data-theme="dark"] .todo-check{border-radius:50%;border-color:rgba(255,255,255,.4)}
-  html[data-theme="dark"] .todo-row.done .todo-check{background:#30d158;border-color:#30d158;color:#fff}
-  .dark-only{display:none}
-  html[data-theme="dark"] .hero-full.dark-only{display:inline}
-  html[data-theme="dark"] .dotw.dark-only{display:block}
-  html[data-theme="dark"] .home-foot.dark-only{display:flex}
-  .home-foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);
-    display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:var(--muted)}
-  html[data-theme="dark"] .home-dash{grid-template-columns:1fr 1fr}
-  /* 深色顶栏 → 单行玻璃导航（wp-nav 风格） */
-  html[data-theme="dark"] .topbar{flex-direction:row;align-items:center;gap:16px;padding:0 22px;width:min(1080px,96vw);height:72px;border-radius:20px}
-  html[data-theme="dark"] .tb-row1{flex:1;min-height:0;gap:16px;flex-wrap:nowrap}
-  html[data-theme="dark"] .tb-nav{display:none}
-  html[data-theme="dark"] .tb-crumb{font-size:17px;white-space:nowrap}
-  html[data-theme="dark"] .tb-crumb b{color:var(--fg);font-weight:700;font-size:17.5px}
-  html[data-theme="dark"] .tb-search{width:auto;flex:1;max-width:420px;height:46px;padding:0 18px;
-    background:rgba(255,255,255,.05);border:.5px solid var(--lg-border);
-    box-shadow:inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo)}
-  html[data-theme="dark"] .tb-search:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.3)}
-  html[data-theme="dark"] .tb-search .ts-kbd{font-size:12.5px;border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:3px 9px;background:transparent}
-  html[data-theme="dark"] .tb-date{font-size:15px;white-space:nowrap}
-  html[data-theme="dark"] .tb-date b{color:var(--fg);font-weight:700;font-size:15.5px}
-  html[data-theme="dark"] .tb-action{width:44px;height:44px;border-radius:14px}
-  html[data-theme="dark"] .tb-row1{min-height:0;flex-wrap:wrap;gap:8px}
-  html[data-theme="dark"] .tb-nav{border-top:none;padding-top:0;margin-top:0;gap:2px;overflow-x:visible;flex-wrap:wrap}
-  html[data-theme="dark"] .nav-item{padding:7px 12px;font-size:13px;border-radius:9px}
-  html[data-theme="dark"] .nav-item::after{display:none}
-  html[data-theme="dark"] .nav-item.active{background:rgba(255,255,255,.12);color:var(--fg);font-weight:700}
-  html[data-theme="dark"] .nav-sep{display:none}
-  html[data-theme="dark"] .tb-nav::-webkit-scrollbar{display:block}
-
   /* ===== 浅色主题解锁画面适配 ===== */
   html[data-theme="light"] .ul-stage{background:linear-gradient(168deg,#f6f7fa 0%,#eceff4 55%,#e4e8ef 100%)}
   html[data-theme="light"] .ul-stage::before{background:
@@ -674,16 +601,10 @@
   html[data-theme="light"] .ul-fx .n2{background:radial-gradient(circle,rgba(130,136,150,.32),rgba(130,136,150,.08) 50%,transparent 72%)}
   html[data-theme="light"] .ul-fx .n3{background:radial-gradient(circle,rgba(150,156,168,.25),rgba(150,156,168,.05) 55%,transparent 75%)}
   html[data-theme="light"] .ul-fx .spark{background:radial-gradient(circle,#55585e,transparent 70%)}
-  /* ===== 液态档案版结构（深色主题 · Dock + 工作台） ===== */
+  
+
   .tb-crumb{font-size:15px;color:var(--muted);white-space:nowrap;letter-spacing:.01em}
   .tb-date{font-size:13.5px;color:var(--muted);white-space:nowrap}
-  html[data-theme="dark"] .brand{display:none}
-  html[data-theme="dark"] .main{padding-bottom:130px}
-  html[data-theme="dark"] #page-home .hero-line,html[data-theme="dark"] #page-home .home-dash,
-  html[data-theme="dark"] #page-home .home-stats,html[data-theme="dark"] #page-home #qaCard,
-  html[data-theme="dark"] #homeFoot{display:none!important}
-  html[data-theme="dark"] #wbWrap{display:flex}
-  /* Dock */
   .dock{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:80;
     display:flex;align-items:flex-end;gap:4px;padding:8px 10px;border-radius:30px;background:var(--glass-bg);
     backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
@@ -703,7 +624,6 @@
     opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
   .d-item:hover .tip,.d-item.active .tip{opacity:1;transform:translateX(-50%) scale(1)}
   @media(max-width:960px){.d-item{width:42px;height:42px;font-size:18px;border-radius:14px}.dock{gap:4px;padding:8px 10px}}
-  /* 工作台（首页） */
   .workbench{position:relative;min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding-bottom:10px}
   .wb-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);animation:wbSpin 70s linear infinite;pointer-events:none}
   .wb-ring.r1{width:min(80vw,660px);height:min(80vw,660px);background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.05) 50%,transparent 51%)}
@@ -713,7 +633,6 @@
   .wb-core{width:min(290px,36vw);height:min(290px,36vw);z-index:6;
     display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:34px;
     border-radius:50%;overflow:hidden;animation:wbCoreMorph 16s ease-in-out infinite;transition:box-shadow .4s}
-  html[data-theme="dark"] .wb-core{box-shadow:0 26px 70px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.3)}
   .wb-core:hover{box-shadow:0 40px 110px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.2)}
   @keyframes wbCoreMorph{
     0%,100%{border-radius:49.4% 50.6% 49.8% 50.2% / 50.2% 49.6% 50.4% 49.8%}
@@ -760,82 +679,108 @@
     .wb-core .wb-todo{font-size:11.5px}
     .wb-core .wb-enter{height:32px;padding:0 16px;font-size:12px}}
   html[data-theme="light"] #dock,html[data-theme="light"] #wbWrap{display:none!important}
-
-  /* ===== 液态档案版页面样式（深色） ===== */
   @keyframes coreMorph{0%,100%{border-radius:50% 50% 50% 50%/50% 50% 50% 50%}
     33%{border-radius:52% 48% 48% 52%/48% 52% 48% 52%}66%{border-radius:48% 52% 52% 48%/52% 48% 52% 48%}}
-  /* 项目概览 → 玻璃格子 */
-  html[data-theme="dark"] #overviewBody .meta-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
-  html[data-theme="dark"] #overviewBody .meta-item{padding:18px;border-radius:16px;background:rgba(255,255,255,.04);
-    border:.5px solid var(--lg-border);box-shadow:inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo);transition:transform .3s}
-  html[data-theme="dark"] #overviewBody .meta-item:hover{transform:translateY(-3px)}
-  html[data-theme="dark"] #overviewBody .meta-item .k{font-size:11.5px;letter-spacing:.1em;font-weight:600}
-  html[data-theme="dark"] #overviewBody .meta-item .v{font-size:15px;font-weight:600;margin-top:7px;line-height:1.55}
-  /* 事项/周期 → 玻璃行（紧凑） */
   .cyc-group{margin-top:12px}
   .cyc-empty{font-size:13px;color:var(--muted);padding:6px 4px;line-height:1.4}
-  html[data-theme="dark"] #cycleList .glass.panel{padding:14px 18px}
-  html[data-theme="dark"] #taskList .task-row,html[data-theme="dark"] #cycleList .task-row{position:relative;padding:16px 18px 16px 38px;margin-bottom:8px;
-    border-radius:16px;border:.5px solid rgba(255,255,255,.1);background:rgba(255,255,255,.04);
-    transition:background .3s,transform .3s}
-  html[data-theme="dark"] #taskList .task-row:hover,html[data-theme="dark"] #cycleList .task-row:hover{background:rgba(255,255,255,.07);transform:translateX(3px)}
-  html[data-theme="dark"] #taskList .task-row::before,html[data-theme="dark"] #cycleList .task-row::before{content:"";position:absolute;left:18px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9)}
-  html[data-theme="dark"] #taskList .task-row .task-name,html[data-theme="dark"] #cycleList .task-row .task-name{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  html[data-theme="dark"] #taskList .task-row .task-content,html[data-theme="dark"] #cycleList .task-row .task-content{font-size:13.5px;font-weight:300;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  html[data-theme="dark"] #taskList .task-row .icon-btn,html[data-theme="dark"] #cycleList .task-row .icon-btn{width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);color:var(--muted);opacity:0;transition:all .25s}
-  html[data-theme="dark"] #taskList .task-row:hover .icon-btn,html[data-theme="dark"] #cycleList .task-row:hover .icon-btn{opacity:1}
-  html[data-theme="dark"] #taskList .task-row .icon-btn:hover,html[data-theme="dark"] #cycleList .task-row .icon-btn:hover{color:var(--fg);background:rgba(255,255,255,.2);border-color:rgba(255,255,255,.35)}
-  html[data-theme="dark"] #taskList .task-row .tag,html[data-theme="dark"] #cycleList .task-row .tag{font-size:11.5px;letter-spacing:.06em;padding:3px 10px;border-radius:999px;color:#d4d5da;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.16)}
-  html[data-theme="dark"] #taskList .task-row .tag.solid,html[data-theme="dark"] #cycleList .task-row .tag.solid{color:#0b0b0e;background:rgba(255,255,255,.92);border-color:transparent}
-  /* 流程 → 液态节点 + 连接线（v12） */
-  html[data-theme="dark"] .gf-node .node{width:min(540px,100%);padding:22px 26px;border-radius:24px;gap:17px}
-  html[data-theme="dark"] .gf-node .no{width:42px;height:42px;border-radius:46% 54% 52% 48%/52% 48% 52% 48%;font-size:14.5px;
-    background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.7));color:#0b0b0e;
-    box-shadow:0 10px 30px rgba(255,255,255,.12),inset 0 1px 0 #fff}
-  html[data-theme="dark"] .gf-node .nm{font-size:17px;font-weight:700}
-  html[data-theme="dark"] .gf-node .ds{font-size:14px;font-weight:300;margin-top:6px;line-height:1.7}
-  html[data-theme="dark"] .gf-link{width:2px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.08));position:relative}
-  html[data-theme="dark"] .gf-link svg{display:none}
-  html[data-theme="dark"] .gf-link::after{content:"";position:absolute;left:50%;bottom:0;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.5)}
-  /* 卡片网格 → 档案版 auto-fill */
-  html[data-theme="dark"] .grid-3,html[data-theme="dark"] .grid-2{grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
-  html[data-theme="dark"] .pcard{padding:24px;border-radius:22px}
-  html[data-theme="dark"] .pcard .pn{font-size:17.5px;font-weight:700;letter-spacing:-.01em}
-  html[data-theme="dark"] .pcard .ps{font-size:14px;font-weight:300;color:var(--muted);line-height:1.7}
-  html[data-theme="dark"] .pcard::after{content:"";position:absolute;top:-60%;left:-40%;width:60%;height:200%;
-    background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.14) 48%,rgba(255,255,255,.05) 52%,transparent 68%);
-    transform:rotate(6deg) translateX(-140%);transition:transform 1s cubic-bezier(.2,.7,.2,1);pointer-events:none}
-  html[data-theme="dark"] .pcard:hover::after{transform:rotate(6deg) translateX(180%)}
-  html[data-theme="dark"] .pcard:hover{border-color:rgba(255,255,255,.24)}
-  /* 时间轴 → 竖线 + 圆点 */
-  html[data-theme="dark"] #tlList{position:relative;padding-left:44px}
-  html[data-theme="dark"] #tlList::before{content:"";position:absolute;left:14px;top:10px;bottom:10px;width:2px;background:rgba(255,255,255,.14)}
-  html[data-theme="dark"] #tlList .tl-entry{position:relative;margin-bottom:22px;padding:0}
-  html[data-theme="dark"] #tlList .tl-entry::before{content:"";position:absolute;left:-32px;top:6px;width:10px;height:10px;border-radius:50%;border:2.5px solid rgba(255,255,255,.85);background:#0b0b0e}
-  html[data-theme="dark"] #tlList .tl-day-l{font-size:13.5px;font-weight:700;margin:18px 0 10px;color:#d5d6db}
-  html[data-theme="dark"] #tlList .tl-type{font-size:12px;letter-spacing:.1em;font-weight:600}
-  html[data-theme="dark"] #tlList .tl-text{font-size:14.5px;font-weight:500}
-  /* 空态 → 液态玻璃球 */
-  html[data-theme="dark"] .empty-hint{padding:16px 12px;font-size:13px}
-  html[data-theme="dark"] .empty-hint::before{content:"";width:44px;height:44px;border-radius:44% 56% 58% 42%/52% 46% 54% 48%;
-    background:linear-gradient(135deg,rgba(255,255,255,.14),rgba(255,255,255,.02));border:.5px solid rgba(255,255,255,.12);
-    margin-bottom:8px;animation:coreMorph 16s ease-in-out infinite}
-  /* 弹窗/搜索项对齐 */
-  html[data-theme="dark"] .kb-entry{padding:14px 18px}
-  html[data-theme="dark"] .kb-entry .excerpt{font-size:14px;line-height:1.55}
-  html[data-theme="dark"] .kb-entry .kb-meta{margin-top:8px}
-  html[data-theme="dark"] .modal h2{font-size:21px;font-weight:800}
-  html[data-theme="dark"] .form-group label{font-size:12.5px;letter-spacing:.03em}
-  html[data-theme="dark"] .sr-item{padding:14px 16px;border-radius:15px;background:rgba(255,255,255,.04)}
-  html[data-theme="dark"] .sr-item:hover{background:rgba(255,255,255,.1)}
-  html[data-theme="dark"] .sr-item .title{font-size:14.5px;font-weight:700}
-  html[data-theme="dark"] .sr-item .sub{font-size:13px;font-weight:300;margin-top:2px}
-  /* 高光对齐原版（sheen .16） */
-  html[data-theme="dark"] .glass::after{background:radial-gradient(360px 230px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),rgba(255,255,255,.05) 48%,transparent 72%)}
-  html[data-theme="dark"] button::after{background:radial-gradient(150px 90px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.16),rgba(255,255,255,.05) 48%,transparent 72%)}
-  /* 锁按钮 40×40 档案版 */
-  html[data-theme="dark"] .tb-action{width:40px;height:40px;border-radius:14px;background:rgba(255,255,255,.06);box-shadow:none}
-  html[data-theme="dark"] .tb-crumb,html[data-theme="dark"] .tb-date{display:block}
+
+  /* ===== 恢复：light 必需的基础规则（原黑色主题区块误删，与 dark 无关） ===== */
+  .dark-only{display:none}
+  .shanghai-dark{display:none}
+  .home-foot{margin-top:34px;padding-top:20px;border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;align-items:center;gap:12px;font-size:12px;color:var(--muted)}
+
+  
+  /* 任务状态徽章（可点击切换：待处理 ↔ 已完成） */
+  .task-status-btn{
+    display:inline-flex;align-items:center;gap:6px;padding:5px 12px;border-radius:999px;
+    border:.5px solid rgba(30,32,38,.18);font-size:12px;font-weight:600;cursor:pointer;
+    background:rgba(255,255,255,.6);color:#17181a;
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),0 0 0 .5px rgba(30,32,38,.08);
+    backdrop-filter:blur(10px) saturate(1.3);-webkit-backdrop-filter:blur(10px) saturate(1.3);
+    transition:all .25s ease;font-family:inherit;line-height:1;
+  }
+  .task-status-btn:hover{background:rgba(255,255,255,.85);transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.95),0 0 0 .5px rgba(30,32,38,.18),0 4px 10px rgba(30,32,38,.08)}
+  .task-status-btn:active{transform:scale(.96)}
+  .task-status-btn .dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex-shrink:0}
+  .task-status-btn.is-done{color:#0a8a3a;border-color:rgba(10,138,58,.3);background:linear-gradient(140deg,rgba(220,255,228,.85),rgba(190,240,200,.7))}
+  .task-status-btn.is-done:hover{background:linear-gradient(140deg,rgba(220,255,228,1),rgba(190,240,200,.9))}
+  .task-status-btn.is-pending{color:#a04500;border-color:rgba(160,69,0,.28);background:linear-gradient(140deg,rgba(255,240,220,.85),rgba(255,225,200,.7))}
+  .task-status-btn.is-pending:hover{background:linear-gradient(140deg,rgba(255,240,220,1),rgba(255,225,200,.9))}
+  /* dark 主题适配：白玻璃 + 亮色徽章 */
+  html[data-theme="dark"] .task-status-btn{
+    background:rgba(255,255,255,.08);color:rgba(255,255,255,.92);
+    border:.5px solid rgba(255,255,255,.22);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 .5px rgba(0,0,0,.2);
+    backdrop-filter:blur(14px) saturate(1.4);
+  }
+  html[data-theme="dark"] .task-status-btn:hover{background:rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.28),0 0 0 .5px rgba(0,0,0,.25),0 4px 12px rgba(0,0,0,.3)}
+  html[data-theme="dark"] .task-status-btn.is-done{color:#7fe39a;border-color:rgba(127,227,154,.4);background:linear-gradient(140deg,rgba(40,90,55,.45),rgba(20,60,35,.35))}
+  html[data-theme="dark"] .task-status-btn.is-pending{color:#ffc47a;border-color:rgba(255,196,122,.4);background:linear-gradient(140deg,rgba(110,75,30,.45),rgba(70,50,20,.35))}
+  /* 状态筛选徽章（已完成/待处理） */
+  .filter-chip-state{font-weight:700}
+  .filter-chip-done{color:#0a8a3a;border-color:rgba(10,138,58,.3)}
+  .filter-chip-done.active{background:linear-gradient(140deg,rgba(220,255,228,.95),rgba(190,240,200,.85));color:#0a8a3a;border-color:rgba(10,138,58,.5)}
+  .filter-chip-pending{color:#a04500;border-color:rgba(160,69,0,.28)}
+  .filter-chip-pending.active{background:linear-gradient(140deg,rgba(255,240,220,.95),rgba(255,225,200,.85));color:#a04500;border-color:rgba(160,69,0,.5)}
+  html[data-theme="dark"] .filter-chip-done{color:#7fe39a;border-color:rgba(127,227,154,.35)}
+  html[data-theme="dark"] .filter-chip-done.active{background:linear-gradient(140deg,rgba(40,90,55,.55),rgba(20,60,35,.45));color:#7fe39a;border-color:rgba(127,227,154,.55)}
+  html[data-theme="dark"] .filter-chip-pending{color:#ffc47a;border-color:rgba(255,196,122,.35)}
+  html[data-theme="dark"] .filter-chip-pending.active{background:linear-gradient(140deg,rgba(110,75,30,.55),rgba(70,50,20,.45));color:#ffc47a;border-color:rgba(255,196,122,.55)}
+
+
+/* ===== Light 主题液态玻璃增强（对齐 v12 规格 · 适配浅色底） ===== */
+  /* 玻璃边框四边流光（顶部白 + 底部反射 + 左右侧光） */
+  html[data-theme="light"] .glass::before{
+    background:
+      linear-gradient(90deg,transparent,rgba(255,255,255,.95) 50%,transparent) top center/100% 1.5px no-repeat,
+      linear-gradient(90deg,transparent,rgba(255,255,255,.55) 50%,transparent) bottom center/100% 1px no-repeat,
+      linear-gradient(180deg,rgba(255,255,255,.6),transparent 32%) left center/1px 70% no-repeat,
+      linear-gradient(0deg,rgba(255,255,255,.6),transparent 32%) right center/1px 70% no-repeat;
+    opacity:1;
+  }
+  /* 玻璃 hover：液态光斑 + 折射高光增强 */
+  html[data-theme="light"] .glass:hover{
+    box-shadow:0 34px 90px rgba(30,32,38,.22), 0 14px 38px rgba(30,32,38,.1),
+      inset 0 1px 0 rgba(255,255,255,1), inset 0 -1px 0 rgba(30,32,38,.14),
+      inset 0 0 0 1px rgba(255,255,255,.75), 0 0 0 .5px rgba(30,32,38,.18),
+      0 0 24px rgba(255,255,255,.35);
+  }
+  /* 按钮边框高光增强（液态玻璃边缘） */
+  html[data-theme="light"] .btn-solid{
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(30,32,38,.14),
+      0 0 0 1px rgba(255,255,255,.65),0 0 0 .5px rgba(30,32,38,.12),0 0 10px rgba(255,255,255,.5),0 1px 3px rgba(30,32,38,.16);
+  }
+  html[data-theme="light"] .btn-ghost{
+    border:.5px solid rgba(30,32,38,.18);background:rgba(255,255,255,.65);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 0 0 1px rgba(255,255,255,.4),0 0 0 .5px rgba(30,32,38,.1);
+  }
+  /* 标签/胶囊边框高光 */
+  html[data-theme="light"] .badge,html[data-theme="light"] .tag,html[data-theme="light"] .chip{
+    border:.5px solid rgba(30,32,38,.14);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 .5px rgba(30,32,38,.06);
+  }
+  /* 关键文字微投影（light 版：深色微投影 + 顶部白高光） */
+  html[data-theme="light"] .page-title,html[data-theme="light"] .hero-date,html[data-theme="light"] .brand-name,
+  html[data-theme="light"] .p-t h3,html[data-theme="light"] .pcard .pn,html[data-theme="light"] .topic-card .t,
+  html[data-theme="light"] .cc-name,html[data-theme="light"] .tl-year{
+    text-shadow:0 1px 2px rgba(30,32,38,.12),0 0 1px rgba(255,255,255,.6);
+  }
+  /* Tab 滑块玻璃增强 */
+  html[data-theme="light"] .tab-thumb{
+    box-shadow:0 8px 22px rgba(30,32,38,.14),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(30,32,38,.08),0 0 0 .5px rgba(30,32,38,.08);
+  }
+  /* 顶栏/搜索框高光增强 */
+  html[data-theme="light"] .topbar .search{
+    border:.5px solid rgba(30,32,38,.16);
+    box-shadow:inset 0 1px 0 rgba(255,255,255,.85),inset 0 -1px 0 rgba(30,32,38,.06),0 0 0 .5px rgba(30,32,38,.06);
+  }
+
+  /* ============ v12 液态档案版（dark 主题 · 完整内嵌） ============ */
+  #v12App{display:none;position:fixed;inset:0;z-index:60;background:#0b0b0e}
+  html[data-theme="dark"] #v12App{display:block}
+  html[data-theme="dark"] .shell{display:none}
+  #v12Frame{width:100%;height:100%;border:0;display:block}
 </style>
 </head>
 <body data-theme="light">
@@ -968,7 +913,7 @@
       <!-- 工作事项 -->
       <div class="sub-page" data-sp="tasks">
         <div class="filter-bar">
-          <button class="filter-chip active" data-tf="all">全部</button>
+          <button class="filter-chip filter-chip-state filter-chip-done" data-tf="done">已完成</button><button class="filter-chip filter-chip-state filter-chip-pending" data-tf="pending">待处理</button><button class="filter-chip active" data-tf="all">全部</button>
           <button class="filter-chip" data-tf="甲方对接">甲方对接</button>
           <button class="filter-chip" data-tf="公司对接">公司对接</button>
           <button class="filter-chip" data-tf="个人工作">个人工作</button>
@@ -1683,23 +1628,24 @@
   let tFilter='all';
   function renderTasks(){
     const list=$('#taskList');const expanded=list.dataset.expanded==='1';
-    let fs=tFilter==='all'?TASKS:TASKS.filter(t=>t.cat===tFilter);
+    let fs;
+    if(tFilter==='all')fs=TASKS;
+    else if(tFilter==='done')fs=TASKS.filter(t=>t.st===1);
+    else if(tFilter==='pending')fs=TASKS.filter(t=>t.st===0);
+    else fs=TASKS.filter(t=>t.cat===tFilter);
     const vis=expanded?fs:fs.slice(0,6),more=fs.length-6;
     list.innerHTML=(fs.length?
       vis.map(t=>`
       <div class="task-row" data-i="${TASKS.indexOf(t)}">
         <div class="task-main"><div class="task-name">${t.name}</div><div class="task-content">${t.content}</div></div>
         <span class="tag">${t.cat}</span>
-        <span class="${STC[t.st]}"><span class="dot"></span>${t.st?'已完成':'待处理'}</span>
-        <button class="icon-btn" aria-label="编辑"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></button>
-        <button class="icon-btn" aria-label="删除" data-del>${DEL_ICON}</button>
+        <button class="task-status-btn ${STC[t.st]}" data-action="toggle-todo" data-i="${TASKS.indexOf(t)}" aria-label="切换状态" title="点击切换状态"><span class="dot"></span>${t.st?'已完成':'待处理'}</button>
+        <button class="icon-btn" aria-label="编辑" data-action="edit-todo-row" data-i="${TASKS.indexOf(t)}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg></button>
+        <button class="icon-btn" aria-label="删除" data-action="del-todo-row" data-i="${TASKS.indexOf(t)}">${DEL_ICON}</button>
       </div>`).join('')+(more>0&&!expanded?`<button class="more-btn" id="moreBtn">展开更多 ${more} 条</button>`:'')
       :'<div class="empty-hint">暂无事项 · 点击「＋ 新增事项」开始记录</div>');
     const mb=$('#moreBtn');if(mb)mb.addEventListener('click',()=>{list.dataset.expanded='1';renderTasks();});
-    $$('[data-del]',list).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
-      const row=b.closest('.task-row'),ti=+row.dataset.i,t=TASKS[ti];
-      askConfirm(()=>{if(ti>=0&&ti<TASKS.length){TASKS.splice(ti,1);log('删除事项',t.name);}
-        list.dataset.expanded='0';renderTasks();renderTodos();updateStats();toast('已删除');});}));
+    /* 编辑/删除事件改用 document 级委托（renderTasks 不会丢失绑定） */
   }
   $$('.filter-chip[data-tf]').forEach(chip=>chip.addEventListener('click',()=>{
     $$('.filter-chip[data-tf]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
@@ -2285,6 +2231,60 @@
   applyTheme(localStorage.getItem('pi-theme')||'light');
 
   /* ===== 初始化 ===== */
+  
+  /* ===== 任务状态徽章点击切换（待处理 ↔ 已完成） ===== */
+  document.addEventListener('click',function(e){
+    const b=e.target.closest?e.target.closest('[data-action="toggle-todo"]'):null;
+    if(!b)return;
+    e.stopPropagation();
+    const i=+b.dataset.i;
+    if(!TASKS||i<0||i>=TASKS.length)return;
+    TASKS[i].st=TASKS[i].st?0:1;
+    save();
+    renderTasks();
+    renderTodos();
+    updateStats();
+    toast(`「${TASKS[i].name}」${TASKS[i].st?'已完成':'已恢复待处理'}`);
+  });
+
+  
+  /* ===== 工作事项行内编辑/删除（document 级委托，renderTasks 重渲染不丢失） ===== */
+  document.addEventListener('click',function(e){
+    const ed=e.target.closest?e.target.closest('[data-action="edit-todo-row"]'):null;
+    if(ed){
+      const i=+ed.dataset.i;
+      // light 主题下 v12App 隐藏 → 提示用户切到 dark 主题编辑
+      if(document.documentElement.dataset.theme==='light'){
+        if(typeof toast==='function')toast('编辑/删除请切换到黑色主题','当前白色版为展示版');
+        return;
+      }
+      const v12win=document.getElementById('v12Frame')?.contentWindow;
+      if(v12win&&typeof v12win.openEdit==='function')v12win.openEdit('todo',i);
+      return;
+    }
+    const dl=e.target.closest?e.target.closest('[data-action="del-todo-row"]'):null;
+    if(dl){
+      e.stopPropagation();
+      const i=+dl.dataset.i;const v12win=document.getElementById('v12Frame')?.contentWindow;
+      if(v12win&&typeof v12win.askConfirm==='function'){
+        if(document.documentElement.dataset.theme==='light'){
+          if(typeof toast==='function')toast('编辑/删除请切换到黑色主题','当前白色版为展示版');
+          return;
+        }
+        v12win.askConfirm(function(){
+          try{
+            const D=v12win.DB;
+            if(D&&D.todos){
+              D.todos.splice(i,1);
+              v12win.save();
+              v12win.go('project',1);
+            }
+          }catch(_){}
+        });
+      }
+    }
+  });
+
   function initRenders(){
     safe(renderOverview);safe(renderTasks);safe(renderTodos);safe(renderProjectClients);safe(renderLibClients);safe(renderLibFilters);
     safe(renderCycles);safe(renderSops);safe(renderProjects);safe(renderFlowLib);safe(renderAchLib);safe(renderTopicGrid);
@@ -2297,8 +2297,1942 @@
   if(!reduced){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}});},{threshold:.1});
     $$('.glass').forEach((el,i)=>{if(el.closest('#wbWrap'))return;
       el.classList.add('reveal');el.style.transitionDelay=(i%6*.04)+'s';io.observe(el)});}
+  /* 强制让 #taskList 和子页 .glass 立即可见（不依赖 IntersectionObserver） */
+  ['#taskList','.sub-page .glass','.ov-item','.pcard','.topic-card','.client-card','.idea-card','.gf-node','.tl-entry','.wb-todo-card'].forEach(s=>{
+    $$(s).forEach(el=>el.classList.add('reveal','in'));
+  });
+
+
+
 
 </script>
+<!-- ============ v12 液态档案版（dark 主题 · 完整内嵌） ============ -->
+<div id="v12App" aria-label="v12 液态档案版">
+  <iframe id="v12Frame" title="v12 液态档案版" srcdoc='&lt;!DOCTYPE html&gt;
+&lt;html lang=&quot;zh-CN&quot;&gt;
+&lt;head&gt;
+&lt;meta charset=&quot;UTF-8&quot;&gt;
+&lt;meta name=&quot;viewport&quot; content=&quot;width=device-width, initial-scale=1.0&quot;&gt;
+&lt;title&gt;液态档案 · 个人工作信息库&lt;/title&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.googleapis.com&quot;&gt;
+&lt;link rel=&quot;preconnect&quot; href=&quot;https://fonts.gstatic.com&quot; crossorigin&gt;
+&lt;link href=&quot;https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;display=swap&quot; rel=&quot;stylesheet&quot;&gt;
+&lt;style&gt;
+:root{
+  --bg:#0b0b0e; --fg:#efeff2; --muted:#8a8c94; --line:rgba(255,255,255,.1);
+  /* 按钮尺寸令牌：改这里即可统一调整所有按钮大小 */
+  --btn-h:46px;          /* 主按钮高度 */
+  --btn-h-sm:38px;       /* 小按钮/胶囊高度 */
+  --btn-pad-x:24px;      /* 主按钮水平内边距 */
+  --btn-r:15px;          /* 主按钮圆角 */
+  --btn-r-sm:999px;      /* 胶囊按钮圆角 */
+  --btn-fs:14.5px;       /* 主按钮字号 */
+  /* Liquid Glass 参数（Frost 6 · Light 45 · Refraction 60 · Depth 80 · Dispersion 0 · Splay 0） */
+  --lg-blur:20px;                 /* 磨砂强度 Frost 6：轻度磨砂 */
+  --lg-sat:1.5;                   /* 折射 Refraction 60：饱和度增强 */
+  --lg-light:rgba(255,255,255,.45); /* 光强 Light 45：边缘高光亮度 */
+  --lg-depth-hi:rgba(255,255,255,.3); /* 深度 Depth 80：顶部内高光 */
+  --lg-depth-lo:rgba(0,0,0,.28);     /* 深度 Depth 80：底部内阴影 */
+  --lg-border:rgba(255,255,255,.2);  /* 色彩公式 0.5px 玻璃边缘高光 */
+  --lg-text-shadow:0 1px 2px rgba(0,0,0,.1); /* 关键文字微投影 opacity 10% blur 2pt */
+  /* 色彩适配公式：background:rgba(255,255,255,.4); backdrop-filter:blur(20px); border:.5px solid rgba(255,255,255,.2) */
+  --glass-bg:rgba(255,255,255,.14);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{height:100%}
+body{
+  background:var(--bg);color:var(--fg);
+  font-family:&quot;Manrope&quot;,-apple-system,&quot;PingFang SC&quot;,sans-serif;
+  overflow:hidden;cursor:default;
+}
+
+/* ============ 液态玻璃背景 ============ */
+.liquid{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;filter:url(#goo)}
+.liquid .blob{
+  position:absolute;border-radius:50%;
+  background:radial-gradient(circle at 34% 30%,rgba(255,255,255,.16),rgba(255,255,255,.03) 58%,transparent 72%);
+  border:.5px solid rgba(255,255,255,.09);
+  box-shadow:inset 0 0 60px rgba(255,255,255,.05), 0 30px 80px rgba(0,0,0,.4);
+  animation:liquid 16s ease-in-out infinite;
+  filter:blur(3px); /* 背景层叠加 15% 高斯模糊 */
+  will-change:transform,border-radius;
+}
+.liquid .b1{width:420px;height:420px;left:-110px;top:-90px}
+.liquid .b2{width:300px;height:300px;right:-70px;top:26%;animation-delay:-5s;animation-duration:19s}
+.liquid .b3{width:360px;height:360px;left:34%;bottom:-130px;animation-delay:-10s;animation-duration:22s}
+.liquid .b4{width:200px;height:200px;right:16%;bottom:8%;animation-delay:-8s;animation-duration:14s}
+@keyframes liquid{
+  0%,100%{border-radius:44% 56% 58% 42% / 45% 44% 56% 55%;transform:translate(0,0) rotate(0) scale(1)}
+  25%{border-radius:58% 42% 38% 62% / 52% 60% 40% 48%;transform:translate(4vw,-3vh) rotate(10deg) scale(1.08)}
+  50%{border-radius:38% 62% 64% 36% / 60% 36% 64% 40%;transform:translate(-2vw,4vh) rotate(-8deg) scale(.94)}
+  75%{border-radius:52% 48% 42% 58% / 40% 56% 44% 60%;transform:translate(3vw,2vh) rotate(6deg) scale(1.04)}
+}
+
+/* 玻璃基础（色彩适配公式：rgba(255,255,255,.4) / blur(20px) / .5px 白边 — 深色主题适配） */
+.glass{
+  background:linear-gradient(165deg,rgba(255,255,255,.11),rgba(255,255,255,.025) 45%,rgba(255,255,255,.07));
+  backdrop-filter:blur(var(--lg-blur)) saturate(var(--lg-sat));
+  -webkit-backdrop-filter:blur(var(--lg-blur)) saturate(var(--lg-sat));
+  border:.5px solid var(--lg-border);
+  /* Depth 80 + 底部反射光（液感）：四边都有流动感 */
+  box-shadow:0 26px 70px rgba(0,0,0,.5),
+    inset 0 1px 0 var(--lg-depth-hi),
+    inset 0 -1px 0 var(--lg-depth-lo);
+  position:relative;
+}
+.glass::before{ /* 左+右两面侧光（顶/底由 Depth 80 inset 阴影负责，避免与内阴影叠加成&quot;分割线&quot;） */
+  content:&quot;&quot;;
+  position:absolute;
+  left:-40%;right:-40%;top:0;bottom:0;
+  background:
+    linear-gradient(180deg,rgba(255,255,255,.14),transparent 32%) left center/1px 65% no-repeat,
+    linear-gradient(0deg,rgba(255,255,255,.14),transparent 32%) right center/1px 65% no-repeat;
+  opacity:.7;pointer-events:none;
+}
+
+/* 布局 */
+.app{position:relative;z-index:2;display:flex;height:100vh;padding:14px;gap:14px}
+
+/* 侧边栏 */
+.side{width:228px;flex-shrink:0;display:flex;flex-direction:column;padding:20px 12px;border-radius:24px;overflow:hidden}
+.side .logo{display:flex;align-items:center;gap:11px;padding:2px 10px 18px;border-bottom:1px solid var(--line)}
+.side .logo .orb{
+  width:38px;height:38px;border-radius:46% 54% 58% 42%/52% 48% 52% 48%;flex-shrink:0;
+  background:linear-gradient(140deg,rgba(255,255,255,.3),rgba(255,255,255,.05));
+  border:1px solid rgba(255,255,255,.22);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
+  box-shadow:inset 0 0 18px rgba(255,255,255,.12);animation:liquid 9s ease-in-out infinite;
+}
+.side .logo .t{font-weight:800;font-size:15.5px;letter-spacing:.01em}
+.side .logo .s{font-size:11.5px;color:var(--muted);margin-top:2px;letter-spacing:.08em}
+.nav{flex:1;margin-top:12px;display:flex;flex-direction:column;gap:3px;overflow-y:auto}
+.nav::-webkit-scrollbar{width:0}
+.nav .grp{font-size:10.5px;letter-spacing:.22em;color:var(--muted);text-transform:uppercase;padding:14px 12px 6px;opacity:.75;font-weight:600}
+.nav a{
+  display:flex;align-items:center;gap:11px;padding:10px 12px;border-radius:13px;
+  color:var(--muted);text-decoration:none;font-size:14.5px;font-weight:500;
+  transition:all .28s;cursor:pointer;border:1px solid transparent;
+}
+.nav a .ico{width:17px;text-align:center;font-size:14px;opacity:.9}
+.nav a:hover{color:var(--fg);background:rgba(255,255,255,.07)}
+.nav a.active{
+  color:#0b0b0e;background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.7));
+  font-weight:700;box-shadow:0 10px 30px rgba(255,255,255,.12), inset 0 1px 0 #fff;
+}
+.side .foot{border-top:1px solid var(--line);padding:12px 8px 2px;display:flex;flex-direction:column;gap:3px}
+.side .foot a{display:flex;align-items:center;gap:11px;padding:9px 12px;border-radius:11px;color:var(--muted);text-decoration:none;font-size:14px;cursor:pointer;transition:all .25s}
+.side .foot a:hover{color:var(--fg);background:rgba(255,255,255,.07)}
+
+/* 主区 */
+.main{flex:1;display:flex;flex-direction:column;gap:14px;min-width:0}
+.topbar{height:72px;flex-shrink:0;display:flex;align-items:center;gap:18px;padding:0 26px;border-radius:20px;overflow:hidden}
+.topbar .crumb{font-size:17px;color:var(--muted);white-space:nowrap;letter-spacing:.01em}
+.topbar .crumb b{color:var(--fg);font-weight:700;font-size:17.5px}
+.topbar .search{
+  flex:1;max-width:420px;display:flex;align-items:center;gap:10px;padding:12px 18px;
+  border-radius:14px;background:rgba(255,255,255,.05);border:.5px solid var(--lg-border);
+  box-shadow:inset 0 1px 0 var(--lg-depth-hi), inset 0 -1px 0 var(--lg-depth-lo);
+  transition:all .3s;cursor:text;
+}
+.topbar .search:hover,.topbar .search:focus-within{border-color:rgba(255,255,255,.3);background:rgba(255,255,255,.09)}
+.topbar .search input{flex:1;background:none;border:none;outline:none;color:var(--fg);font-size:16.5px;font-family:inherit}
+.topbar .search input::placeholder{color:var(--muted)}
+.topbar .kbd{font-size:12.5px;color:var(--muted);border:1px solid rgba(255,255,255,.2);border-radius:7px;padding:3px 9px;font-family:inherit;letter-spacing:.04em}
+.topbar .date-chip{font-size:15px;color:var(--muted);white-space:nowrap}
+.topbar .date-chip b{color:var(--fg);font-weight:700;font-size:15.5px}
+
+.content{flex:1;overflow-y:auto;padding:2px 4px 50px;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.16) transparent}
+.content::-webkit-scrollbar{width:5px}
+.content::-webkit-scrollbar-thumb{background:rgba(255,255,255,.16);border-radius:4px}
+.page{display:none}
+.page.active{display:block;animation:pageIn .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes pageIn{from{opacity:0;transform:translateY(20px) scale(.96);filter:blur(6px)}to{opacity:1;transform:none;filter:blur(0)}}
+
+/* 页头 */
+.ph{display:flex;align-items:flex-end;justify-content:space-between;margin:8px 2px 24px;gap:16px;flex-wrap:wrap}
+.ph h1{font-size:clamp(28px,3.1vw,38px);font-weight:800;letter-spacing:-.025em}
+/* 关键文字微投影（opacity 10% · blur 2pt） */
+.ph h1,.home-hero h1,.home-hero .glass-word,.wb-core .wb-date,.wb-core .wb-project,.card h3,.sop-editor h3{text-shadow:var(--lg-text-shadow)}
+.ph .desc{font-size:14px;color:var(--muted);margin-top:6px;font-weight:300}
+.add-btn{
+  display:inline-flex;align-items:center;gap:8px;
+  height:var(--btn-h);padding:0 var(--btn-pad-x);border-radius:var(--btn-r);
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.68));
+  color:#0b0b0e;font-weight:700;font-size:var(--btn-fs);font-family:inherit;
+  border:none;cursor:pointer;transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,background .35s;
+  /* 边框外圈液态高光：紧贴描边光（无柔光雾感）+ 极小立体投影 */
+  box-shadow:
+    inset 0 1px 0 var(--lg-depth-hi),
+    inset 0 -1px 0 var(--lg-depth-lo),
+    0 0 0 1px rgba(255,255,255,.3),
+    0 0 4px rgba(255,255,255,.22),
+    0 1px 3px rgba(0,0,0,.3);
+  position:relative;
+  animation:btnLiquid 6s ease-in-out infinite;
+}
+/* 按钮边缘液化：极小幅度液态起伏（贴近真实玻璃，仅边缘微动） */
+@keyframes btnLiquid{
+  0%,100%{border-radius:var(--btn-r) calc(var(--btn-r) + 1.5px) calc(var(--btn-r) + 1px) var(--btn-r) / calc(var(--btn-r) + 1px) var(--btn-r) calc(var(--btn-r) + 1.5px) var(--btn-r)}
+  33%{border-radius:calc(var(--btn-r) + 1.5px) var(--btn-r) var(--btn-r) calc(var(--btn-r) + 1px) / var(--btn-r) calc(var(--btn-r) + 1.5px) var(--btn-r) calc(var(--btn-r) + 1px)}
+  66%{border-radius:calc(var(--btn-r) + 1px) calc(var(--btn-r) + 1.5px) var(--btn-r) var(--btn-r) / calc(var(--btn-r) + 1.5px) var(--btn-r) calc(var(--btn-r) + 1px) var(--btn-r)}
+}
+.add-btn:hover{transform:translateY(-2px);box-shadow:0 18px 44px rgba(255,255,255,.22), inset 0 1px 0 #fff;animation-duration:2.4s}
+.add-btn:active{transform:translateY(0) scale(.97)}
+.add-btn.ghost{background:transparent;color:var(--fg);border:1px solid rgba(255,255,255,.25);box-shadow:none;font-weight:500;animation:none}
+.add-btn.ghost:hover{background:rgba(255,255,255,.09)}
+
+/* 卡片 */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:16px}
+.card{
+  padding:24px;border-radius:22px;cursor:pointer;position:relative;overflow:hidden;
+  transition:transform .4s cubic-bezier(.2,.7,.2,1),box-shadow .4s,border-color .4s;
+}
+.card::after{ /* hover 液态高光 */
+  content:&quot;&quot;;position:absolute;top:-60%;left:-40%;width:60%;height:200%;
+  background:linear-gradient(100deg,transparent 30%,rgba(255,255,255,.14) 48%,rgba(255,255,255,.05) 52%,transparent 68%);
+  transform:rotate(6deg) translateX(-140%);transition:transform 1s cubic-bezier(.2,.7,.2,1);pointer-events:none;
+}
+.card:hover{transform:translateY(-5px);box-shadow:0 36px 90px rgba(0,0,0,.6);border-color:rgba(255,255,255,.24)}
+.card:hover::after{transform:rotate(6deg) translateX(180%)}
+/* Dispersion 0：无色散，保持干净 */
+.card .tag{font-size:11.5px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;font-weight:600}
+.card h3{font-size:17.5px;font-weight:700;margin-top:11px;letter-spacing:-.01em}
+.card p{font-size:14px;color:var(--muted);margin-top:7px;line-height:1.75;font-weight:300}
+.card .meta{display:flex;gap:12px;margin-top:15px;font-size:12.5px;color:var(--muted);flex-wrap:wrap}
+.card .meta span{display:inline-flex;align-items:center;gap:5px}
+.card .go{position:absolute;right:22px;bottom:20px;font-size:16px;opacity:.35;transition:all .3s}
+.card:hover .go{opacity:1;transform:translateX(4px)}
+/* 卡片右上角小按钮（删除/编辑）：hover 浮现，圆形玻璃质感 */
+.card .del,.card .edit{
+  position:absolute;top:14px;width:28px;height:28px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);
+  color:var(--muted);cursor:pointer;opacity:0;transition:all .25s;z-index:3;
+  backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+  font-size:12px;font-family:inherit;line-height:1;
+}
+.card .del{right:14px}
+.card .edit{right:48px}
+.card:hover .del,.card:hover .edit{opacity:1}
+.card .del:hover{color:#fff;background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.42);box-shadow:0 0 14px rgba(255,255,255,.18)}
+.card .edit:hover{color:var(--fg);background:rgba(255,255,255,.22);border-color:rgba(255,255,255,.35)}
+
+/* 徽标 */
+.badge{display:inline-flex;align-items:center;gap:6px;font-size:12px;padding:4px 12px;border-radius:999px;font-weight:600;letter-spacing:.02em;font-family:inherit;line-height:1;cursor:pointer;border:.5px solid rgba(255,255,255,.2);box-shadow:inset 0 1px 0 rgba(255,255,255,.2);transition:all .25s ease;backdrop-filter:blur(8px) saturate(1.3);-webkit-backdrop-filter:blur(8px) saturate(1.3)}
+.badge::before{content:&quot;&quot;;width:5px;height:5px;border-radius:50%;background:currentColor}
+.badge.pending{color:#ffc47a;border-color:rgba(255,196,122,.4);background:linear-gradient(140deg,rgba(110,75,30,.45),rgba(70,50,20,.35))}
+  .badge.pending:hover{background:linear-gradient(140deg,rgba(140,90,35,.6),rgba(90,60,25,.5));transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 4px 12px rgba(0,0,0,.3)}
+.badge.done{color:#7fe39a;border-color:rgba(127,227,154,.4);background:linear-gradient(140deg,rgba(40,90,55,.45),rgba(20,60,35,.35))}
+  .badge.done:hover{background:linear-gradient(140deg,rgba(50,110,70,.6),rgba(25,75,45,.5));transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.32),0 4px 12px rgba(0,0,0,.3)}
+.badge.hot{color:#0b0b0e;background:rgba(255,255,255,.92)}
+
+/* 折叠 */
+.collapse-more{
+  width:100%;margin-top:16px;padding:13px;border-radius:15px;border:1px dashed rgba(255,255,255,.24);
+  background:transparent;color:var(--muted);font-size:14px;cursor:pointer;transition:all .3s;font-family:inherit;font-weight:500;
+}
+.collapse-more:hover{color:var(--fg);border-color:rgba(255,255,255,.45);background:rgba(255,255,255,.05)}
+
+/* 列表行 */
+.list{display:flex;flex-direction:column;gap:10px}
+.row{
+  display:flex;align-items:center;gap:14px;padding:16px 18px;border-radius:16px;cursor:pointer;
+  transition:all .3s;position:relative;
+}
+.row:hover{background:rgba(255,255,255,.07);transform:translateX(3px)}
+.row .r-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.row .r-body{flex:1;min-width:0}
+.row .r-body h4{font-size:15px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .r-body p{font-size:13.5px;color:var(--muted);margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-weight:300}
+.row .r-meta{display:flex;align-items:center;gap:10px;flex-shrink:0}
+.row .r-meta .time{font-size:12.5px;color:var(--muted)}
+/* 列表行删除/编辑小按钮 */
+.row .r-del,.row .r-edit{
+  width:26px;height:26px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.14);
+  color:var(--muted);cursor:pointer;opacity:0;transition:all .25s;
+  font-size:11px;font-family:inherit;line-height:1;
+}
+.row:hover .r-del,.row:hover .r-edit{opacity:1}
+.row .r-del:hover{color:#fff;background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.42)}
+.row .r-edit:hover{color:var(--fg);background:rgba(255,255,255,.2)}
+
+/* 概览 */
+.ov-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px}
+.ov-item{padding:18px;border-radius:16px;transition:transform .3s}
+.ov-item:hover{transform:translateY(-3px)}
+.ov-item .k{font-size:11.5px;color:var(--muted);letter-spacing:.1em;font-weight:600}
+.ov-item .v{font-size:15px;font-weight:600;margin-top:7px;line-height:1.55}
+
+/* 分段 */
+.tabs{position:relative;display:flex;gap:7px;margin-bottom:22px;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding:4px}
+.tabs::-webkit-scrollbar{display:none}
+/* Tab 滑块（iOS 分段控件式：平滑滑动到当前 Tab） */
+.tab-thumb{
+  position:absolute;top:4px;left:0;height:calc(100% - 8px);border-radius:var(--btn-r-sm);
+  background:rgba(255,255,255,.92);box-shadow:0 8px 22px rgba(255,255,255,.16), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0,0,0,.12);
+  pointer-events:none;z-index:0;
+  transition:transform .42s cubic-bezier(.34,1.4,.5,1),width .42s cubic-bezier(.34,1.4,.5,1);
+}
+.tabs .tab{position:relative;z-index:1;padding:8px 19px;border-radius:var(--btn-r-sm);font-size:14px;color:var(--muted);cursor:pointer;transition:color .3s;border:1px solid transparent;font-weight:500;background:transparent;white-space:nowrap}
+.tab:hover{color:var(--fg);background:rgba(255,255,255,.07)}
+.tab.active{color:#0b0b0e;font-weight:700;background:transparent}
+
+/* Glass Flow */
+.flow{display:flex;flex-direction:column;align-items:center;padding:30px 0 10px}
+.flow-node{
+  width:min(540px,100%);padding:22px 26px;border-radius:24px;display:flex;gap:17px;align-items:flex-start;
+  position:relative;overflow:hidden;
+}
+.flow-node .num{
+  width:42px;height:42px;border-radius:46% 54% 52% 48%/52% 46% 54% 48%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:14.5px;font-weight:800;
+  background:linear-gradient(140deg,rgba(255,255,255,.95),rgba(255,255,255,.65));color:#0b0b0e;
+  box-shadow:0 8px 22px rgba(255,255,255,.14);animation:liquid 8s ease-in-out infinite;
+}
+.flow-node h4{font-size:17px;font-weight:700}
+.flow-node p{font-size:14px;color:var(--muted);margin-top:6px;line-height:1.7;font-weight:300}
+.flow-conn{width:2px;height:44px;background:linear-gradient(180deg,rgba(255,255,255,.28),rgba(255,255,255,.08));position:relative}
+.flow-conn::after{content:&quot;&quot;;position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:7px;height:7px;border-radius:50%;background:rgba(255,255,255,.9);box-shadow:0 0 10px rgba(255,255,255,.5)}
+
+/* 时间轴 */
+.tl{position:relative;padding-left:34px}
+.tl::before{content:&quot;&quot;;position:absolute;left:9px;top:8px;bottom:8px;width:1px;background:linear-gradient(180deg,var(--line),rgba(255,255,255,.03))}
+.tl-item{position:relative;margin-bottom:24px}
+.tl-item::before{
+  content:&quot;&quot;;position:absolute;left:-30px;top:6px;width:10px;height:10px;border-radius:50%;
+  background:var(--bg);border:2.5px solid rgba(255,255,255,.85);box-shadow:0 0 10px rgba(255,255,255,.35);
+}
+.tl-item .d{font-size:13.5px;font-weight:700;margin-bottom:6px;color:#d5d6db}
+.tl-item .e{font-size:12px;color:var(--muted);letter-spacing:.1em;margin-bottom:3px;font-weight:600}
+.tl-item .t{font-size:14.5px;font-weight:500}
+
+/* 模态 */
+.modal-bg{position:fixed;inset:0;z-index:100;background:rgba(4,4,7,.32);backdrop-filter:blur(20px) saturate(1.4);display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.show{display:flex;animation:fadeIn .3s}
+.modal{
+  width:min(540px,100%);max-height:86vh;padding:32px;border-radius:28px;
+  animation:modalIn .45s cubic-bezier(.2,.7,.2,1);
+  /* 显式液态玻璃（与卡片一致：顶部光斑 + 165° 渐变 + 0.5px 白边 + 双内阴影深度） */
+  background:
+    radial-gradient(ellipse 90% 50% at 30% 0%, rgba(255,255,255,.18), transparent 60%),
+    radial-gradient(circle at 75% 95%, rgba(255,255,255,.06), transparent 50%),
+    linear-gradient(165deg, rgba(255,255,255,.18), rgba(255,255,255,.05) 45%, rgba(255,255,255,.1));
+  border:.5px solid var(--lg-border);
+  box-shadow:
+    inset 0 1px 0 var(--lg-depth-hi),
+    inset 0 -1px 0 var(--lg-depth-lo),
+    0 26px 70px rgba(0,0,0,.55),
+    0 0 0 1px rgba(255,255,255,.18),
+    0 0 36px rgba(255,255,255,.1);
+  position:relative;
+  overflow:hidden;
+}
+.modal-inner{max-height:calc(86vh - 64px);overflow-y:auto;padding-right:4px}
+.modal-inner::-webkit-scrollbar{width:4px}
+.modal-inner::-webkit-scrollbar-thumb{background:rgba(255,255,255,.18);border-radius:4px}
+@keyframes modalIn{from{opacity:0;transform:translateY(26px) scale(.96)}to{opacity:1;transform:none}}
+.modal h2{font-size:21px;font-weight:800;margin-bottom:4px}
+.modal .sub{font-size:14px;color:var(--muted);margin-bottom:22px;font-weight:300}
+.field{margin-bottom:16px}
+.field label{display:block;font-size:12.5px;color:var(--muted);margin-bottom:7px;font-weight:600;letter-spacing:.03em}
+.field input,.field textarea,.field select{
+  width:100%;padding:13px 15px;border-radius:13px;
+  background:rgba(255,255,255,.08);border:.5px solid rgba(255,255,255,.2);color:var(--fg);font-size:14.5px;font-family:inherit;outline:none;transition:border-color .3s,box-shadow .3s;
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.12);
+}
+.field input:focus,.field textarea:focus,.field select:focus{border-color:rgba(255,255,255,.5);box-shadow:inset 0 1px 0 rgba(255,255,255,.18),0 0 0 3px rgba(255,255,255,.08)}
+.field textarea{resize:vertical;min-height:88px}
+.field .req{color:#e8e9ee;margin-left:3px}
+.m-actions{display:flex;gap:10px;margin-top:26px;justify-content:flex-end}
+.m-btn{
+  height:var(--btn-h-sm);padding:0 22px;border-radius:calc(var(--btn-r) - 2px);font-size:var(--btn-fs);
+  cursor:pointer;border:none;font-family:inherit;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s,background .3s,color .3s;font-weight:600;
+  position:relative;
+}
+.m-btn.cancel{background:rgba(255,255,255,.07);color:var(--muted);border:1px solid rgba(255,255,255,.14)}
+.m-btn.cancel:hover{color:var(--fg);background:rgba(255,255,255,.12)}
+.m-btn.confirm{background:rgba(255,255,255,.93);color:#0b0b0e;box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(255,255,255,.3),0 0 4px rgba(255,255,255,.2),0 1px 3px rgba(0,0,0,.3)}
+.m-btn.confirm:hover{transform:translateY(-1px);box-shadow:inset 0 1px 0 rgba(255,255,255,.5),0 0 0 1px rgba(255,255,255,.38),0 0 6px rgba(255,255,255,.28),0 2px 5px rgba(0,0,0,.25)}
+.m-btn.danger{background:rgba(255,255,255,.1);color:var(--fg);border:1px solid rgba(255,255,255,.22)}
+.m-btn.danger:hover{background:rgba(255,255,255,.2)}
+.add-btn:hover,.m-btn:hover{animation:btnLiquid 3s ease-in-out infinite}
+
+/* 搜索 */
+.sr-grp{margin-bottom:24px}
+.sr-grp h4{font-size:12px;letter-spacing:.2em;color:var(--muted);text-transform:uppercase;margin-bottom:10px;font-weight:700}
+.sr-item{display:flex;align-items:center;gap:12px;padding:14px 16px;border-radius:15px;cursor:pointer;transition:all .25s;background:rgba(255,255,255,.04);border:1px solid transparent}
+.sr-item:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.16)}
+.sr-item .t{font-size:14.5px;font-weight:700}
+.sr-item .d{font-size:13px;color:var(--muted);margin-top:2px;font-weight:300}
+
+/* 空态 */
+.empty{padding:70px 20px;text-align:center;color:var(--muted)}
+.empty .orb{
+  width:74px;height:74px;margin:0 auto 20px;border-radius:44% 56% 58% 42%/52% 46% 54% 48%;
+  background:linear-gradient(140deg,rgba(255,255,255,.14),rgba(255,255,255,.02));
+  border:1px solid rgba(255,255,255,.18);display:flex;align-items:center;justify-content:center;font-size:28px;
+  animation:liquid 8s ease-in-out infinite;
+}
+.empty .big{font-size:15.5px;font-weight:600;color:var(--fg);margin-bottom:8px}
+.empty p{font-size:13.5px;line-height:1.8;font-weight:300}
+
+/* 首页 */
+.home-hero{
+  padding:clamp(28px,4vw,52px);border-radius:28px;position:relative;overflow:hidden;
+  display:grid;grid-template-columns:1.2fr .8fr;gap:clamp(20px,3vw,40px);align-items:center;
+}
+.home-hero::after{
+  content:&quot;&quot;;position:absolute;top:-45%;right:-12%;width:52%;height:100%;
+  background:radial-gradient(circle at center,rgba(255,255,255,.12),transparent 62%);
+  pointer-events:none;
+}
+.home-hero .eyebrow{font-size:12px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;font-weight:600}
+.home-hero h1{font-size:clamp(33px,4.4vw,57px);font-weight:800;line-height:1.06;letter-spacing:-.025em;margin-top:16px}
+.home-hero h1 .glass-word{
+  display:inline-block;padding:0 14px;border-radius:18px;color:#0b0b0e;
+  background:linear-gradient(140deg,rgba(255,255,255,.96),rgba(255,255,255,.72));
+  box-shadow:0 12px 34px rgba(255,255,255,.16), inset 0 1px 0 #fff;
+}
+.home-hero .sub{font-size:15px;color:var(--muted);margin-top:18px;line-height:1.9;font-weight:300;max-width:32em}
+.home-hero .date-block{text-align:right}
+.home-hero .date-block .d1{font-size:clamp(44px,5.5vw,70px);font-weight:800;letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.home-hero .date-block .d2{font-size:15px;color:var(--muted);margin-top:4px;letter-spacing:.06em}
+.home-quick{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:14px;margin-top:16px}
+.q-card{padding:20px;border-radius:18px;cursor:pointer;transition:transform .35s cubic-bezier(.2,.7,.2,1),box-shadow .35s;position:relative;overflow:hidden}
+.q-card:hover{transform:translateY(-4px);box-shadow:0 26px 60px rgba(0,0,0,.55);border-color:rgba(255,255,255,.24)}
+.q-card .q-ico{font-size:21px;margin-bottom:12px;display:inline-block}
+.q-card h4{font-size:14.5px;font-weight:700}
+.q-card p{font-size:12.5px;color:var(--muted);margin-top:4px;font-weight:300;line-height:1.6}
+.q-card .q-num{position:absolute;right:16px;top:16px;font-size:12px;color:var(--muted);font-weight:600}
+
+@media(max-width:960px){
+  .side{display:none}
+  .app{padding:10px}
+  .home-hero{grid-template-columns:1fr}
+  .home-hero .date-block{text-align:left}
+}
+
+/* ================================================================
+   Apple Liquid Glass 交互质感（全站可点击元素统一生效）
+   1. 点击涟漪  2. 光标跟随高光  3. 弹性按压  4. 玻璃折射描边
+================================================================ */
+.lg-interactive{
+  position:relative;
+  --lg-x:50%; --lg-y:50%;
+  transform:translateZ(0);
+  transition:transform .5s cubic-bezier(.34,1.56,.64,1), box-shadow .35s ease, border-color .35s ease, background-color .3s ease, color .3s ease, opacity .3s ease, filter .3s ease;
+  -webkit-tap-highlight-color:transparent;
+}
+/* 弹性按压态 */
+.lg-interactive.lg-press{transform:scale(.96)}
+/* 3D 玻璃表面：无交互元素时暂停动画 */
+.lg-interactive:active{transition-duration:.08s}
+
+/* 点击涟漪（液态水光：水滴落入玻璃表面，边缘柔化扩散） */
+.lg-ripple{
+  position:absolute;left:0;top:0;width:34px;height:34px;border-radius:48% 52% 50% 50%/50% 50% 52% 48%;
+  margin-left:-17px;margin-top:-17px;pointer-events:none;z-index:5;
+  background:
+    radial-gradient(circle at 38% 32%, rgba(255,255,255,.82) 0%, rgba(255,255,255,.46) 14%, rgba(255,255,255,.2) 32%, rgba(255,255,255,.05) 56%, transparent 78%);
+  box-shadow:
+    inset 0 0 24px rgba(255,255,255,.38),
+    inset 0 5px 14px rgba(255,255,255,.2),
+    0 0 18px rgba(255,255,255,.16);
+  filter:blur(0);transform-origin:center;
+  animation:lgRipple .82s cubic-bezier(.15,.85,.3,1) forwards;
+  will-change:transform,opacity,filter;border-radius:48% 52% 50% 50%/50% 50% 52% 48%;
+}
+.lg-ripple::after{
+  content:&quot;&quot;;position:absolute;inset:0;border-radius:inherit;
+  background:radial-gradient(circle at 36% 28%, rgba(255,255,255,.95) 0%, rgba(255,255,255,.42) 12%, transparent 32%);
+  mix-blend-mode:screen;pointer-events:none;
+}
+@keyframes lgRipple{
+  0%   {transform:scale(.25);opacity:1;filter:blur(0);border-radius:48% 52% 50% 50%/50% 50% 52% 48%}
+  25%  {transform:scale(1.1);opacity:.95;filter:blur(.4px);border-radius:52% 48% 46% 54%/54% 46% 54% 46%}
+  50%  {transform:scale(2.8);opacity:.6;filter:blur(1px);border-radius:46% 54% 50% 50%/50% 50% 54% 46%}
+  80%  {transform:scale(5);opacity:.3;filter:blur(1.4px);border-radius:50% 50% 48% 52%/52% 48% 50% 50%}
+  100% {transform:scale(6.6);opacity:0;filter:blur(2px);border-radius:50%}
+}
+
+/* 光标跟随高光（柔光在玻璃表面滑动） */
+.lg-sheen{
+  position:absolute;inset:0;pointer-events:none;z-index:2;border-radius:inherit;
+  background:radial-gradient(150px circle at var(--lg-x) var(--lg-y), rgba(255,255,255,.16), rgba(255,255,255,.05) 48%, transparent 72%);
+  opacity:0;transition:opacity .3s ease;
+}
+.lg-interactive:hover .lg-sheen{opacity:1}
+
+/* 玻璃折射描边（边缘高光跟随光标，像光线在玻璃边缘折射） */
+.lg-edge{
+  position:absolute;inset:0;pointer-events:none;z-index:3;border-radius:inherit;
+  box-shadow:inset 0 0 0 1px transparent;
+  background:
+    radial-gradient(90px circle at var(--lg-x) var(--lg-y), var(--lg-light), rgba(255,255,255,.12) 42%, transparent 70%);
+  -webkit-mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;
+          mask:linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+          mask-composite:exclude;
+  opacity:0;transition:opacity .3s ease;
+}
+.lg-interactive:hover .lg-edge{opacity:1}
+/* 边缘高光 Light 45（Dispersion 0 · Splay 0：无彩虹色、无光晕，保持干净） */
+.lg-interactive:hover .lg-edge{
+  filter:none;
+}
+
+/* 弹窗内的按压反馈同样生效（.m-btn 等已自动纳入） */
+
+
+/* ============ SOP 分步向导样式 ============ */
+.sop-editor{padding:24px 26px;border-radius:20px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)}
+.sop-editor .editor-tag{font-size:10.5px;letter-spacing:.24em;color:var(--muted);font-weight:700;margin-bottom:16px}
+.sop-step{padding:10px 20px;border-radius:999px;font-size:13px;font-weight:600;border:1px solid rgba(255,255,255,.12);background:transparent;color:var(--muted);transition:all .3s;cursor:pointer;font-family:inherit}
+.sop-step:hover{color:var(--fg);border-color:rgba(255,255,255,.32)}
+.sop-step.active{background:rgba(255,255,255,.95);color:#0b0b0e;border-color:transparent;box-shadow:0 6px 18px rgba(255,255,255,.12)}
+.sop-step+.sop-step{margin-left:6px}
+.sop-fields{margin-top:6px}
+.info-grid-3{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.info-cell{padding:16px;border-radius:14px;transition:transform .3s}
+.info-cell:hover{transform:translateY(-2px)}
+.info-cell .k{font-size:10.5px;color:var(--muted);letter-spacing:.1em;font-weight:600;text-transform:uppercase}
+.info-cell .v{font-size:14px;font-weight:600;margin-top:7px;line-height:1.55}
+.section-title{font-size:10.5px;letter-spacing:.24em;color:var(--muted);font-weight:700;text-transform:uppercase;margin:20px 0 10px}
+.section-block{padding:18px 20px;border-radius:16px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1);font-size:13.5px;line-height:1.85;color:var(--fg);font-weight:300}
+@keyframes coreMorph{0%,100%{border-radius:48% 52% 50% 50%/50% 50% 52% 48%}33%{border-radius:52% 48% 49% 51%/51% 49% 51% 49%}66%{border-radius:50% 50% 52% 48%/49% 51% 48% 52%}}
+
+
+/* ============ 流程步骤编辑器样式 ============ */
+.flow-steps-list{display:flex;flex-direction:column;gap:8px}
+.flow-step-row{
+  display:flex;align-items:center;gap:10px;padding:12px 14px;
+  border-radius:14px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.09);
+}
+.flow-step-row .fs-num{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);
+}
+.flow-step-row .fs-body{flex:1;display:flex;flex-direction:column;gap:6px}
+.flow-step-row .fs-body input{
+  width:100%;padding:8px 12px;border-radius:10px;background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);color:var(--fg);font-size:13px;font-family:inherit;outline:none;
+}
+.flow-step-row .fs-body input:focus{border-color:rgba(255,255,255,.35)}
+.flow-step-row .fs-ops{display:flex;gap:4px;flex-shrink:0}
+.fs-btn{
+  width:26px;height:26px;border-radius:8px;border:1px solid rgba(255,255,255,.14);
+  background:rgba(255,255,255,.06);color:var(--muted);font-size:12px;cursor:pointer;font-family:inherit;transition:all .25s;
+}
+.fs-btn:hover:not([disabled]){color:var(--fg);background:rgba(255,255,255,.16)}
+.fs-btn[disabled]{opacity:.3;cursor:not-allowed}
+.fs-btn.fs-del:hover{color:#fff;background:rgba(255,255,255,.24);border-color:rgba(255,255,255,.4)}
+
+
+/* ================================================================
+   液态轨道工作台（首页 · 替代传统侧边栏布局）
+================================================================ */
+/* 工作台容器 */
+.workbench{
+  position:relative;min-height:calc(100vh - 170px);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;padding-bottom:10px;
+}
+/* 轨道环 */
+.wb-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);animation:wbSpin 70s linear infinite;pointer-events:none}
+.wb-ring.r1{width:min(80vw,660px);height:min(80vw,660px);background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.05) 50%,transparent 51%)}
+.wb-ring.r2{width:min(56vw,460px);height:min(56vw,460px);animation-direction:reverse;animation-duration:45s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.06) 50%,transparent 51%)}
+.wb-ring.r3{width:min(34vw,300px);height:min(34vw,300px);animation-duration:30s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.08) 50%,transparent 51%);opacity:.7}
+@keyframes wbSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+
+/* 中央核心（近圆形玻璃，仅保留极轻微呼吸，液化交给按钮） */
+.wb-core{
+  width:min(290px,36vw);height:min(290px,36vw);z-index:6;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;
+  text-align:center;padding:34px;
+  border-radius:50%;
+  overflow:hidden;
+  animation:wbCoreMorph 16s ease-in-out infinite;
+  transition:box-shadow .4s;
+}
+.wb-core:hover{box-shadow:0 40px 110px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.2)}
+@keyframes wbCoreMorph{
+  0%,100%{border-radius:49.4% 50.6% 49.8% 50.2% / 50.2% 49.6% 50.4% 49.8%}
+  33%{border-radius:50.6% 49.4% 50.2% 49.8% / 49.8% 50.4% 49.6% 50.2%}
+  66%{border-radius:50% 50% 50.6% 49.4% / 49.6% 50.2% 49.8% 50.4%}
+}
+.wb-core .wb-date{font-size:clamp(44px,5.5vw,62px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+.wb-core .wb-week{font-size:12.5px;color:var(--muted);letter-spacing:.24em;text-transform:uppercase;margin-top:6px;font-weight:600}
+.wb-core .wb-project{font-size:14.5px;font-weight:700;margin-top:14px;color:var(--fg);letter-spacing:.02em}
+.wb-core .wb-todo{font-size:12.5px;color:var(--muted);margin-top:5px}
+.wb-core .wb-enter{
+  margin-top:16px;height:var(--btn-h-sm);padding:0 24px;border-radius:999px;border:.5px solid var(--lg-border);
+  background:
+    radial-gradient(ellipse 80% 50% at 35% 0%, rgba(255,255,255,.55), transparent 60%),
+    radial-gradient(circle at 70% 100%, rgba(0,0,0,.08), transparent 50%),
+    rgba(255,255,255,.94);
+  color:#0b0b0e;font-weight:700;font-size:13.5px;
+  cursor:pointer;font-family:inherit;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+  box-shadow:inset 0 1px 0 var(--lg-depth-hi), inset 0 -1px 0 var(--lg-depth-lo), 0 8px 24px rgba(255,255,255,.18);
+  animation:btnLiquid 5s ease-in-out infinite;
+}
+.wb-core .wb-enter:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,255,255,.2);animation-duration:2.2s}
+
+/* 轨道节点（模块入口，近圆形玻璃） */
+.wb-node{
+  position:absolute;left:50%;top:50%;z-index:5;
+  width:104px;height:104px;margin:-52px 0 0 -52px;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;
+  cursor:pointer;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,.32), transparent 55%),
+    linear-gradient(155deg, rgba(255,255,255,.16), rgba(255,255,255,.03));
+  backdrop-filter:blur(var(--lg-blur)) saturate(var(--lg-sat));
+  -webkit-backdrop-filter:blur(var(--lg-blur)) saturate(var(--lg-sat));
+  border:.5px solid var(--lg-border);
+  border-radius:50%;
+  box-shadow:0 22px 55px rgba(0,0,0,.42), inset 0 1px 0 var(--lg-depth-hi), inset 0 -1px 0 var(--lg-depth-lo), 0 0 22px rgba(255,255,255,.04);
+  transition:transform .45s cubic-bezier(.34,1.56,.64,1), box-shadow .35s, border-color .35s;
+  transform:translate(var(--tx,0px),var(--ty,0px));
+}
+.wb-node:hover{animation:wbNodeHover 2.8s ease-in-out infinite}
+@keyframes wbNodeHover{
+  0%,100%{border-radius:49.2% 50.8% 49.6% 50.4% / 50.4% 49.4% 50.6% 49.8%}
+  50%{border-radius:50.6% 49.4% 50.4% 49.6% / 49.6% 50.6% 49.4% 50.4%}
+}
+.wb-node .w-ico{font-size:26px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.25))}
+.wb-node .w-name{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--fg);white-space:nowrap}
+.wb-node .w-count{font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+.wb-node:hover{transform:translate(calc(var(--tx,0px) - 2px),calc(var(--ty,0px) - 2px)) scale(1.16);box-shadow:0 32px 75px rgba(0,0,0,.55), inset 0 1px 0 rgba(255,255,255,.42), inset 0 -1px 0 rgba(0,0,0,.32), 0 0 28px rgba(255,255,255,.1);border-color:rgba(255,255,255,.42);z-index:8}
+.wb-node:active{transform:translate(var(--tx,0px),var(--ty,0px)) scale(.94)}
+
+/* ================================================================
+   底部液态 Dock（全局导航 · macOS 风格）
+================================================================ */
+.dock{
+  position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:80;
+  display:flex;align-items:flex-end;gap:7px;padding:10px 14px;border-radius:30px;
+}
+.d-item{
+  width:50px;height:50px;border-radius:17px;cursor:pointer;position:relative;
+  display:flex;align-items:center;justify-content:center;font-size:21px;
+  color:var(--muted);
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,.2), transparent 55%),
+    rgba(255,255,255,.07);
+  border:.5px solid var(--lg-border);
+  box-shadow:inset 0 1px 0 var(--lg-depth-hi), inset 0 -1px 0 var(--lg-depth-lo), 0 6px 18px rgba(0,0,0,.32);
+  transition:transform .4s cubic-bezier(.34,1.56,.64,1), color .3s, background-color .3s, box-shadow .3s;
+  font-family:inherit;
+}
+.d-item:hover{transform:translateY(-10px) scale(1.2);color:var(--fg);background:rgba(255,255,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+.d-item.active{
+  color:#0b0b0e;font-weight:700;
+  background:
+    radial-gradient(circle at 30% 22%, rgba(255,255,255,.6), transparent 55%),
+    rgba(255,255,255,.94);
+  box-shadow:0 12px 32px rgba(255,255,255,.18), inset 0 1px 0 #fff, inset 0 -1px 0 rgba(0,0,0,.12), 0 0 18px rgba(255,255,255,.12);
+}
+.d-item .tip{
+  position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.7);
+  background:rgba(255,255,255,.94);color:#0b0b0e;font-size:12px;font-weight:700;
+  padding:5px 11px;border-radius:9px;opacity:0;pointer-events:none;
+  transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap;
+}
+.d-item:hover .tip{opacity:1;transform:translateX(-50%) scale(1)}
+
+/* 移动端：节点缩小、Dock 收窄 */
+@media(max-width:960px){
+  .wb-node{width:82px;height:82px;margin:-41px 0 0 -41px}
+  .wb-node .w-ico{font-size:20px}
+  .wb-node .w-name{font-size:11px}
+  .d-item{width:42px;height:42px;font-size:18px;border-radius:14px}
+  .dock{gap:4px;padding:8px 10px}
+}
+
+
+  /* 顶栏 mini 按钮（锁定 + 主题切换 · 液态玻璃） */
+  .topbar .tb-mini{
+    width:34px;height:34px;border-radius:12px;flex-shrink:0;cursor:pointer;
+    border:.5px solid var(--lg-border);
+    background:rgba(255,255,255,.06);color:var(--muted);
+    display:flex;align-items:center;justify-content:center;
+    backdrop-filter:blur(var(--lg-blur)) saturate(var(--lg-sat));
+    -webkit-backdrop-filter:blur(var(--lg-blur)) saturate(var(--lg-sat));
+    box-shadow:inset 0 1px 0 var(--lg-depth-hi), inset 0 -1px 0 var(--lg-depth-lo);
+    transition:color .25s,background .25s,transform .25s cubic-bezier(.34,1.56,.64,1);
+    font-family:inherit;
+  }
+  .topbar .tb-mini:hover{color:var(--fg);background:rgba(255,255,255,.12)}
+  .topbar .tb-mini:active{transform:scale(.92)}
+  .topbar .tb-mini svg{display:block}
+&lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+&lt;!-- SVG Goo 滤镜 --&gt;
+&lt;svg style=&quot;position:absolute;width:0;height:0&quot;&gt;
+  &lt;defs&gt;
+    &lt;filter id=&quot;goo&quot;&gt;
+      &lt;feGaussianBlur in=&quot;SourceGraphic&quot; stdDeviation=&quot;14&quot; result=&quot;blur&quot;/&gt;
+      &lt;feColorMatrix in=&quot;blur&quot; mode=&quot;matrix&quot; values=&quot;1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10&quot; result=&quot;goo&quot;/&gt;
+      &lt;feBlend in=&quot;SourceGraphic&quot; in2=&quot;goo&quot;/&gt;
+    &lt;/filter&gt;
+    
+  &lt;/defs&gt;
+&lt;/svg&gt;
+
+&lt;div class=&quot;liquid&quot;&gt;
+  &lt;div class=&quot;blob b1&quot;&gt;&lt;/div&gt;&lt;div class=&quot;blob b2&quot;&gt;&lt;/div&gt;
+  &lt;div class=&quot;blob b3&quot;&gt;&lt;/div&gt;&lt;div class=&quot;blob b4&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;div class=&quot;app&quot;&gt;
+  &lt;main class=&quot;main&quot;&gt;
+    &lt;header class=&quot;topbar glass&quot;&gt;
+      &lt;span class=&quot;crumb&quot; id=&quot;crumb&quot;&gt;首页&lt;/span&gt;
+      &lt;div class=&quot;search&quot; data-action=&quot;search&quot;&gt;
+        &lt;span&gt;⌕&lt;/span&gt;
+        &lt;input id=&quot;searchInput&quot; placeholder=&quot;搜索项目、客户、知识、成就…&quot; data-search-input&gt;
+        &lt;span class=&quot;kbd&quot;&gt;⌘K&lt;/span&gt;
+      &lt;/div&gt;
+      &lt;span class=&quot;date-chip&quot; id=&quot;dateChip&quot;&gt;&lt;/span&gt;
+      &lt;button class=&quot;tb-mini&quot; id=&quot;tbLock&quot; aria-label=&quot;锁定&quot; title=&quot;锁定&quot;&gt;
+        &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;rect x=&quot;5&quot; y=&quot;11&quot; width=&quot;14&quot; height=&quot;9&quot; rx=&quot;2&quot;/&gt;&lt;path d=&quot;M8 11V7a4 4 0 1 1 8 0v4&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      &lt;button class=&quot;tb-mini&quot; id=&quot;tbTheme&quot; aria-label=&quot;切换白色主题&quot; title=&quot;切换白色主题&quot;&gt;
+        &lt;svg width=&quot;16&quot; height=&quot;16&quot; viewBox=&quot;0 0 24 24&quot; fill=&quot;none&quot; stroke=&quot;currentColor&quot; stroke-width=&quot;1.9&quot; stroke-linecap=&quot;round&quot; stroke-linejoin=&quot;round&quot;&gt;&lt;circle cx=&quot;12&quot; cy=&quot;12&quot; r=&quot;4&quot;/&gt;&lt;path d=&quot;M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4&quot;/&gt;&lt;/svg&gt;
+      &lt;/button&gt;
+      
+    &lt;/header&gt;
+    &lt;div class=&quot;content&quot; id=&quot;content&quot;&gt;&lt;/div&gt;
+  &lt;/main&gt;
+&lt;/div&gt;
+
+
+&lt;/div&gt;
+
+&lt;!-- 底部液态 Dock · 全局导航 --&gt;
+&lt;nav class=&quot;dock glass&quot; id=&quot;dock&quot;&gt;
+  &lt;button class=&quot;d-item active&quot; data-page=&quot;home&quot; aria-label=&quot;WORKSPACE&quot;&gt;&lt;span&gt;⌂&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;WORKSPACE&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;project&quot; aria-label=&quot;当前项目&quot;&gt;&lt;span&gt;▣&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;当前项目&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;projects&quot; aria-label=&quot;项目库&quot;&gt;&lt;span&gt;▤&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;项目库&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;clients&quot; aria-label=&quot;客户信息库&quot;&gt;&lt;span&gt;◎&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;客户信息库&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;achv&quot; aria-label=&quot;个人成就&quot;&gt;&lt;span&gt;✦&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;个人成就&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;knowledge&quot; aria-label=&quot;个人知识库&quot;&gt;&lt;span&gt;❐&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;个人知识库&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;ideas&quot; aria-label=&quot;灵感记录&quot;&gt;&lt;span&gt;✎&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;灵感记录&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;timeline&quot; aria-label=&quot;时间轴&quot;&gt;&lt;span&gt;◷&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;时间轴&lt;/span&gt;&lt;/button&gt;
+  &lt;button class=&quot;d-item&quot; data-page=&quot;files&quot; aria-label=&quot;附件中心&quot;&gt;&lt;span&gt;▥&lt;/span&gt;&lt;span class=&quot;tip&quot;&gt;附件中心&lt;/span&gt;&lt;/button&gt;
+&lt;/nav&gt;
+
+&lt;!-- 模态 --&gt;
+&lt;div class=&quot;modal-bg&quot; id=&quot;modalBg&quot;&gt;
+  &lt;div class=&quot;modal glass&quot;&gt;&lt;div class=&quot;modal-inner&quot; id=&quot;modalBox&quot;&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+/* ================================================================
+   数据层：localStorage 持久化，真实可增删
+================================================================ */
+const LS_KEY=&#x27;liquid-archive-v1&#x27;;
+const DEFAULT_DATA={
+  project:{
+    name:&#x27;云南白药上海国际中心&#x27;,
+    status:&#x27;进行中&#x27;,
+    fields:[
+      {k:&#x27;项目体量&#x27;,v:&#x27;14.2 万㎡&#x27;},{k:&#x27;项目性质&#x27;,v:&#x27;物业服务 · 园区/写字楼&#x27;},
+      {k:&#x27;项目人数&#x27;,v:&#x27;42 人&#x27;},{k:&#x27;项目地址&#x27;,v:&#x27;上海 · 闵行 · 华漕&#x27;},
+      {k:&#x27;甲方名称&#x27;,v:&#x27;上海颐健实业&#x27;},{k:&#x27;开始时间&#x27;,v:&#x27;2024-03-01&#x27;},
+      {k:&#x27;服务模式&#x27;,v:&#x27;酬金制（成本 + 酬金）&#x27;},{k:&#x27;我的岗位&#x27;,v:&#x27;行政设施管理&#x27;},
+      {k:&#x27;我的职责&#x27;,v:&#x27;园区日常运营 · 客服协调 · 考勤制度 · ISO 内审&#x27;},
+    ],
+    custom:[{k:&#x27;合同模式&#x27;,v:&#x27;酬金制&#x27;},{k:&#x27;项目等级&#x27;,v:&#x27;重点项目&#x27;}],
+  },
+  todos:[
+    {id:1,c:&#x27;甲方对接&#x27;,t:&#x27;ISO 内审资料整理&#x27;,s:&#x27;待处理&#x27;,d:&#x27;整理上半年内审检查表与整改记录。&#x27;,time:&#x27;今天&#x27;},
+    {id:2,c:&#x27;公司对接&#x27;,t:&#x27;月度就餐明细确认&#x27;,s:&#x27;待处理&#x27;,d:&#x27;核对上月就餐明细并确认，用于成本结算。&#x27;,time:&#x27;今天&#x27;},
+    {id:3,c:&#x27;个人工作&#x27;,t:&#x27;半月考勤记录&#x27;,s:&#x27;待处理&#x27;,d:&#x27;录入考勤并核对异常。&#x27;,time:&#x27;昨天&#x27;},
+  ],
+  cycles:[
+    {id:1,p:&#x27;每月&#x27;,t:&#x27;就餐明细确认&#x27;,d:&#x27;月度就餐数据核对与甲方确认。&#x27;},
+    {id:2,p:&#x27;每季度&#x27;,t:&#x27;甲方季度考核&#x27;,d:&#x27;考核评分与酬金结算（5% 酬金率）。&#x27;},
+    {id:3,p:&#x27;每半年&#x27;,t:&#x27;ISO 内审&#x27;,d:&#x27;内审计划执行、整改与关闭。&#x27;},
+  ],
+  flows:[
+    {id:1,n:&#x27;客户投诉处理流程&#x27;,d:&#x27;从接收到结束的完整处理方法&#x27;,u:&#x27;2026-08-14&#x27;,steps:[
+      {t:&#x27;接收客户需求&#x27;,d:&#x27;记录客户提出的具体内容&#x27;},
+      {t:&#x27;确认责任部门&#x27;,d:&#x27;确认事项对应的处理人员&#x27;},
+      {t:&#x27;跟进处理情况&#x27;,d:&#x27;持续确认事项状态&#x27;},
+      {t:&#x27;回访并关闭&#x27;,d:&#x27;确认满意度后归档&#x27;}]},
+  ],
+  sops:[
+    {id:1,n:&#x27;报修接单与派单 SOP&#x27;,s:&#x27;日常报修受理&#x27;,steps:&#x27;受理 → 分类 → 派单 → 跟进 → 回访 → 关闭&#x27;,u:&#x27;2026-08-05&#x27;},
+  ],
+  clients:[
+    {id:1,n:&#x27;张三&#x27;,c:&#x27;上海颐健实业&#x27;,r:&#x27;甲方项目负责人&#x27;,d:&#x27;分管：工程对接&#x27;,tags:[&#x27;重细节&#x27;,&#x27;微信沟通&#x27;],
+     work:{duty:&#x27;园区设施对接与运维统筹&#x27;,main:&#x27;维修审批 · 投诉处置 · 季度考核对接&#x27;,notice:&#x27;回复前确认细节；提供书面方案&#x27;,focus:&#x27;响应速度 · 闭环时效 · 文档留痕&#x27;}},
+  ],
+  achvs:[
+    {id:1,n:&#x27;ISO 9001 内审员认证&#x27;,t:&#x27;2025-06&#x27;,k:&#x27;ISO&#x27;,p:&#x27;云南白药上海国际中心&#x27;,d:&#x27;通过体系内审员资格认证，主导年度内审。&#x27;},
+  ],
+  themes:[
+    {id:1,n:&#x27;ESG&#x27;,items:[{id:11,t:&#x27;ESG 信息披露相关政策&#x27;,d:&#x27;A 股 ESG 信息披露进入强制阶段，重点行业需按《上市公司可持续发展报告指引》披露。&#x27;,time:&#x27;2026-08&#x27;}]},
+    {id:2,n:&#x27;ISO&#x27;,items:[{id:12,t:&#x27;ISO 9001 条款要点&#x27;,d:&#x27;围绕质量管理体系的核心条款梳理，重点理解 4-10 章的过程方法。&#x27;,time:&#x27;2026-07&#x27;}]},
+  ],
+  ideas:[
+    {id:1,t:&#x27;把报修台账做成自动统计&#x27;,c:&#x27;工作优化&#x27;,time:&#x27;今天&#x27;},
+  ],
+  timeline:[
+    {d:&#x27;8 月 15 日&#x27;,e:&#x27;完成事项&#x27;,t:&#x27;ISO 内审资料整理&#x27;},
+    {d:&#x27;8 月 15 日&#x27;,e:&#x27;新增知识&#x27;,t:&#x27;ESG 信息披露相关政策&#x27;},
+  ],
+  files:[
+    {id:1,n:&#x27;ISO内审检查表.xlsx&#x27;,src:&#x27;ISO 内审&#x27;,p:&#x27;云南白药上海国际中心&#x27;,t:&#x27;表格&#x27;,s:&#x27;1.2MB&#x27;},
+  ],
+  currentProject:&#x27;云南白药上海国际中心&#x27;,
+  archiveProjects:[],
+};
+
+let DB;
+function load(){
+  try{
+    const raw=localStorage.getItem(LS_KEY);
+    if(raw) return Object.assign({},DEFAULT_DATA,JSON.parse(raw));
+  }catch(e){}
+  return JSON.parse(JSON.stringify(DEFAULT_DATA));
+}
+function save(){ try{ localStorage.setItem(LS_KEY,JSON.stringify(DB)) }catch(e){} }
+
+/* ============ 工具 ============ */
+const el=id=&gt;document.getElementById(id);
+const content=el(&#x27;content&#x27;);
+const esc=s=&gt;String(s??&#x27;&#x27;).replace(/[&amp;&lt;&gt;&quot;&#x27;]/g,c=&gt;({&#x27;&amp;&#x27;:&#x27;&amp;amp;&#x27;,&#x27;&lt;&#x27;:&#x27;&amp;lt;&#x27;,&#x27;&gt;&#x27;:&#x27;&amp;gt;&#x27;,&#x27;&quot;&#x27;:&#x27;&amp;quot;&#x27;,&quot;&#x27;&quot;:&#x27;&amp;#39;&#x27;}[c]));
+const now=()=&gt;{const d=new Date();return `${d.getMonth()+1}月${d.getDate()}日`};
+const uid=()=&gt;Date.now()+Math.floor(Math.random()*999);
+
+function pageHead(title,desc,btn){
+  return `&lt;div class=&quot;ph&quot;&gt;&lt;div&gt;&lt;h1&gt;${title}&lt;/h1&gt;&lt;div class=&quot;desc&quot;&gt;${desc}&lt;/div&gt;&lt;/div&gt;${btn||&#x27;&#x27;}&lt;/div&gt;`;
+}
+function emptyState(icon,title,desc){
+  return `&lt;div class=&quot;empty&quot;&gt;&lt;div class=&quot;orb&quot;&gt;${icon}&lt;/div&gt;&lt;div class=&quot;big&quot;&gt;${title}&lt;/div&gt;&lt;p&gt;${desc}&lt;/p&gt;&lt;/div&gt;`;
+}
+function collapseItems(arr,limit,render){
+  if(!arr.length)return &#x27;&#x27;;
+  if(arr.length&lt;=limit)return arr.map(render).join(&#x27;&#x27;);
+  const show=arr.slice(0,limit).map(render).join(&#x27;&#x27;);
+  const rest=arr.slice(limit).map(render).join(&#x27;&#x27;);
+  return `${show}&lt;button class=&quot;collapse-more&quot; data-action=&quot;collapse&quot; data-more=&quot;0&quot;&gt;展开更多（${arr.length-limit} 条）&lt;/button&gt;
+  &lt;div data-collapse-wrap style=&quot;display:none&quot;&gt;${rest}&lt;/div&gt;`;
+}
+
+/* ============ 页面渲染 ============ */
+const PAGES={
+  home(){
+    const pending=DB.todos.filter(t=&gt;t.s===&#x27;待处理&#x27;);
+    const d=new Date();
+    const ymd=`${d.getFullYear()} 年 ${d.getMonth()+1} 月 ${d.getDate()} 日`;
+    const week=&#x27;日一二三四五六&#x27;[d.getDay()];
+    // 轨道节点：模块入口（角度、图标、名称、徽标数）
+    const nodes=[
+      {p:&#x27;project&#x27;,ico:&#x27;▣&#x27;,name:&#x27;当前项目&#x27;,count:DB.todos.length+&#x27; 事项&#x27;,ang:0},
+      {p:&#x27;knowledge&#x27;,ico:&#x27;❐&#x27;,name:&#x27;个人知识库&#x27;,count:DB.themes.length+&#x27; 主题&#x27;,ang:45},
+      {p:&#x27;clients&#x27;,ico:&#x27;◎&#x27;,name:&#x27;客户库&#x27;,count:DB.clients.length+&#x27; 客户&#x27;,ang:90},
+      {p:&#x27;ideas&#x27;,ico:&#x27;✎&#x27;,name:&#x27;灵感&#x27;,count:DB.ideas.length+&#x27; 条&#x27;,ang:135},
+      {p:&#x27;achv&#x27;,ico:&#x27;✦&#x27;,name:&#x27;成就&#x27;,count:DB.achvs.length+&#x27; 项&#x27;,ang:180},
+      {p:&#x27;projects&#x27;,ico:&#x27;▤&#x27;,name:&#x27;项目库&#x27;,count:(DB.archiveProjects.length+1)+&#x27; 项目&#x27;,ang:225},
+      {p:&#x27;timeline&#x27;,ico:&#x27;◷&#x27;,name:&#x27;时间轴&#x27;,count:DB.timeline.length+&#x27; 条&#x27;,ang:270},
+      {p:&#x27;files&#x27;,ico:&#x27;▥&#x27;,name:&#x27;附件&#x27;,count:DB.files.length+&#x27; 个&#x27;,ang:315},
+    ];
+    return `&lt;div class=&quot;workbench&quot;&gt;
+      &lt;div class=&quot;wb-ring r1&quot;&gt;&lt;/div&gt;&lt;div class=&quot;wb-ring r2&quot;&gt;&lt;/div&gt;&lt;div class=&quot;wb-ring r3&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;wb-core glass&quot;&gt;
+        &lt;div class=&quot;wb-date&quot;&gt;${d.getMonth()+1}.${d.getDate()}&lt;/div&gt;
+        &lt;div class=&quot;wb-week&quot;&gt;星期${week} · ${ymd.split(&#x27;年&#x27;)[0]}年&lt;/div&gt;
+        &lt;div class=&quot;wb-project&quot;&gt;${esc(DB.currentProject)}&lt;/div&gt;
+        &lt;div class=&quot;wb-todo&quot;&gt;${pending.length?pending.length+&#x27; 项待处理 · &#x27;+esc(pending[0].t.slice(0,12)):&#x27;今日无待办，一切从容&#x27;}&lt;/div&gt;
+        &lt;button class=&quot;wb-enter&quot; data-page=&quot;project&quot;&gt;进入工作区 →&lt;/button&gt;
+      &lt;/div&gt;
+      ${nodes.map((n,i)=&gt;`
+      &lt;div class=&quot;wb-node&quot; data-page=&quot;${n.p}&quot; style=&quot;--delay:${(i%4)*1.6}s&quot; data-ang=&quot;${n.ang}&quot;&gt;
+        &lt;span class=&quot;w-ico&quot;&gt;${n.ico}&lt;/span&gt;
+        &lt;span class=&quot;w-name&quot;&gt;${n.name}&lt;/span&gt;
+        &lt;span class=&quot;w-count&quot;&gt;${n.count}&lt;/span&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}
+    &lt;/div&gt;`;
+  },
+
+  project(tab=0){
+    const tabs=[&#x27;项目概览&#x27;,&#x27;工作事项&#x27;,&#x27;周期工作&#x27;,&#x27;工作流程&#x27;,&#x27;SOP&#x27;,&#x27;客户信息&#x27;];
+    const labels=[&#x27;＋ 新增&#x27;,&#x27;＋ 新增事项&#x27;,&#x27;＋ 新增工作&#x27;,&#x27;＋ 新增流程&#x27;,&#x27;＋ 新增 SOP&#x27;,&#x27;＋ 新增客户&#x27;];
+    let body=&#x27;&#x27;;
+    if(tab===0){
+      body=`&lt;div class=&quot;ov-grid&quot;&gt;
+        ${DB.project.fields.map(f=&gt;`&lt;div class=&quot;ov-item glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;${f.k}&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${f.v}&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}
+        &lt;div class=&quot;ov-item glass&quot; style=&quot;border-color:rgba(255,255,255,.24)&quot;&gt;
+          &lt;div class=&quot;k&quot;&gt;自定义字段&lt;/div&gt;
+          ${DB.project.custom.map(f=&gt;`&lt;div style=&quot;font-size:14px;margin-top:8px&quot;&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;${f.k}&lt;/span&gt; — &lt;b&gt;${f.v}&lt;/b&gt;&lt;/div&gt;`).join(&#x27;&#x27;)||&#x27;&lt;div style=&quot;font-size:13.5px;color:var(--muted);margin-top:6px&quot;&gt;暂无自定义字段&lt;/div&gt;&#x27;}
+          &lt;div style=&quot;margin-top:12px;font-size:13.5px;color:var(--muted)&quot; data-action=&quot;add-custom&quot;&gt;＋ 添加自定义字段&lt;/div&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;`;
+    }
+    if(tab===1){
+      const cats=[&#x27;公司对接&#x27;,&#x27;甲方对接&#x27;,&#x27;个人工作&#x27;,&#x27;紧急处理&#x27;,&#x27;项目待办&#x27;];
+      body=cats.map(name=&gt;{
+        const list=DB.todos.filter(t=&gt;t.c===name);
+        return `&lt;div style=&quot;margin-bottom:22px&quot;&gt;
+          &lt;div style=&quot;font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:12px&quot;&gt;${name} · ${list.length}&lt;/div&gt;
+          ${list.length?`&lt;div class=&quot;list&quot;&gt;${collapseItems(list,6,t=&gt;`
+            &lt;div class=&quot;row glass&quot;&gt;
+              &lt;span class=&quot;r-dot&quot; style=&quot;background:${t.s===&#x27;已完成&#x27;?&#x27;#5c5e66&#x27;:&#x27;rgba(255,255,255,.9)&#x27;}&quot;&gt;&lt;/span&gt;
+              &lt;div class=&quot;r-body&quot;&gt;&lt;h4&gt;${esc(t.t||&#x27;（未命名事项）&#x27;)}&lt;/h4&gt;&lt;p&gt;${esc(t.d)}&lt;/p&gt;&lt;/div&gt;
+              &lt;div class=&quot;r-meta&quot;&gt;
+                &lt;button class=&quot;badge ${t.s===&#x27;已完成&#x27;?&#x27;done&#x27;:&#x27;pending&#x27;} task-status-btn&quot; data-action=&quot;toggle-todo&quot; data-id=&quot;${t.id}&quot; aria-label=&quot;切换状态&quot; title=&quot;点击切换状态&quot;&gt;${t.s}&lt;/button&gt;
+                &lt;span class=&quot;time&quot;&gt;${t.time}&lt;/span&gt;
+                &lt;button class=&quot;r-edit&quot; data-action=&quot;edit-todo&quot; data-id=&quot;${t.id}&quot; aria-label=&quot;编辑事项&quot;&gt;✎&lt;/button&gt;
+                &lt;button class=&quot;r-del&quot; data-action=&quot;del-todo&quot; data-id=&quot;${t.id}&quot; aria-label=&quot;删除事项&quot;&gt;✕&lt;/button&gt;
+              &lt;/div&gt;
+            &lt;/div&gt;`)}&lt;/div&gt;`:emptyState(&#x27;☑&#x27;,&#x27;暂无${name}事项&#x27;,&#x27;点击右上角「新增事项」添加。&#x27;)}
+        &lt;/div&gt;`;
+      }).join(&#x27;&#x27;);
+    }
+    if(tab===2){
+      body=DB.cycles.length?`&lt;div class=&quot;list&quot;&gt;${collapseItems(DB.cycles,6,c=&gt;`
+        &lt;div class=&quot;row glass&quot;&gt;
+          &lt;span class=&quot;r-dot&quot; style=&quot;background:rgba(255,255,255,.9)&quot;&gt;&lt;/span&gt;
+          &lt;div class=&quot;r-body&quot;&gt;&lt;h4&gt;${c.p} · ${esc(c.t)}&lt;/h4&gt;&lt;p&gt;${esc(c.d)}&lt;/p&gt;&lt;/div&gt;
+          &lt;div class=&quot;r-meta&quot;&gt;
+            &lt;span class=&quot;time&quot;&gt;${c.p}&lt;/span&gt;
+            &lt;button class=&quot;r-edit&quot; data-action=&quot;edit-cycle&quot; data-id=&quot;${c.id}&quot; aria-label=&quot;编辑周期工作&quot;&gt;✎&lt;/button&gt;
+            &lt;button class=&quot;r-del&quot; data-action=&quot;del-cycle&quot; data-id=&quot;${c.id}&quot; aria-label=&quot;删除周期工作&quot;&gt;✕&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;`)}&lt;/div&gt;`:emptyState(&#x27;◷&#x27;,&#x27;还没有周期工作&#x27;,&#x27;例如：每月确认就餐明细、每季度完成甲方考核。&#x27;);
+    }
+    if(tab===3){
+      body=DB.flows.length?`&lt;div class=&quot;cards&quot;&gt;
+        ${DB.flows.map((f,i)=&gt;`
+        &lt;div class=&quot;card glass&quot; data-action=&quot;flow&quot; data-id=&quot;${f.id}&quot;&gt;
+          &lt;button class=&quot;del&quot; data-action=&quot;del-flow&quot; data-id=&quot;${f.id}&quot; aria-label=&quot;删除流程&quot;&gt;✕&lt;/button&gt;
+          &lt;button class=&quot;edit&quot; data-action=&quot;edit-flow&quot; data-id=&quot;${f.id}&quot; aria-label=&quot;编辑流程&quot;&gt;✎&lt;/button&gt;
+          &lt;div class=&quot;tag&quot;&gt;FLOW · ${f.steps.length} 步&lt;/div&gt;
+          &lt;h3&gt;${esc(f.n)}&lt;/h3&gt;&lt;p&gt;${esc(f.d)}&lt;/p&gt;
+          &lt;div class=&quot;meta&quot;&gt;&lt;span&gt;${f.u}&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+        &lt;/div&gt;`).join(&#x27;&#x27;)}
+      &lt;/div&gt;`:emptyState(&#x27;◈&#x27;,&#x27;还没有工作流程&#x27;,&#x27;把重复发生的事固化成流程，比如「客户投诉处理流程」。&#x27;);
+    }
+    if(tab===4){
+      body=DB.sops.length?`&lt;div class=&quot;cards&quot;&gt;
+        ${DB.sops.map(s=&gt;`
+        &lt;div class=&quot;card glass&quot; data-action=&quot;sop&quot; data-id=&quot;${s.id}&quot;&gt;
+          &lt;button class=&quot;del&quot; data-action=&quot;del-sop&quot; data-id=&quot;${s.id}&quot; aria-label=&quot;删除 SOP&quot;&gt;✕&lt;/button&gt;
+          &lt;button class=&quot;edit&quot; data-action=&quot;edit-sop&quot; data-id=&quot;${s.id}&quot; aria-label=&quot;编辑 SOP&quot;&gt;✎&lt;/button&gt;
+          &lt;div class=&quot;tag&quot;&gt;SOP · ${s.u}&lt;/div&gt;
+          &lt;h3&gt;${esc(s.n)}&lt;/h3&gt;&lt;p&gt;适用：${esc(s.s)}&lt;/p&gt;
+          &lt;div class=&quot;meta&quot;&gt;&lt;span&gt;${esc(s.steps)}&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+        &lt;/div&gt;`).join(&#x27;&#x27;)}
+      &lt;/div&gt;`:emptyState(&#x27;▤&#x27;,&#x27;还没有 SOP&#x27;,&#x27;把标准作业步骤沉淀成 SOP，可附带 PDF / Word 附件。&#x27;);
+    }
+    if(tab===5){
+      body=DB.clients.length?`&lt;div class=&quot;cards&quot;&gt;
+        ${DB.clients.map((c,i)=&gt;`
+        &lt;div class=&quot;card glass&quot; data-action=&quot;client&quot; data-id=&quot;${c.id}&quot;&gt;
+          &lt;button class=&quot;del&quot; data-action=&quot;del-client&quot; data-id=&quot;${c.id}&quot; aria-label=&quot;删除客户&quot;&gt;✕&lt;/button&gt;
+          &lt;button class=&quot;edit&quot; data-action=&quot;edit-client&quot; data-id=&quot;${c.id}&quot; aria-label=&quot;编辑客户&quot;&gt;✎&lt;/button&gt;
+          &lt;div class=&quot;tag&quot;&gt;CLIENT · 客户&lt;/div&gt;
+          &lt;h3&gt;${esc(c.n)} &lt;span style=&quot;font-size:13.5px;color:var(--muted);font-weight:400&quot;&gt;${esc(c.r)}&lt;/span&gt;&lt;/h3&gt;
+          &lt;p&gt;${esc(c.c)}${c.d?&#x27; · &#x27;+esc(c.d):&#x27;&#x27;}&lt;/p&gt;
+          &lt;div class=&quot;meta&quot; style=&quot;flex-wrap:wrap;gap:6px&quot;&gt;${c.tags.map(t=&gt;`&lt;span class=&quot;badge pending&quot;&gt;${esc(t)}&lt;/span&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;
+          &lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+        &lt;/div&gt;`).join(&#x27;&#x27;)}
+      &lt;/div&gt;`:emptyState(&#x27;◎&#x27;,&#x27;还没有客户&#x27;,&#x27;从当前项目添加客户，会自动关联当前项目。&#x27;);
+    }
+    return pageHead(DB.currentProject,`当前项目 · ${DB.project.status}`, `&lt;button class=&quot;add-btn&quot; data-action=&quot;add&quot; data-kind=&quot;${labels[tab]}&quot;&gt;${labels[tab]}&lt;/button&gt;`)+
+    `&lt;div class=&quot;tabs&quot; style=&quot;margin-top:4px&quot;&gt;&lt;i class=&quot;tab-thumb&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt;${tabs.map((t,i)=&gt;`&lt;span class=&quot;tab ${i===tab?&#x27;active&#x27;:&#x27;&#x27;}&quot; data-action=&quot;tab&quot; data-tab=&quot;${i}&quot;&gt;${t}&lt;/span&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;`+body;
+  },
+
+  projects(){
+    const all=[...DB.archiveProjects];
+    return pageHead(&#x27;项目库&#x27;,&#x27;当前项目与历史项目档案&#x27;,`&lt;button class=&quot;add-btn ghost&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 新建项目&quot;&gt;＋ 新建项目&lt;/button&gt;`)+
+    `&lt;div style=&quot;font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;font-weight:600;margin-bottom:12px&quot;&gt;当前项目&lt;/div&gt;
+    &lt;div class=&quot;cards&quot;&gt;
+      &lt;div class=&quot;card glass&quot; data-action=&quot;tab&quot; data-tab=&quot;0&quot; data-page=&quot;project&quot;&gt;
+        &lt;button class=&quot;edit&quot; data-action=&quot;edit-project&quot; aria-label=&quot;编辑项目&quot;&gt;✎&lt;/button&gt;
+        &lt;span class=&quot;badge hot&quot;&gt;进行中&lt;/span&gt;
+        &lt;h3 style=&quot;margin-top:12px&quot;&gt;${esc(DB.currentProject)}&lt;/h3&gt;
+        &lt;p&gt;${DB.project.fields[0]?.v||&#x27;&#x27;} · ${DB.project.fields[3]?.v||&#x27;&#x27;}&lt;/p&gt;
+        &lt;div class=&quot;meta&quot;&gt;&lt;span&gt;酬金制&lt;/span&gt;&lt;span&gt;2024 至今&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;font-size:12px;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;font-weight:600;margin:26px 0 12px&quot;&gt;历史项目 · 数据完整保留&lt;/div&gt;
+    ${all.length?`&lt;div class=&quot;cards&quot;&gt;${all.map(p=&gt;`
+      &lt;div class=&quot;card glass&quot;&gt;
+        &lt;button class=&quot;del&quot; data-action=&quot;del-archive&quot; data-id=&quot;${p.id}&quot; aria-label=&quot;删除项目&quot;&gt;✕&lt;/button&gt;
+        &lt;span class=&quot;badge done&quot;&gt;已结束&lt;/span&gt;
+        &lt;h3 style=&quot;margin-top:12px&quot;&gt;${esc(p.n)}&lt;/h3&gt;
+        &lt;p&gt;${p.y} · 我的角色：${esc(p.role)}&lt;/p&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;`:emptyState(&#x27;▤&#x27;,&#x27;还没有历史项目&#x27;,&#x27;当前项目结束后，会自动完整归档到这里，数据不丢失。&#x27;)}`;
+  },
+
+  clients(){
+    return pageHead(&#x27;客户信息库&#x27;,&#x27;所有项目的客户总库&#x27;,`&lt;button class=&quot;add-btn&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 新增客户&quot;&gt;＋ 新增客户&lt;/button&gt;`)+
+    (DB.clients.length?`&lt;div class=&quot;cards&quot;&gt;
+      ${DB.clients.map(c=&gt;`
+      &lt;div class=&quot;card glass&quot; data-action=&quot;client&quot; data-id=&quot;${c.id}&quot;&gt;
+        &lt;button class=&quot;del&quot; data-action=&quot;del-client&quot; data-id=&quot;${c.id}&quot; aria-label=&quot;删除客户&quot;&gt;✕&lt;/button&gt;
+        &lt;button class=&quot;edit&quot; data-action=&quot;edit-client&quot; data-id=&quot;${c.id}&quot; aria-label=&quot;编辑客户&quot;&gt;✎&lt;/button&gt;
+        &lt;div class=&quot;tag&quot;&gt;CLIENT&lt;/div&gt;
+        &lt;h3&gt;${esc(c.n)} &lt;span style=&quot;font-size:13.5px;color:var(--muted);font-weight:400&quot;&gt;${esc(c.r)}&lt;/span&gt;&lt;/h3&gt;
+        &lt;p&gt;${esc(c.c)}&lt;/p&gt;
+        &lt;div class=&quot;meta&quot;&gt;&lt;span&gt;${esc(c.d||&#x27;暂无分管信息&#x27;)}&lt;/span&gt;&lt;/div&gt;
+        &lt;div class=&quot;meta&quot; style=&quot;flex-wrap:wrap;gap:6px;margin-top:8px&quot;&gt;${c.tags.map(t=&gt;`&lt;span class=&quot;badge pending&quot;&gt;${esc(t)}&lt;/span&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;
+        &lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}
+    &lt;/div&gt;`:emptyState(&#x27;◎&#x27;,&#x27;还没有客户&#x27;,&#x27;添加客户时自动关联当前项目，可关联多个项目。&#x27;));
+  },
+
+  achv(){
+    return pageHead(&#x27;个人成就&#x27;,&#x27;职业成长记录&#x27;,`&lt;button class=&quot;add-btn&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 新增成就&quot;&gt;＋ 新增成就&lt;/button&gt;`)+
+    (DB.achvs.length?`&lt;div class=&quot;cards&quot;&gt;
+      ${DB.achvs.map(a=&gt;`
+      &lt;div class=&quot;card glass&quot; data-action=&quot;achv&quot; data-id=&quot;${a.id}&quot;&gt;
+        &lt;button class=&quot;del&quot; data-action=&quot;del-achv&quot; data-id=&quot;${a.id}&quot; aria-label=&quot;删除成就&quot;&gt;✕&lt;/button&gt;
+        &lt;button class=&quot;edit&quot; data-action=&quot;edit-achv&quot; data-id=&quot;${a.id}&quot; aria-label=&quot;编辑成就&quot;&gt;✎&lt;/button&gt;
+        &lt;div class=&quot;tag&quot;&gt;ACHIEVEMENT · ${a.t}&lt;/div&gt;
+        &lt;h3&gt;${esc(a.n)}&lt;/h3&gt;
+        &lt;p&gt;${esc(a.d)}&lt;/p&gt;
+        &lt;div class=&quot;meta&quot;&gt;&lt;span&gt;${esc(a.p)}&lt;/span&gt;&lt;/div&gt;&lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}
+    &lt;/div&gt;`:emptyState(&#x27;✦&#x27;,&#x27;还没有成就&#x27;,&#x27;记录认证、表彰、项目成果，形成你的职业成长档案。&#x27;));
+  },
+
+  knowledge(topicId){
+    if(topicId!=null){
+      const th=DB.themes[topicId];
+      if(!th) return this.knowledge();
+      return pageHead(th.n,`知识主题 · ${th.items.length} 条知识`, `&lt;button class=&quot;add-btn&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 新增知识&quot; data-topic=&quot;${topicId}&quot;&gt;＋ 新增知识&lt;/button&gt;`)+
+      `&lt;div style=&quot;font-size:13px;letter-spacing:.14em;color:var(--muted);font-weight:600;margin-bottom:14px&quot;&gt;&lt;a style=&quot;cursor:pointer&quot; data-page=&quot;knowledge&quot;&gt;个人知识库&lt;/a&gt; &lt;span style=&quot;opacity:.5&quot;&gt;/&lt;/span&gt; &lt;b style=&quot;color:var(--fg)&quot;&gt;${esc(th.n)}&lt;/b&gt;&lt;/div&gt;
+      ${th.items.length?`&lt;div class=&quot;list&quot;&gt;${th.items.map(k=&gt;`
+        &lt;div class=&quot;row glass&quot; data-action=&quot;kb&quot; data-topic=&quot;${topicId}&quot; data-id=&quot;${k.id}&quot;&gt;
+          &lt;span class=&quot;r-dot&quot; style=&quot;background:rgba(255,255,255,.9)&quot;&gt;&lt;/span&gt;
+          &lt;div class=&quot;r-body&quot;&gt;&lt;h4&gt;${esc(k.t)}&lt;/h4&gt;&lt;p&gt;${esc(th.n)} · ${k.time}&lt;/p&gt;&lt;/div&gt;
+          &lt;div class=&quot;r-meta&quot;&gt;
+            &lt;span class=&quot;time&quot;&gt;${k.time}&lt;/span&gt;
+            &lt;button class=&quot;r-edit&quot; data-action=&quot;edit-kb&quot; data-topic=&quot;${topicId}&quot; data-id=&quot;${k.id}&quot; aria-label=&quot;编辑知识&quot;&gt;✎&lt;/button&gt;
+            &lt;button class=&quot;r-del&quot; data-action=&quot;del-kb&quot; data-topic=&quot;${topicId}&quot; data-id=&quot;${k.id}&quot; aria-label=&quot;删除知识&quot;&gt;✕&lt;/button&gt;
+          &lt;/div&gt;
+        &lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;`:emptyState(&#x27;❐&#x27;,&#x27;这个主题还没有知识&#x27;,&#x27;点击「新增知识」，主题已自动选择为「&#x27;+esc(th.n)+&#x27;」。&#x27;)}`;
+    }
+    return pageHead(&#x27;个人知识库&#x27;,&#x27;知识主题 → 主题详情 → 知识详情&#x27;,`&lt;button class=&quot;add-btn&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 新增主题&quot;&gt;＋ 新增主题&lt;/button&gt;`)+
+    (DB.themes.length?`&lt;div class=&quot;cards&quot;&gt;
+      ${DB.themes.map((t,i)=&gt;`
+      &lt;div class=&quot;card glass&quot; data-action=&quot;topic&quot; data-topic=&quot;${i}&quot;&gt;
+        &lt;button class=&quot;del&quot; data-action=&quot;del-topic&quot; data-topic=&quot;${i}&quot; aria-label=&quot;删除主题&quot;&gt;✕&lt;/button&gt;
+        &lt;button class=&quot;edit&quot; data-action=&quot;edit-topic&quot; data-topic=&quot;${i}&quot; aria-label=&quot;编辑主题&quot;&gt;✎&lt;/button&gt;
+        &lt;div class=&quot;tag&quot;&gt;TOPIC · ${t.items.length} 条&lt;/div&gt;
+        &lt;h3&gt;${esc(t.n)}&lt;/h3&gt;
+        &lt;p&gt;${t.items.length?esc(t.items[0].t):&#x27;还没有知识内容&#x27;}&lt;/p&gt;
+        &lt;span class=&quot;go&quot;&gt;→&lt;/span&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}
+    &lt;/div&gt;`:emptyState(&#x27;❐&#x27;,&#x27;还没有知识主题&#x27;,&#x27;建立第一个主题，例如 ESG / ISO / 物业管理。&#x27;));
+  },
+
+  ideas(){
+    const cats=[...new Set(DB.ideas.map(i=&gt;i.c))];
+    return pageHead(&#x27;灵感记录&#x27;,&#x27;轻量记录，先记下来再整理&#x27;,`&lt;button class=&quot;add-btn&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 新增灵感&quot;&gt;＋ 新增灵感&lt;/button&gt;`)+
+    (DB.ideas.length?`&lt;div class=&quot;cards&quot;&gt;
+      ${DB.ideas.map(i=&gt;`
+      &lt;div class=&quot;card glass&quot; style=&quot;min-height:110px&quot;&gt;
+        &lt;button class=&quot;del&quot; data-action=&quot;del-idea&quot; data-id=&quot;${i.id}&quot; aria-label=&quot;删除灵感&quot;&gt;✕&lt;/button&gt;
+        &lt;button class=&quot;edit&quot; data-action=&quot;edit-idea&quot; data-id=&quot;${i.id}&quot; aria-label=&quot;编辑灵感&quot;&gt;✎&lt;/button&gt;
+        &lt;div class=&quot;tag&quot;&gt;IDEA · ${esc(i.c)}&lt;/div&gt;
+        &lt;p style=&quot;font-size:14.5px;line-height:1.75;margin-top:10px&quot;&gt;「${esc(i.t)}」&lt;/p&gt;
+        &lt;div class=&quot;meta&quot;&gt;&lt;span&gt;${i.time}&lt;/span&gt;&lt;/div&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}
+    &lt;/div&gt;`:emptyState(&#x27;✎&#x27;,&#x27;还没有灵感&#x27;,&#x27;突然想到的优化、一句话、暂时没处放的信息——先记下来。&#x27;));
+  },
+
+  timeline(){
+    return pageHead(&#x27;时间轴&#x27;,&#x27;完整个人工作时间记录&#x27;)+
+    `&lt;div class=&quot;tl&quot;&gt;${DB.timeline.map(x=&gt;`
+      &lt;div class=&quot;tl-item&quot;&gt;&lt;div class=&quot;d&quot;&gt;${x.d}&lt;/div&gt;&lt;div class=&quot;e&quot;&gt;${x.e}&lt;/div&gt;&lt;div class=&quot;t&quot;&gt;${esc(x.t)}&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)||emptyState(&#x27;◷&#x27;,&#x27;时间轴还是空的&#x27;,&#x27;新增项目、完成事项、记录知识，都会自动出现在这里。&#x27;)}
+    &lt;/div&gt;`;
+  },
+
+  files(){
+    return pageHead(&#x27;附件中心&#x27;,&#x27;所有附件 · 保留来源关系&#x27;,`&lt;button class=&quot;add-btn ghost&quot; data-action=&quot;add&quot; data-kind=&quot;＋ 上传附件&quot;&gt;＋ 上传附件&lt;/button&gt;`)+
+    (DB.files.length?`&lt;div class=&quot;list&quot;&gt;${DB.files.map(f=&gt;`
+      &lt;div class=&quot;row glass&quot;&gt;
+        &lt;span class=&quot;r-dot&quot; style=&quot;background:rgba(255,255,255,.9)&quot;&gt;&lt;/span&gt;
+        &lt;div class=&quot;r-body&quot;&gt;&lt;h4&gt;${esc(f.n)}&lt;/h4&gt;&lt;p&gt;所属项目：${esc(f.p)} · 来源：${esc(f.src)}&lt;/p&gt;&lt;/div&gt;
+        &lt;div class=&quot;r-meta&quot;&gt;
+          &lt;span class=&quot;badge done&quot;&gt;${esc(f.t)}&lt;/span&gt;&lt;span class=&quot;time&quot;&gt;${f.s}&lt;/span&gt;
+          &lt;button class=&quot;r-del&quot; data-action=&quot;del-file&quot; data-id=&quot;${f.id}&quot; aria-label=&quot;删除附件&quot;&gt;✕&lt;/button&gt;
+        &lt;/div&gt;
+      &lt;/div&gt;`).join(&#x27;&#x27;)}&lt;/div&gt;`:emptyState(&#x27;▥&#x27;,&#x27;还没有附件&#x27;,&#x27;SOP、成就、知识中添加的附件，会自动同步到这里。&#x27;));
+  },
+};
+
+/* ============ 导航 ============ */
+let currentPage=&#x27;home&#x27;, currentTab=0, currentTopic=null;
+function go(page,arg){
+  currentPage=page;
+  if(typeof arg===&#x27;number&#x27;)currentTab=arg;
+  if(page===&#x27;knowledge&#x27;&amp;&amp;typeof arg===&#x27;number&#x27;)currentTopic=arg;
+  document.querySelectorAll(&#x27;.d-item&#x27;).forEach(a=&gt;a.classList.toggle(&#x27;active&#x27;,a.dataset.page===page));
+  const crumbMap={home:&#x27;WORKSPACE&#x27;,project:&#x27;当前项目&#x27;,projects:&#x27;项目库&#x27;,clients:&#x27;客户信息库&#x27;,achv:&#x27;个人成就&#x27;,knowledge:currentTopic!=null?&#x27;个人知识库&#x27;:&#x27;个人知识库&#x27;,ideas:&#x27;灵感记录&#x27;,timeline:&#x27;时间轴&#x27;,files:&#x27;附件中心&#x27;};
+  el(&#x27;crumb&#x27;).innerHTML=crumbMap[page]||&#x27;&#x27;;
+  let html;
+  if(page===&#x27;project&#x27;)html=PAGES.project(currentTab);
+  else if(page===&#x27;knowledge&#x27;)html=PAGES.knowledge(currentTopic);
+  else html=PAGES[page]();
+  content.innerHTML=html;
+  content.scrollTop=0;
+  // 工作台轨道节点定位
+  if(page===&#x27;home&#x27;)placeNodes();
+  // Tab 滑块定位
+  placeTabThumb();
+}
+
+/* Tab 滑块：平滑移动到当前 Tab（iOS 分段控件式） */
+function placeTabThumb(){
+  const wrap=content.querySelector(&#x27;.tabs&#x27;);
+  if(!wrap)return;
+  const thumb=wrap.querySelector(&#x27;.tab-thumb&#x27;);
+  const act=wrap.querySelector(&#x27;.tab.active&#x27;);
+  if(!thumb||!act)return;
+  // 等待字体/布局稳定后定位
+  requestAnimationFrame(()=&gt;{
+    thumb.style.width=act.offsetWidth+&#x27;px&#x27;;
+    thumb.style.transform=`translateX(${act.offsetLeft}px)`;
+  });
+}
+addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentPage===&#x27;home&#x27;)placeNodes();placeTabThumb();});
+
+/* 轨道节点按角度排布（圆心=工作台中心，半径自适应） */
+function placeNodes(){
+  const wb=content.querySelector(&#x27;.workbench&#x27;);
+  if(!wb)return;
+  const nodes=wb.querySelectorAll(&#x27;.wb-node&#x27;);
+  if(!nodes.length)return;
+  const R=Math.min(wb.clientWidth,wb.clientHeight)*0.36;
+  nodes.forEach(n=&gt;{
+    const ang=(parseFloat(n.dataset.ang)||0)*Math.PI/180;
+    const x=Math.round(Math.cos(ang)*R), y=Math.round(Math.sin(ang)*R);
+    n.style.setProperty(&#x27;--tx&#x27;,x+&#x27;px&#x27;);
+    n.style.setProperty(&#x27;--ty&#x27;,y+&#x27;px&#x27;);
+  });
+}
+addEventListener(&#x27;resize&#x27;,()=&gt;{if(currentPage===&#x27;home&#x27;)placeNodes()});
+
+/* ============ 模态系统 ============ */
+function openModal(html){
+  el(&#x27;modalBox&#x27;).innerHTML=html;
+  el(&#x27;modalBg&#x27;).classList.add(&#x27;show&#x27;);
+}
+function closeModal(){el(&#x27;modalBg&#x27;).classList.remove(&#x27;show&#x27;)}
+function toast(title,msg){
+  openModal(`&lt;h2&gt;${title}&lt;/h2&gt;&lt;div class=&quot;sub&quot;&gt;${msg||&#x27;&#x27;}&lt;/div&gt;
+  &lt;div class=&quot;m-actions&quot;&gt;&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;close&quot;&gt;知道了&lt;/button&gt;&lt;/div&gt;`);
+}
+
+/* ============ 新增表单（真实写入） ============ */
+const FORM_FIELDS={
+  &#x27;＋ 新增事项&#x27;:[{l:&#x27;分类&#x27;,t:&#x27;select&#x27;,req:1,opts:[&#x27;公司对接&#x27;,&#x27;甲方对接&#x27;,&#x27;个人工作&#x27;,&#x27;紧急处理&#x27;,&#x27;项目待办&#x27;]},{l:&#x27;标题&#x27;,t:&#x27;text&#x27;},{l:&#x27;内容&#x27;,t:&#x27;textarea&#x27;,req:1},{l:&#x27;状态&#x27;,t:&#x27;select&#x27;,opts:[&#x27;待处理&#x27;,&#x27;已完成&#x27;]}],
+  &#x27;＋ 新增工作&#x27;:[{l:&#x27;周期&#x27;,t:&#x27;select&#x27;,req:1,opts:[&#x27;每日&#x27;,&#x27;每周&#x27;,&#x27;每月&#x27;,&#x27;每季度&#x27;,&#x27;每半年&#x27;,&#x27;每年&#x27;]},{l:&#x27;标题&#x27;,t:&#x27;text&#x27;},{l:&#x27;内容&#x27;,t:&#x27;textarea&#x27;,req:1},{l:&#x27;备注&#x27;,t:&#x27;textarea&#x27;}],
+  &#x27;＋ 新增流程&#x27;:[{l:&#x27;流程名称&#x27;,t:&#x27;text&#x27;,req:1},{l:&#x27;流程说明&#x27;,t:&#x27;textarea&#x27;}],
+  &#x27;＋ 新增 SOP&#x27;:[{l:&#x27;SOP 名称&#x27;,t:&#x27;text&#x27;,req:1},{l:&#x27;适用场景&#x27;,t:&#x27;text&#x27;},{l:&#x27;操作步骤&#x27;,t:&#x27;textarea&#x27;},{l:&#x27;注意事项&#x27;,t:&#x27;textarea&#x27;},{l:&#x27;备注&#x27;,t:&#x27;textarea&#x27;}],
+  &#x27;＋ 新增客户&#x27;:[{l:&#x27;姓名&#x27;,t:&#x27;text&#x27;,req:1},{l:&#x27;职位&#x27;,t:&#x27;text&#x27;},{l:&#x27;所属公司&#x27;,t:&#x27;text&#x27;},{l:&#x27;联系电话&#x27;,t:&#x27;text&#x27;},{l:&#x27;分管部门&#x27;,t:&#x27;text&#x27;}],
+  &#x27;＋ 新增成就&#x27;:[{l:&#x27;名称&#x27;,t:&#x27;text&#x27;,req:1},{l:&#x27;时间&#x27;,t:&#x27;text&#x27;},{l:&#x27;相关主题&#x27;,t:&#x27;text&#x27;},{l:&#x27;相关项目&#x27;,t:&#x27;text&#x27;},{l:&#x27;说明&#x27;,t:&#x27;textarea&#x27;}],
+  &#x27;＋ 新增主题&#x27;:[{l:&#x27;主题名称&#x27;,t:&#x27;text&#x27;,req:1}],
+  &#x27;＋ 新增知识&#x27;:[{l:&#x27;标题&#x27;,t:&#x27;text&#x27;},{l:&#x27;内容&#x27;,t:&#x27;textarea&#x27;,req:1},{l:&#x27;分类&#x27;,t:&#x27;text&#x27;},{l:&#x27;标签&#x27;,t:&#x27;text&#x27;},{l:&#x27;来源&#x27;,t:&#x27;text&#x27;}],
+  &#x27;＋ 新增灵感&#x27;:[{l:&#x27;内容&#x27;,t:&#x27;textarea&#x27;,req:1},{l:&#x27;分类&#x27;,t:&#x27;text&#x27;}],
+  &#x27;＋ 新建项目&#x27;:[{l:&#x27;项目名称&#x27;,t:&#x27;text&#x27;,req:1},{l:&#x27;项目体量&#x27;,t:&#x27;text&#x27;},{l:&#x27;甲方名称&#x27;,t:&#x27;text&#x27;},{l:&#x27;服务模式&#x27;,t:&#x27;text&#x27;}],
+};
+function openAdd(kind,topicId){
+  if(kind===&#x27;＋ 新增 SOP&#x27;){openSopWizard(null);return}
+  if(kind===&#x27;＋ 新增流程&#x27;){openFlowWizard(null);return}
+  const fields=FORM_FIELDS[kind]||[];
+  openModal(`
+    &lt;h2&gt;${kind.replace(&#x27;＋ &#x27;,&#x27;&#x27;)}&lt;/h2&gt;
+    &lt;div class=&quot;sub&quot;&gt;${kind===&#x27;＋ 新增&#x27;?&#x27;选择要新增的内容类型：&#x27;:&#x27;&#x27;}${topicId!=null?&#x27;当前主题已自动选择：&#x27;+esc(DB.themes[topicId].n):&#x27;&#x27;}&lt;/div&gt;
+    ${kind===&#x27;＋ 新增&#x27;?`
+      &lt;div class=&quot;cards&quot; style=&quot;grid-template-columns:1fr 1fr&quot;&gt;
+        ${Object.keys(FORM_FIELDS).filter(k=&gt;k!==&#x27;＋ 新增&#x27;&amp;&amp;k!==&#x27;＋ 上传附件&#x27;).map(k=&gt;`
+          &lt;div class=&quot;card glass&quot; data-action=&quot;add&quot; data-kind=&quot;${k}&quot; style=&quot;padding:18px&quot;&gt;
+            &lt;h3 style=&quot;font-size:15px&quot;&gt;${k.replace(&#x27;＋ &#x27;,&#x27;&#x27;)}&lt;/h3&gt;
+            &lt;p style=&quot;font-size:13px;margin-top:4px&quot;&gt;自动归入对应目录&lt;/p&gt;
+          &lt;/div&gt;`).join(&#x27;&#x27;)}
+      &lt;/div&gt;
+      &lt;div class=&quot;m-actions&quot;&gt;&lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;取消&lt;/button&gt;&lt;/div&gt;`
+    :`
+      ${fields.map((f,i)=&gt;f.t===&#x27;select&#x27;
+        ?`&lt;div class=&quot;field&quot;&gt;&lt;label&gt;${f.l}${f.req?&#x27;&lt;span class=&quot;req&quot;&gt;*&lt;/span&gt;&#x27;:&#x27;&#x27;}&lt;/label&gt;&lt;select data-field=&quot;${i}&quot;&gt;&lt;option&gt;${f.opts.join(&#x27;&lt;/option&gt;&lt;option&gt;&#x27;)}&lt;/option&gt;&lt;/select&gt;&lt;/div&gt;`
+        :`&lt;div class=&quot;field&quot;&gt;&lt;label&gt;${f.l}${f.req?&#x27;&lt;span class=&quot;req&quot;&gt;*&lt;/span&gt;&#x27;:&#x27;&#x27;}&lt;/label&gt;${f.t===&#x27;textarea&#x27;?`&lt;textarea data-field=&quot;${i}&quot; placeholder=&quot;请输入…&quot;&gt;&lt;/textarea&gt;`:`&lt;input data-field=&quot;${i}&quot; placeholder=&quot;请输入…&quot;&gt;`}&lt;/div&gt;`).join(&#x27;&#x27;)}
+      &lt;div class=&quot;m-actions&quot;&gt;
+        &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;取消&lt;/button&gt;
+        &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;save-add&quot; data-kind=&quot;${kind}&quot; data-topic=&quot;${topicId??&#x27;&#x27;}&quot;&gt;保存&lt;/button&gt;
+      &lt;/div&gt;`}`);
+}
+
+function doAdd(kind,topicId){
+  const fields=FORM_FIELDS[kind]||[];
+  const vals=fields.map((f,i)=&gt;{
+    const inp=document.querySelector(`[data-field=&quot;${i}&quot;]`);
+    return inp?inp.value.trim():&#x27;&#x27;;
+  });
+  // 校验必填
+  const miss=fields.findIndex((f,i)=&gt;f.req&amp;&amp;!vals[i]);
+  if(miss&gt;=0){toast(&#x27;请补全信息&#x27;,fields[miss].l+&#x27;为必填项。&#x27;);return}
+  const nowStr=now();
+  switch(kind){
+    case &#x27;＋ 新增事项&#x27;:
+      DB.todos.unshift({id:uid(),c:vals[0],t:vals[1]||&#x27;（未命名事项）&#x27;,s:vals[3]||&#x27;待处理&#x27;,d:vals[2],time:nowStr});
+      DB.timeline.unshift({d:nowStr,e:&#x27;新增事项&#x27;,t:vals[1]||vals[2].slice(0,12)});
+      break;
+    case &#x27;＋ 新增工作&#x27;:
+      DB.cycles.unshift({id:uid(),p:vals[0],t:vals[1]||&#x27;（未命名周期工作）&#x27;,d:vals[2]||vals[3]||&#x27;&#x27;});
+      break;
+    case &#x27;＋ 新增流程&#x27;:
+      DB.flows.unshift({id:uid(),n:vals[0]||&#x27;未命名流程&#x27;,d:vals[1]||&#x27;&#x27;,u:new Date().toISOString().slice(0,10),steps:[{t:&#x27;第一步&#x27;,d:&#x27;在这里填写第一个步骤&#x27;}]});
+      break;
+    case &#x27;＋ 新增 SOP&#x27;:
+      DB.sops.unshift({id:uid(),n:vals[0]||&#x27;未命名 SOP&#x27;,s:vals[1]||&#x27;&#x27;,steps:vals[2]||&#x27;&#x27;,u:nowStr});
+      break;
+    case &#x27;＋ 新增客户&#x27;:
+      DB.clients.unshift({id:uid(),n:vals[0]||&#x27;未命名客户&#x27;,r:vals[1]||&#x27;&#x27;,c:vals[2]||&#x27;&#x27;,p:vals[3]||&#x27;&#x27;,d:vals[4]||&#x27;&#x27;,tags:[]});
+      DB.timeline.unshift({d:nowStr,e:&#x27;新增客户&#x27;,t:vals[0]+&#x27; · &#x27;+vals[2]});
+      break;
+    case &#x27;＋ 新增成就&#x27;:
+      DB.achvs.unshift({id:uid(),n:vals[0]||&#x27;未命名成就&#x27;,t:vals[1]||nowStr,k:vals[2]||&#x27;&#x27;,p:vals[3]||DB.currentProject,d:vals[4]||&#x27;&#x27;});
+      DB.timeline.unshift({d:nowStr,e:&#x27;新增成就&#x27;,t:vals[0]});
+      break;
+    case &#x27;＋ 新增主题&#x27;:
+      DB.themes.push({id:uid(),n:vals[0]||&#x27;未命名主题&#x27;,items:[]});
+      break;
+    case &#x27;＋ 新增知识&#x27;:{
+      const ti=parseInt(topicId)||0;
+      const th=DB.themes[ti];
+      if(th)th.items.unshift({id:uid(),t:vals[0]||vals[1].slice(0,14),d:vals[1],c:vals[2]||&#x27;&#x27;,tags:vals[3]||&#x27;&#x27;,src:vals[4]||&#x27;&#x27;,time:nowStr});
+      break;}
+    case &#x27;＋ 新增灵感&#x27;:
+      DB.ideas.unshift({id:uid(),t:vals[0],c:vals[1]||&#x27;未分类&#x27;,time:nowStr});
+      break;
+    case &#x27;＋ 新建项目&#x27;:
+      DB.archiveProjects.push({n:vals[0]||&#x27;未命名项目&#x27;,y:&#x27;新项目&#x27;,role:vals[3]||&#x27;&#x27;});
+      break;
+  }
+  save();
+  closeModal();
+  toast(&#x27;已保存&#x27;,&#x27;内容已自动归入对应目录。&#x27;);
+  go(currentPage,currentPage===&#x27;project&#x27;?currentTab:undefined);
+  if(currentPage===&#x27;knowledge&#x27;)go(&#x27;knowledge&#x27;,currentTopic);
+}
+
+/* ============ 详情 ============ */
+function showFlow(id){
+  const f=DB.flows.find(x=&gt;x.id===id); if(!f)return;
+  openModal(`&lt;h2&gt;${esc(f.n)}&lt;/h2&gt;&lt;div class=&quot;sub&quot;&gt;${esc(f.d||&#x27;&#x27;)} · ${f.u}&lt;/div&gt;
+  &lt;div class=&quot;flow&quot;&gt;
+    ${f.steps.map((s,j)=&gt;`
+      &lt;div class=&quot;flow-node glass&quot;&gt;
+        &lt;div class=&quot;num&quot;&gt;${String(j+1).padStart(2,&#x27;0&#x27;)}&lt;/div&gt;
+        &lt;div&gt;&lt;h4&gt;${esc(s.t)}&lt;/h4&gt;&lt;p&gt;${esc(s.d||&#x27;&#x27;)}&lt;/p&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      ${j&lt;f.steps.length-1?&#x27;&lt;div class=&quot;flow-conn&quot;&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;}`).join(&#x27;&#x27;)}
+  &lt;/div&gt;
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;关闭&lt;/button&gt;
+    &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;edit-flow&quot; data-id=&quot;${f.id}&quot;&gt;编辑&lt;/button&gt;
+    &lt;button class=&quot;m-btn danger&quot; data-action=&quot;del-flow&quot; data-id=&quot;${f.id}&quot;&gt;删除此流程&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+function showClient(id){
+  const c=DB.clients.find(x=&gt;x.id===id); if(!c)return;
+  const initial=(c.n||&#x27;?&#x27;).slice(0,1);
+  openModal(`&lt;h2&gt;${esc(c.n)} &lt;span style=&quot;font-size:14px;color:var(--muted);font-weight:400&quot;&gt;${esc(c.r||&#x27;&#x27;)}&lt;/span&gt;&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;客户详情 · 玻璃档案&lt;/div&gt;
+  &lt;div style=&quot;display:flex;align-items:center;gap:16px;margin:18px 0 22px;padding:16px;border-radius:18px;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.1)&quot;&gt;
+    &lt;div style=&quot;width:60px;height:60px;border-radius:48% 52% 50% 50%/50% 50% 52% 48%;background:linear-gradient(140deg,rgba(255,255,255,.22),rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.22);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;animation:coreMorph 12s ease-in-out infinite&quot;&gt;${esc(initial)}&lt;/div&gt;
+    &lt;div style=&quot;flex:1;min-width:0&quot;&gt;
+      &lt;div style=&quot;font-size:15px;font-weight:700&quot;&gt;${esc(c.n||&#x27;&#x27;)}&lt;span style=&quot;font-size:13px;color:var(--muted);font-weight:400;margin-left:8px&quot;&gt;${esc(c.r||&#x27;&#x27;)}&lt;/span&gt;&lt;/div&gt;
+      &lt;div style=&quot;font-size:12.5px;color:var(--muted);margin-top:4px&quot;&gt;${esc(c.c||&#x27;&#x27;)}${c.d?&#x27; · &#x27;+esc(c.d):&#x27;&#x27;}&lt;/div&gt;
+    &lt;/div&gt;
+    &lt;div style=&quot;display:flex;gap:6px;flex-wrap:wrap;max-width:50%&quot;&gt;${c.tags.length?c.tags.map(t=&gt;`&lt;span class=&quot;badge pending&quot; style=&quot;background:rgba(255,255,255,.92);color:#0b0b0e;border:none&quot;&gt;${esc(t)}&lt;/span&gt;`).join(&#x27;&#x27;):&#x27;&lt;span style=&quot;font-size:12px;color:var(--muted)&quot;&gt;暂无标签&lt;/span&gt;&#x27;}&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;section-title&quot;&gt;基本信息&lt;/div&gt;
+  &lt;div class=&quot;info-grid-3&quot;&gt;
+    &lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;姓名&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.n||&#x27;—&#x27;)}&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;职位&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.r||&#x27;—&#x27;)}&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;所属公司&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.c||&#x27;—&#x27;)}&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;联系电话&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.p||&#x27;—&#x27;)}&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;分管部门&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.d||&#x27;—&#x27;)}&lt;/div&gt;&lt;/div&gt;
+    &lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;关联项目&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(DB.currentProject)}&lt;/div&gt;&lt;/div&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;section-title&quot;&gt;工作信息&lt;/div&gt;
+  &lt;div class=&quot;info-grid-3&quot; style=&quot;margin-bottom:6px&quot;&gt;
+    ${c.work?.duty?`&lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;工作职责&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.work.duty)}&lt;/div&gt;&lt;/div&gt;`:&#x27;&#x27;}
+    ${c.work?.main?`&lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;主要负责事项&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.work.main)}&lt;/div&gt;&lt;/div&gt;`:&#x27;&#x27;}
+    ${c.work?.notice?`&lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;沟通注意事项&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.work.notice)}&lt;/div&gt;&lt;/div&gt;`:&#x27;&#x27;}
+    ${c.work?.focus?`&lt;div class=&quot;info-cell glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;对方关注重点&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${esc(c.work.focus)}&lt;/div&gt;&lt;/div&gt;`:&#x27;&#x27;}
+  &lt;/div&gt;
+  ${c.work&amp;&amp;(c.work.duty||c.work.main)?&#x27;&#x27;:&#x27;&lt;div style=&quot;font-size:12.5px;color:var(--muted);margin-bottom:10px;font-weight:300&quot;&gt;暂无工作信息 — 点击编辑补充&lt;/div&gt;&#x27;}
+
+  &lt;div class=&quot;section-title&quot;&gt;人物特点&lt;/div&gt;
+  &lt;div class=&quot;section-block&quot;&gt;${c.tags.length?c.tags.join(&#x27; · &#x27;):&#x27;暂无标签 — 在编辑中补充人物特点&#x27;}&lt;/div&gt;
+
+  &lt;div class=&quot;section-title&quot;&gt;其他备注&lt;/div&gt;
+  &lt;div class=&quot;section-block&quot; style=&quot;border-style:dashed;background:rgba(255,255,255,.025)&quot;&gt;${c.p?`联系电话：${esc(c.p)}。可在编辑中补充偏好、注意事项。`:&#x27;暂无额外备注&#x27;}&lt;/div&gt;
+
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;关闭&lt;/button&gt;
+    &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;edit-client&quot; data-id=&quot;${c.id}&quot;&gt;编辑&lt;/button&gt;
+    &lt;button class=&quot;m-btn danger&quot; data-action=&quot;del-client&quot; data-id=&quot;${c.id}&quot;&gt;删除&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+function showAchv(id){
+  const a=DB.achvs.find(x=&gt;x.id===id); if(!a)return;
+  openModal(`&lt;h2&gt;${esc(a.n)}&lt;/h2&gt;&lt;div class=&quot;sub&quot;&gt;${a.t} · 个人成就&lt;/div&gt;
+  &lt;div style=&quot;font-size:14.5px;line-height:1.9;font-weight:300&quot;&gt;${esc(a.d||&#x27;&#x27;)}&lt;/div&gt;
+  &lt;div style=&quot;margin-top:14px;display:flex;gap:8px;flex-wrap:wrap&quot;&gt;
+    &lt;span class=&quot;badge pending&quot;&gt;${esc(a.p)}&lt;/span&gt;${a.k?`&lt;span class=&quot;badge pending&quot;&gt;${esc(a.k)}&lt;/span&gt;`:&#x27;&#x27;}
+  &lt;/div&gt;
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;关闭&lt;/button&gt;
+    &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;edit-achv&quot; data-id=&quot;${a.id}&quot;&gt;编辑&lt;/button&gt;
+    &lt;button class=&quot;m-btn danger&quot; data-action=&quot;del-achv&quot; data-id=&quot;${a.id}&quot;&gt;删除&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+function showKb(topicIdx,id){
+  const th=DB.themes[topicIdx]; if(!th)return;
+  const k=th.items.find(x=&gt;x.id===id); if(!k)return;
+  openModal(`&lt;h2&gt;${esc(k.t)}&lt;/h2&gt;&lt;div class=&quot;sub&quot;&gt;${esc(th.n)} · ${k.time}&lt;/div&gt;
+  &lt;div style=&quot;font-size:14.5px;line-height:1.9;color:var(--muted);font-weight:300&quot;&gt;${esc(k.d)}&lt;/div&gt;
+  &lt;div style=&quot;margin-top:14px;display:flex;gap:8px;flex-wrap:wrap&quot;&gt;
+    ${k.c?`&lt;span class=&quot;badge pending&quot;&gt;${esc(k.c)}&lt;/span&gt;`:&#x27;&#x27;}${k.tags?`&lt;span class=&quot;badge pending&quot;&gt;${esc(k.tags)}&lt;/span&gt;`:&#x27;&#x27;}
+  &lt;/div&gt;
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;关闭&lt;/button&gt;
+    &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;edit-kb&quot; data-topic=&quot;${topicIdx}&quot; data-id=&quot;${k.id}&quot;&gt;编辑&lt;/button&gt;
+    &lt;button class=&quot;m-btn danger&quot; data-action=&quot;del-kb&quot; data-topic=&quot;${topicIdx}&quot; data-id=&quot;${k.id}&quot;&gt;删除&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+function showSop(id){
+  const s=DB.sops.find(x=&gt;x.id===id); if(!s)return;
+  openModal(`&lt;h2&gt;${esc(s.n)}&lt;/h2&gt;&lt;div class=&quot;sub&quot;&gt;SOP · 适用：${esc(s.s||&#x27;&#x27;)} · ${s.u}&lt;/div&gt;
+  &lt;div style=&quot;font-size:14.5px;line-height:1.9;color:var(--muted);font-weight:300&quot;&gt;${esc(s.steps||&#x27;暂无操作步骤&#x27;)}&lt;/div&gt;
+  ${s.note?`&lt;div style=&quot;margin-top:14px;font-size:13px;color:var(--muted)&quot;&gt;&lt;b style=&quot;color:var(--fg)&quot;&gt;注意事项&lt;/b&gt;&lt;br&gt;${esc(s.note)}&lt;/div&gt;`:&#x27;&#x27;}
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;关闭&lt;/button&gt;
+    &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;edit-sop&quot; data-id=&quot;${s.id}&quot;&gt;编辑&lt;/button&gt;
+    &lt;button class=&quot;m-btn danger&quot; data-action=&quot;del-sop&quot; data-id=&quot;${s.id}&quot;&gt;删除&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+
+
+/* ============ 编辑系统（预填当前值 → 保存更新） ============ */
+const EDIT_FIELDS={
+  project:[&#x27;项目名称&#x27;,&#x27;项目体量&#x27;,&#x27;项目性质&#x27;,&#x27;项目地址&#x27;,&#x27;甲方名称&#x27;,&#x27;服务模式&#x27;,&#x27;我的岗位&#x27;,&#x27;我的职责&#x27;,&#x27;项目简介&#x27;],
+  flow:[&#x27;流程名称&#x27;,&#x27;流程说明&#x27;],
+  sop:[&#x27;SOP 名称&#x27;,&#x27;适用场景&#x27;,&#x27;操作步骤&#x27;,&#x27;注意事项&#x27;,&#x27;备注&#x27;],
+  client:[&#x27;姓名&#x27;,&#x27;职位&#x27;,&#x27;所属公司&#x27;,&#x27;联系电话&#x27;,&#x27;分管部门&#x27;,&#x27;工作职责&#x27;,&#x27;主要负责事项&#x27;,&#x27;沟通注意事项&#x27;,&#x27;对方关注重点&#x27;],
+  achv:[&#x27;名称&#x27;,&#x27;时间&#x27;,&#x27;相关主题&#x27;,&#x27;相关项目&#x27;,&#x27;说明&#x27;],
+  kb:[&#x27;标题&#x27;,&#x27;内容&#x27;,&#x27;分类&#x27;,&#x27;标签&#x27;,&#x27;来源&#x27;],
+  idea:[&#x27;内容&#x27;,&#x27;分类&#x27;],
+  todo:[&#x27;分类&#x27;,&#x27;标题&#x27;,&#x27;内容&#x27;,&#x27;状态&#x27;],
+  cycle:[&#x27;周期&#x27;,&#x27;标题&#x27;,&#x27;内容&#x27;,&#x27;备注&#x27;],
+};
+function pickKeys(type){
+  const map={flow:[&#x27;n&#x27;,&#x27;d&#x27;],sop:[&#x27;n&#x27;,&#x27;s&#x27;,&#x27;steps&#x27;,&#x27;note&#x27;,&#x27;x&#x27;],client:[&#x27;n&#x27;,&#x27;r&#x27;,&#x27;c&#x27;,&#x27;p&#x27;,&#x27;d&#x27;,&#x27;w_duty&#x27;,&#x27;w_main&#x27;,&#x27;w_notice&#x27;,&#x27;w_focus&#x27;],
+    achv:[&#x27;n&#x27;,&#x27;t&#x27;,&#x27;k&#x27;,&#x27;p&#x27;,&#x27;d&#x27;],kb:[&#x27;t&#x27;,&#x27;d&#x27;,&#x27;c&#x27;,&#x27;tags&#x27;,&#x27;src&#x27;],idea:[&#x27;t&#x27;,&#x27;c&#x27;],
+    todo:[&#x27;c&#x27;,&#x27;t&#x27;,&#x27;d&#x27;,&#x27;s&#x27;],cycle:[&#x27;p&#x27;,&#x27;t&#x27;,&#x27;d&#x27;,&#x27;x&#x27;]};
+  return map[type]||[];
+}
+function findRec(type,id,topicId){
+  if(type===&#x27;project&#x27;)return DB.project;
+  if(type===&#x27;flow&#x27;)return DB.flows.find(x=&gt;x.id===id);
+  if(type===&#x27;sop&#x27;)return DB.sops.find(x=&gt;x.id===id);
+  if(type===&#x27;client&#x27;)return DB.clients.find(x=&gt;x.id===id);
+  if(type===&#x27;achv&#x27;)return DB.achvs.find(x=&gt;x.id===id);
+  if(type===&#x27;kb&#x27;)return DB.themes[topicId]?.items.find(x=&gt;x.id===id);
+  if(type===&#x27;idea&#x27;)return DB.ideas.find(x=&gt;x.id===id);
+  if(type===&#x27;todo&#x27;)return DB.todos.find(x=&gt;x.id===id);
+  if(type===&#x27;cycle&#x27;)return DB.cycles.find(x=&gt;x.id===id);
+  return null;
+}
+function openEdit(type,id,topicId){
+  const rec=findRec(type,id,topicId);
+  if(!rec)return;
+  if(type===&#x27;sop&#x27;){openSopWizard(rec);return}
+  if(type===&#x27;flow&#x27;){openFlowWizard(rec);return}
+  let names,keys;
+  if(type===&#x27;project&#x27;){
+    names=EDIT_FIELDS.project;
+    keys=names.slice();
+  }else{names=EDIT_FIELDS[type];keys=pickKeys(type);}
+  const vals=keys.map(k=&gt;{
+    if(type===&#x27;project&#x27;){
+      const f=DB.project.fields.find(x=&gt;x.k===k);
+      return f?f.v:&#x27;&#x27;;
+    }
+    if(k.startsWith(&#x27;w_&#x27;))return rec.work?rec.work[k.slice(2)]||&#x27;&#x27;:&#x27;&#x27;;
+    return rec[k]||&#x27;&#x27;;
+  });
+  const titleMap={project:&#x27;编辑项目信息&#x27;,flow:&#x27;编辑流程&#x27;,sop:&#x27;编辑 SOP&#x27;,client:&#x27;编辑客户&#x27;,achv:&#x27;编辑成就&#x27;,kb:&#x27;编辑知识&#x27;,idea:&#x27;编辑灵感&#x27;,todo:&#x27;编辑事项&#x27;,cycle:&#x27;编辑周期工作&#x27;};
+  openModal(`&lt;h2&gt;${titleMap[type]||&#x27;编辑&#x27;}&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;修改后将立即保存并同步到对应目录&lt;/div&gt;
+  ${names.map((n,i)=&gt;{
+    const v=vals[i]||&#x27;&#x27;;
+    if(n===&#x27;分类&#x27;)return `&lt;div class=&quot;field&quot;&gt;&lt;label&gt;分类&lt;/label&gt;&lt;select data-edit-field=&quot;${i}&quot;&gt;${[&#x27;公司对接&#x27;,&#x27;甲方对接&#x27;,&#x27;个人工作&#x27;,&#x27;紧急处理&#x27;,&#x27;项目待办&#x27;].map(o=&gt;`&lt;option ${o===v?&#x27;selected&#x27;:&#x27;&#x27;}&gt;${o}&lt;/option&gt;`).join(&#x27;&#x27;)}&lt;/select&gt;&lt;/div&gt;`;
+    if(n===&#x27;状态&#x27;)return `&lt;div class=&quot;field&quot;&gt;&lt;label&gt;状态&lt;/label&gt;&lt;select data-edit-field=&quot;${i}&quot;&gt;${[&#x27;待处理&#x27;,&#x27;已完成&#x27;].map(o=&gt;`&lt;option ${o===v?&#x27;selected&#x27;:&#x27;&#x27;}&gt;${o}&lt;/option&gt;`).join(&#x27;&#x27;)}&lt;/select&gt;&lt;/div&gt;`;
+    if(n===&#x27;周期&#x27;)return `&lt;div class=&quot;field&quot;&gt;&lt;label&gt;周期&lt;/label&gt;&lt;select data-edit-field=&quot;${i}&quot;&gt;${[&#x27;每日&#x27;,&#x27;每周&#x27;,&#x27;每月&#x27;,&#x27;每季度&#x27;,&#x27;每半年&#x27;,&#x27;每年&#x27;].map(o=&gt;`&lt;option ${o===v?&#x27;selected&#x27;:&#x27;&#x27;}&gt;${o}&lt;/option&gt;`).join(&#x27;&#x27;)}&lt;/select&gt;&lt;/div&gt;`;
+    const ta=[&#x27;简介&#x27;,&#x27;说明&#x27;,&#x27;步骤&#x27;,&#x27;内容&#x27;,&#x27;注意&#x27;,&#x27;备注&#x27;,&#x27;工作职责&#x27;,&#x27;主要负责&#x27;,&#x27;沟通注意&#x27;,&#x27;关注重点&#x27;].some(k=&gt;n.includes(k));
+    return `&lt;div class=&quot;field&quot;&gt;&lt;label&gt;${n}&lt;/label&gt;${ta?`&lt;textarea data-edit-field=&quot;${i}&quot;&gt;${esc(v)}&lt;/textarea&gt;`:`&lt;input data-edit-field=&quot;${i}&quot; value=&quot;${esc(v)}&quot;&gt;`}&lt;/div&gt;`;
+  }).join(&#x27;&#x27;)}
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;取消&lt;/button&gt;
+    &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;save-edit&quot; data-kind=&quot;${type}&quot; data-id=&quot;${id??&#x27;&#x27;}&quot; data-topic=&quot;${topicId??&#x27;&#x27;}&quot;&gt;保存修改&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+function saveEdit(type,id,topicId){
+  const rec=findRec(type,parseInt(id),parseInt(topicId)||0);
+  let names,keys;
+  if(type===&#x27;project&#x27;){names=EDIT_FIELDS.project;keys=names.slice();}
+  else{names=EDIT_FIELDS[type];keys=pickKeys(type);}
+  if(!rec){toast(&#x27;保存失败&#x27;,&#x27;未找到该记录。&#x27;);return}
+  names.forEach((_,i)=&gt;{
+    const inp=document.querySelector(`[data-edit-field=&quot;${i}&quot;]`);
+    const v=inp?inp.value.trim():&#x27;&#x27;;
+    if(type===&#x27;project&#x27;){
+      const f=DB.project.fields.find(x=&gt;x.k===keys[i]);
+      if(f)f.v=v;else DB.project.fields.push({k:keys[i],v});
+    }else if(type===&#x27;client&#x27;&amp;&amp;keys[i].startsWith(&#x27;w_&#x27;)){
+      if(!rec.work)rec.work={};
+      rec.work[keys[i].slice(2)]=v;
+    }else if(rec)rec[keys[i]]=v;
+  });
+  save();closeModal();toast(&#x27;已保存&#x27;,&#x27;修改已生效。&#x27;);
+  if(type===&#x27;kb&#x27;)go(&#x27;knowledge&#x27;,parseInt(topicId)||0);
+  else if(type===&#x27;project&#x27;)go(&#x27;project&#x27;,0);
+  else if(type===&#x27;flow&#x27;)go(&#x27;project&#x27;,3);
+  else if(type===&#x27;sop&#x27;)go(&#x27;project&#x27;,4);
+  else if(type===&#x27;client&#x27;)go(&#x27;project&#x27;,5);
+  else if(type===&#x27;todo&#x27;)go(&#x27;project&#x27;,1);
+  else if(type===&#x27;cycle&#x27;)go(&#x27;project&#x27;,2);
+  else go(currentPage,0);
+}
+
+
+/* ============ SOP 分步向导（方案稿） ============ */
+const SOP_STEPS=[{k:&#x27;基本信息&#x27;,desc:&#x27;SOP 名称与适用场景&#x27;},{k:&#x27;操作步骤&#x27;,desc:&#x27;具体执行步骤（支持 → 箭头格式自动解析）&#x27;},{k:&#x27;注意事项&#x27;,desc:&#x27;执行中需要特别注意的要点&#x27;},{k:&#x27;关联流程&#x27;,desc:&#x27;备注与相关流程关联&#x27;}];
+
+function renderSopWizard(currentStep,s){
+  const val=s||{};
+  return SOP_STEPS.map((st,i)=&gt;`
+    &lt;span class=&quot;sop-step ${i===currentStep?&#x27;active&#x27;:&#x27;&#x27;}&quot; data-sop-step=&quot;${i}&quot;&gt;${st.k}&lt;/span&gt;
+  `).join(&#x27;&#x27;)+
+  `&lt;div class=&quot;sop-fields&quot;&gt;
+    ${currentStep===0?`
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;SOP 名称&lt;/label&gt;&lt;input data-wiz-field=&quot;n&quot; value=&quot;${esc(val.n||&#x27;&#x27;)}&quot; placeholder=&quot;例如：客户处理 SOP&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;适用场景&lt;/label&gt;&lt;input data-wiz-field=&quot;s&quot; value=&quot;${esc(val.s||&#x27;&#x27;)}&quot; placeholder=&quot;例如：业主/客户投诉受理与闭环&quot;&gt;&lt;/div&gt;
+    `:currentStep===1?`
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;操作步骤&lt;/label&gt;
+        &lt;textarea data-wiz-field=&quot;steps&quot; placeholder=&quot;接收投诉 → 责任部门跟进 → 回访确认 → 归档沉淀&quot; style=&quot;min-height:160px;line-height:1.85&quot;&gt;${esc(val.steps||&#x27;&#x27;)}&lt;/textarea&gt;
+        &lt;div class=&quot;field-hint&quot;&gt;支持&quot;→&quot;箭头格式自动识别为流程&lt;/div&gt;
+      &lt;/div&gt;
+    `:currentStep===2?`
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;注意事项&lt;/label&gt;
+        &lt;textarea data-wiz-field=&quot;note&quot; placeholder=&quot;执行中需要特别注意的要点&quot; style=&quot;min-height:140px&quot;&gt;${esc(val.note||&#x27;&#x27;)}&lt;/textarea&gt;
+      &lt;/div&gt;
+    `:`
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;备注&lt;/label&gt;
+        &lt;textarea data-wiz-field=&quot;x&quot; placeholder=&quot;与其他流程的关联 / 补充说明&quot; style=&quot;min-height:120px&quot;&gt;${esc(val.x||&#x27;&#x27;)}&lt;/textarea&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;field-hint&quot;&gt;完成后点击「保存」将按 4 步内容写入 SOP&lt;/div&gt;
+    `}
+  &lt;/div&gt;`;
+}
+
+function renderSopWizardFull(rec,isEdit){
+  // 用 sessionStorage 暂存多步草稿
+  const key=&#x27;__sop_draft__&#x27;;
+  if(!window.__sopStep)window.__sopStep=0;
+  const val=rec?(isEdit?{n:rec.n,s:rec.s,steps:rec.steps,note:rec.note||&#x27;&#x27;,x:&#x27;&#x27;}:window[key]||{}):window[key]||{};
+  const step=window.__sopStep;
+  openModal(`&lt;h2&gt;${isEdit?&#x27;编辑&#x27;:&#x27;新增&#x27;} SOP · 分步向导&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;一次聚焦一步，聚焦更稳，遗漏更少&lt;/div&gt;
+  &lt;div class=&quot;sop-editor glass&quot;&gt;
+    &lt;div class=&quot;editor-tag&quot;&gt;SOP WIZARD / ${isEdit?&#x27;EDIT&#x27;:&#x27;NEW&#x27;}&lt;/div&gt;
+    &lt;div class=&quot;steps&quot;&gt;${renderSopWizard(step,val)}&lt;/div&gt;
+    &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08)&quot;&gt;
+      &lt;div style=&quot;font-size:11.5px;color:var(--muted);letter-spacing:.04em&quot;&gt;分步聚焦 · &lt;b style=&quot;color:var(--fg)&quot;&gt;${step+1}/4&lt;/b&gt;&lt;/div&gt;
+      &lt;div style=&quot;display:flex;gap:8px&quot;&gt;
+        &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;sop-cancel&quot;&gt;取消&lt;/button&gt;
+        ${step&gt;0?`&lt;button class=&quot;m-btn cancel&quot; data-action=&quot;sop-prev&quot;&gt;上一步&lt;/button&gt;`:&#x27;&#x27;}
+        ${step&lt;3?`&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;sop-next&quot;&gt;下一步 →&lt;/button&gt;`:`&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;sop-save&quot; data-edit=&quot;${isEdit?rec.id:&#x27;&#x27;}&quot;&gt;保存 SOP&lt;/button&gt;`}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;`);
+  // 把当前步骤的值保留到全局
+  window.__sopStepVal=val;
+  window.__sopStepRec=rec;
+  window.__sopStepIsEdit=isEdit;
+}
+
+function openSopWizard(rec){
+  window.__sopStep=0;
+  window[key=&#x27;__sop_draft__&#x27;];
+  if(rec){
+    window.__sop_draft__={n:rec.n,s:rec.s,steps:rec.steps,note:rec.note||&#x27;&#x27;,x:&#x27;&#x27;};
+  }else{
+    window.__sop_draft__={};
+  }
+  renderSopWizardFull(rec,!!rec);
+}
+
+function renderSopWizardModal(){
+  const val=window.__sopStepVal||{};
+  const rec=window.__sopStepRec;
+  const isEdit=window.__sopStepIsEdit;
+  const step=window.__sopStep;
+  // 收集当前 step 的输入
+  document.querySelectorAll(&#x27;[data-wiz-field]&#x27;).forEach(i=&gt;{val[i.dataset.wizField]=i.value});
+  window.__sopStepVal=val;
+  openModal(`&lt;h2&gt;${isEdit?&#x27;编辑&#x27;:&#x27;新增&#x27;} SOP · 分步向导&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;一次聚焦一步，聚焦更稳，遗漏更少&lt;/div&gt;
+  &lt;div class=&quot;sop-editor glass&quot;&gt;
+    &lt;div class=&quot;editor-tag&quot;&gt;SOP WIZARD / ${isEdit?&#x27;EDIT&#x27;:&#x27;NEW&#x27;}&lt;/div&gt;
+    &lt;div class=&quot;steps&quot;&gt;${renderSopWizard(step,val)}&lt;/div&gt;
+    &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08)&quot;&gt;
+      &lt;div style=&quot;font-size:11.5px;color:var(--muted);letter-spacing:.04em&quot;&gt;分步聚焦 · &lt;b style=&quot;color:var(--fg)&quot;&gt;${step+1}/4&lt;/b&gt;&lt;/div&gt;
+      &lt;div style=&quot;display:flex;gap:8px&quot;&gt;
+        &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;sop-cancel&quot;&gt;取消&lt;/button&gt;
+        ${step&gt;0?`&lt;button class=&quot;m-btn cancel&quot; data-action=&quot;sop-prev&quot;&gt;上一步&lt;/button&gt;`:&#x27;&#x27;}
+        ${step&lt;3?`&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;sop-next&quot;&gt;下一步 →&lt;/button&gt;`:`&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;sop-save&quot; data-edit=&quot;${isEdit?rec.id:&#x27;&#x27;}&quot;&gt;保存 SOP&lt;/button&gt;`}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;`);
+}
+
+function saveSopWizard(){
+  document.querySelectorAll(&#x27;[data-wiz-field]&#x27;).forEach(i=&gt;{window.__sopStepVal[i.dataset.wizField]=i.value});
+  const v=window.__sopStepVal;
+  const isEdit=window.__sopStepIsEdit;
+  const rec=window.__sopStepRec;
+  if(isEdit&amp;&amp;rec){
+    rec.n=v.n||rec.n; rec.s=v.s||rec.s; rec.steps=v.steps||rec.steps; rec.note=v.note||rec.note;
+  }else{
+    const id=uid();
+    DB.sops.unshift({id,n:v.n||&#x27;未命名 SOP&#x27;,s:v.s||&#x27;&#x27;,steps:v.steps||&#x27;&#x27;,note:v.note||&#x27;&#x27;,u:now()});
+    DB.timeline.unshift({d:now(),e:&#x27;新增 SOP&#x27;,t:v.n||&#x27;未命名 SOP&#x27;});
+  }
+  save();window.__sopStep=null;window.__sopStepVal=null;window.__sopStepRec=null;
+  closeModal();toast(&#x27;已保存&#x27;,&#x27;SOP 已写入并归入当前项目。&#x27;);
+  if(isEdit)go(&#x27;project&#x27;,4);else go(&#x27;project&#x27;,4);
+}
+
+
+/* ============ 流程分步向导 + 步骤编辑器 ============ */
+function openFlowWizard(rec){
+  window.__flowStep=0;
+  window.__flowIsEdit=!!rec;
+  window.__flowRec=rec;
+  window.__flowDraft=rec?{n:rec.n,d:rec.d,steps:rec.steps.map(s=&gt;({t:s.t,d:s.d}))}:{n:&#x27;&#x27;,d:&#x27;&#x27;,steps:[{t:&#x27;&#x27;,d:&#x27;&#x27;}]};
+  renderFlowWizardModal();
+}
+function renderFlowWizardModal(){
+  const draft=window.__flowDraft, step=window.__flowStep, isEdit=window.__flowIsEdit;
+  // 收集当前步输入
+  if(document.querySelector(&#x27;[data-flow-n]&#x27;))draft.n=document.querySelector(&#x27;[data-flow-n]&#x27;).value;
+  if(document.querySelector(&#x27;[data-flow-d]&#x27;))draft.d=document.querySelector(&#x27;[data-flow-d]&#x27;).value;
+  // 收集步骤编辑输入（防止切换/排序丢失；数组操作后跳过）
+  if(!window.__flowSkipCollect){
+    draft.steps.forEach((s,i)=&gt;{
+      const ti=document.querySelector(`[data-flow-st=&quot;${i}&quot;]`);
+      const di=document.querySelector(`[data-flow-sd=&quot;${i}&quot;]`);
+      if(ti)s.t=ti.value; if(di)s.d=di.value;
+    });
+  }
+  window.__flowSkipCollect=false;
+  const stepTitle=[&#x27;基本信息&#x27;,&#x27;步骤编辑&#x27;,&#x27;完成预览&#x27;][step];
+  const stepsHtml=draft.steps.map((s,i)=&gt;`
+    &lt;div class=&quot;flow-step-row&quot; data-flow-step=&quot;${i}&quot;&gt;
+      &lt;div class=&quot;fs-num&quot;&gt;${String(i+1).padStart(2,&#x27;0&#x27;)}&lt;/div&gt;
+      &lt;div class=&quot;fs-body&quot;&gt;
+        &lt;input data-flow-st=&quot;${i}&quot; value=&quot;${esc(s.t)}&quot; placeholder=&quot;步骤名称（如：接收客户需求）&quot;&gt;
+        &lt;input data-flow-sd=&quot;${i}&quot; value=&quot;${esc(s.d||&#x27;&#x27;)}&quot; placeholder=&quot;补充说明（选填）&quot;&gt;
+      &lt;/div&gt;
+      &lt;div class=&quot;fs-ops&quot;&gt;
+        &lt;button class=&quot;fs-btn&quot; data-action=&quot;flow-step-up&quot; data-idx=&quot;${i}&quot; ${i===0?&#x27;disabled&#x27;:&#x27;&#x27;}&gt;↑&lt;/button&gt;
+        &lt;button class=&quot;fs-btn&quot; data-action=&quot;flow-step-down&quot; data-idx=&quot;${i}&quot; ${i===draft.steps.length-1?&#x27;disabled&#x27;:&#x27;&#x27;}&gt;↓&lt;/button&gt;
+        &lt;button class=&quot;fs-btn fs-del&quot; data-action=&quot;flow-step-del&quot; data-idx=&quot;${i}&quot;&gt;✕&lt;/button&gt;
+      &lt;/div&gt;
+    &lt;/div&gt;`).join(&#x27;&#x27;)||&#x27;&lt;div style=&quot;font-size:13px;color:var(--muted);text-align:center;padding:16px&quot;&gt;还没有步骤，点击下方「＋ 添加下一步」&lt;/div&gt;&#x27;;
+  const prevHtml=draft.steps.filter(s=&gt;s.t||s.d).map((s,i)=&gt;`
+      &lt;div class=&quot;flow-node glass&quot;&gt;
+        &lt;div class=&quot;num&quot;&gt;${String(i+1).padStart(2,&#x27;0&#x27;)}&lt;/div&gt;
+        &lt;div&gt;&lt;h4&gt;${esc(s.t||&#x27;（未命名步骤）&#x27;)}&lt;/h4&gt;&lt;p&gt;${esc(s.d||&#x27;&#x27;)}&lt;/p&gt;&lt;/div&gt;
+      &lt;/div&gt;
+      ${i&lt;draft.steps.filter(x=&gt;x.t||x.d).length-1?&#x27;&lt;div class=&quot;flow-conn&quot;&gt;&lt;/div&gt;&#x27;:&#x27;&#x27;}`).join(&#x27;&#x27;)||&#x27;&lt;div style=&quot;font-size:13px;color:var(--muted);text-align:center;padding:16px&quot;&gt;尚未有步骤内容&lt;/div&gt;&#x27;;
+  openModal(`&lt;h2&gt;${isEdit?&#x27;编辑&#x27;:&#x27;新增&#x27;}流程 · 分步向导&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;${stepTitle} — 一步步把流程搭出来&lt;/div&gt;
+  &lt;div class=&quot;sop-editor glass&quot;&gt;
+    &lt;div class=&quot;editor-tag&quot;&gt;FLOW WIZARD / ${isEdit?&#x27;EDIT&#x27;:&#x27;NEW&#x27;}&lt;/div&gt;
+    &lt;div class=&quot;steps&quot;&gt;
+      &lt;span class=&quot;sop-step ${step===0?&#x27;active&#x27;:&#x27;&#x27;}&quot; data-action=&quot;flow-step&quot; data-i=&quot;0&quot;&gt;基本信息&lt;/span&gt;
+      &lt;span class=&quot;sop-step ${step===1?&#x27;active&#x27;:&#x27;&#x27;}&quot; data-action=&quot;flow-step&quot; data-i=&quot;1&quot;&gt;步骤编辑&lt;/span&gt;
+      &lt;span class=&quot;sop-step ${step===2?&#x27;active&#x27;:&#x27;&#x27;}&quot; data-action=&quot;flow-step&quot; data-i=&quot;2&quot;&gt;完成预览&lt;/span&gt;
+    &lt;/div&gt;
+    ${step===0?`
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;流程名称&lt;/label&gt;&lt;input data-flow-n value=&quot;${esc(draft.n)}&quot; placeholder=&quot;例如：客户投诉处理流程&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;流程说明&lt;/label&gt;&lt;textarea data-flow-d placeholder=&quot;用一句话说明流程用途&quot; style=&quot;min-height:80px&quot;&gt;${esc(draft.d||&#x27;&#x27;)}&lt;/textarea&gt;&lt;/div&gt;
+    `:step===1?`
+      &lt;div style=&quot;font-size:11px;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:12px&quot;&gt;STEPS · ${draft.steps.length} 步&lt;/div&gt;
+      &lt;div class=&quot;flow-steps-list&quot;&gt;${stepsHtml}&lt;/div&gt;
+      &lt;button class=&quot;collapse-more&quot; data-action=&quot;flow-step-add&quot; style=&quot;margin-top:14px&quot;&gt;＋ 添加下一步&lt;/button&gt;
+    `:`
+      &lt;div style=&quot;font-size:11px;letter-spacing:.16em;color:var(--muted);font-weight:700;margin-bottom:12px&quot;&gt;PREVIEW · 完整流程图&lt;/div&gt;
+      &lt;div class=&quot;flow&quot;&gt;${prevHtml}&lt;/div&gt;
+    `}
+    &lt;div style=&quot;display:flex;align-items:center;justify-content:space-between;margin-top:22px;padding-top:18px;border-top:1px solid rgba(255,255,255,.08)&quot;&gt;
+      &lt;div style=&quot;font-size:11.5px;color:var(--muted);letter-spacing:.04em&quot;&gt;分步聚焦 · &lt;b style=&quot;color:var(--fg)&quot;&gt;${step+1}/3&lt;/b&gt;&lt;/div&gt;
+      &lt;div style=&quot;display:flex;gap:8px&quot;&gt;
+        &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;flow-cancel&quot;&gt;取消&lt;/button&gt;
+        ${step&gt;0?`&lt;button class=&quot;m-btn cancel&quot; data-action=&quot;flow-prev&quot;&gt;上一步&lt;/button&gt;`:&#x27;&#x27;}
+        ${step&lt;2?`&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;flow-next&quot;&gt;下一步 →&lt;/button&gt;`:`&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;flow-save&quot;&gt;保存流程&lt;/button&gt;`}
+      &lt;/div&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;`);
+  // 重渲染后恢复步骤输入
+  if(step===1){
+    draft.steps.forEach((s,i)=&gt;{
+      const ti=document.querySelector(`[data-flow-st=&quot;${i}&quot;]`);
+      const di=document.querySelector(`[data-flow-sd=&quot;${i}&quot;]`);
+      if(ti)ti.value=s.t||&#x27;&#x27;; if(di)di.value=s.d||&#x27;&#x27;;
+    });
+  }
+}
+function saveFlowWizard(){
+  // 收集步骤输入
+  const draft=window.__flowDraft;
+  draft.steps.forEach((s,i)=&gt;{
+    const ti=document.querySelector(`[data-flow-st=&quot;${i}&quot;]`);
+    const di=document.querySelector(`[data-flow-sd=&quot;${i}&quot;]`);
+    if(ti)s.t=ti.value.trim(); if(di)s.d=di.value.trim();
+  });
+  const steps=draft.steps.filter(s=&gt;s.t||s.d);
+  if(!draft.n.trim()){toast(&#x27;请填写流程名称&#x27;,&#x27;流程名称不能为空。&#x27;);return}
+  if(!steps.length){toast(&#x27;请添加步骤&#x27;,&#x27;至少需要一个流程步骤。&#x27;);return}
+  if(window.__flowIsEdit&amp;&amp;window.__flowRec){
+    window.__flowRec.n=draft.n.trim();window.__flowRec.d=draft.d.trim();window.__flowRec.steps=steps;
+  }else{
+    DB.flows.unshift({id:uid(),n:draft.n.trim(),d:draft.d.trim(),u:new Date().toISOString().slice(0,10),steps});
+    DB.timeline.unshift({d:now(),e:&#x27;新增流程&#x27;,t:draft.n.trim()});
+  }
+  save();window.__flowStep=null;window.__flowDraft=null;window.__flowRec=null;
+  closeModal();toast(&#x27;已保存&#x27;,&#x27;流程已写入当前项目。&#x27;);
+  go(&#x27;project&#x27;,3);
+}
+
+/* ============ 搜索 ============ */
+function openSearch(){
+  openModal(`&lt;h2&gt;全局搜索&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;按内容类型分类展示结果&lt;/div&gt;
+  &lt;div class=&quot;field&quot;&gt;&lt;input id=&quot;srch&quot; placeholder=&quot;输入关键词搜索…&quot; style=&quot;font-size:16px;padding:14px&quot; data-search-live&gt;&lt;/div&gt;
+  &lt;div id=&quot;srResults&quot;&gt;&lt;div class=&quot;empty&quot; style=&quot;padding:30px&quot;&gt;&lt;div class=&quot;orb&quot; style=&quot;width:54px;height:54px;font-size:20px&quot;&gt;⌕&lt;/div&gt;输入关键词开始搜索&lt;/div&gt;&lt;/div&gt;
+  &lt;div class=&quot;m-actions&quot; style=&quot;margin-top:8px&quot;&gt;&lt;button class=&quot;m-btn confirm&quot; data-action=&quot;close&quot;&gt;完成&lt;/button&gt;&lt;/div&gt;`);
+  setTimeout(()=&gt;{const i=document.getElementById(&#x27;srch&#x27;);if(i)i.focus()},60);
+}
+function liveSearch(q){
+  q=(q||&#x27;&#x27;).trim();
+  const box=document.getElementById(&#x27;srResults&#x27;);
+  if(!box)return;
+  if(!q){box.innerHTML=`&lt;div class=&quot;empty&quot; style=&quot;padding:30px&quot;&gt;&lt;div class=&quot;orb&quot; style=&quot;width:54px;height:54px;font-size:20px&quot;&gt;⌕&lt;/div&gt;输入关键词开始搜索&lt;/div&gt;`;return}
+  const res={};
+  DB.todos.filter(t=&gt;(t.t||&#x27;&#x27;).includes(q)||(t.d||&#x27;&#x27;).includes(q)||t.c.includes(q)).forEach(t=&gt;(res[&#x27;工作事项&#x27;]=res[&#x27;工作事项&#x27;]||[]).push({t:t.t||t.c,d:t.c}));
+  DB.clients.filter(c=&gt;c.n.includes(q)||c.c.includes(q)).forEach(c=&gt;(res[&#x27;客户&#x27;]=res[&#x27;客户&#x27;]||[]).push({t:c.n,d:c.c+&#x27; · &#x27;+c.r}));
+  DB.flows.filter(f=&gt;f.n.includes(q)||f.d.includes(q)).forEach(f=&gt;(res[&#x27;工作流程&#x27;]=res[&#x27;工作流程&#x27;]||[]).push({t:f.n,d:f.d}));
+  DB.sops.filter(s=&gt;s.n.includes(q)).forEach(s=&gt;(res[&#x27;SOP&#x27;]=res[&#x27;SOP&#x27;]||[]).push({t:s.n,d:&#x27;适用：&#x27;+s.s}));
+  DB.achvs.filter(a=&gt;a.n.includes(q)).forEach(a=&gt;(res[&#x27;个人成就&#x27;]=res[&#x27;个人成就&#x27;]||[]).push({t:a.n,d:a.t}));
+  DB.themes.filter(th=&gt;th.n.includes(q)||th.items.some(k=&gt;k.t.includes(q))).forEach(th=&gt;(res[&#x27;知识&#x27;]=res[&#x27;知识&#x27;]||[]).push({t:th.n,d:th.items.length+&#x27; 条知识&#x27;}));
+  DB.ideas.filter(i=&gt;i.t.includes(q)||i.c.includes(q)).forEach(i=&gt;(res[&#x27;灵感&#x27;]=res[&#x27;灵感&#x27;]||[]).push({t:i.t,d:i.c}));
+  const html=Object.entries(res).map(([g,list])=&gt;`
+    &lt;div class=&quot;sr-grp&quot;&gt;&lt;h4&gt;${g} · ${list.length}&lt;/h4&gt;
+    ${list.map(r=&gt;`&lt;div class=&quot;sr-item&quot; data-action=&quot;close&quot;&gt;&lt;div style=&quot;width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,.8);flex-shrink:0&quot;&gt;&lt;/div&gt;&lt;div&gt;&lt;div class=&quot;t&quot;&gt;${esc(r.t)}&lt;/div&gt;&lt;div class=&quot;d&quot;&gt;${esc(r.d)}&lt;/div&gt;&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}
+    &lt;/div&gt;`).join(&#x27;&#x27;);
+  box.innerHTML=html||`&lt;div class=&quot;empty&quot; style=&quot;padding:30px&quot;&gt;&lt;div class=&quot;orb&quot; style=&quot;width:54px;height:54px;font-size:20px&quot;&gt;∅&lt;/div&gt;未找到与「${esc(q)}」相关的内容&lt;/div&gt;`;
+}
+
+/* ============ 删除（二次确认） ============ */
+function confirmDelete(msg,action,extra){
+  openModal(`&lt;h2&gt;确认删除&lt;/h2&gt;
+  &lt;div class=&quot;sub&quot;&gt;${msg}&lt;/div&gt;
+  &lt;div style=&quot;font-size:14px;color:var(--muted);line-height:1.8;font-weight:300&quot;&gt;删除后将无法恢复。确定继续吗？&lt;/div&gt;
+  &lt;div class=&quot;m-actions&quot;&gt;
+    &lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;取消&lt;/button&gt;
+    &lt;button class=&quot;m-btn danger&quot; data-action=&quot;${action}&quot; ${extra||&#x27;&#x27;}&gt;确认删除&lt;/button&gt;
+  &lt;/div&gt;`);
+}
+
+/* ============ 事件委托（全局唯一入口） ============ */
+document.addEventListener(&#x27;click&#x27;,e=&gt;{
+  const nav=e.target.closest(&#x27;[data-page]&#x27;);
+  if(nav &amp;&amp; !e.target.closest(&#x27;.card&#x27;)?.dataset?.page){ // 卡片上的 data-page 优先走卡片
+    if(e.target.closest(&#x27;[data-action]&#x27;))return;
+    go(nav.dataset.page);
+    return;
+  }
+  const act=e.target.closest(&#x27;[data-action]&#x27;);
+  if(!act)return;
+  const a=act.dataset.action, id=act.dataset.id, kind=act.dataset.kind, topic=act.dataset.topic;
+  switch(a){
+    case &#x27;close&#x27;: closeModal(); break;
+    case &#x27;tab&#x27;: go(act.dataset.page||&#x27;project&#x27;,parseInt(act.dataset.tab)); requestAnimationFrame(placeTabThumb); break;
+    case &#x27;add&#x27;: openAdd(kind,topic); break;
+    case &#x27;save-add&#x27;: doAdd(kind,topic); break;
+    case &#x27;add-custom&#x27;:
+      openModal(`&lt;h2&gt;添加自定义字段&lt;/h2&gt;
+      &lt;div class=&quot;sub&quot;&gt;项目支持自定义字段，可随时修改或删除&lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;字段名称&lt;/label&gt;&lt;input id=&quot;cf-k&quot; placeholder=&quot;例如：入驻企业数量&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;field&quot;&gt;&lt;label&gt;字段内容&lt;/label&gt;&lt;input id=&quot;cf-v&quot; placeholder=&quot;例如：12 家&quot;&gt;&lt;/div&gt;
+      &lt;div class=&quot;m-actions&quot;&gt;&lt;button class=&quot;m-btn cancel&quot; data-action=&quot;close&quot;&gt;取消&lt;/button&gt;
+      &lt;button class=&quot;m-btn confirm&quot; data-action=&quot;save-custom&quot;&gt;保存&lt;/button&gt;&lt;/div&gt;`);
+      break;
+    case &#x27;save-custom&#x27;:{
+      const k=document.getElementById(&#x27;cf-k&#x27;)?.value.trim(),v=document.getElementById(&#x27;cf-v&#x27;)?.value.trim();
+      if(k&amp;&amp;v){DB.project.custom.push({k,v});save();closeModal();go(&#x27;project&#x27;,0);}
+      else toast(&#x27;请填写完整&#x27;,&#x27;字段名称与内容均为必填。&#x27;);
+      break;}
+    case &#x27;flow&#x27;: showFlow(parseInt(id)); break;
+    case &#x27;sop&#x27;: showSop(parseInt(id)); break;
+    case &#x27;client&#x27;: showClient(parseInt(id)); break;
+    case &#x27;achv&#x27;: showAchv(parseInt(id)); break;
+    case &#x27;topic&#x27;: go(&#x27;knowledge&#x27;,parseInt(topic)); break;
+    case &#x27;kb&#x27;: showKb(parseInt(topic),parseInt(id)); break;
+    case &#x27;search&#x27;: openSearch(); break;
+    case &#x27;collapse&#x27;:{
+      const wrap=act.nextElementSibling,more=act.dataset.more===&#x27;0&#x27;;
+      act.dataset.more=more?&#x27;1&#x27;:&#x27;0&#x27;;
+      if(wrap&amp;&amp;wrap.dataset&amp;&amp;wrap.dataset.collapseWrap)wrap.style.display=more?&#x27;block&#x27;:&#x27;none&#x27;;
+      act.textContent=more?&#x27;收起&#x27;:&#x27;展开更多&#x27;;
+      break;}
+    /* ---- 编辑（预填当前值） ---- */
+    case &#x27;edit-project&#x27;: openEdit(&#x27;project&#x27;); break;
+    case &#x27;edit-flow&#x27;: openEdit(&#x27;flow&#x27;,parseInt(id)); break;
+    case &#x27;edit-sop&#x27;: openEdit(&#x27;sop&#x27;,parseInt(id)); break;
+    case &#x27;edit-client&#x27;: openEdit(&#x27;client&#x27;,parseInt(id)); break;
+    case &#x27;edit-achv&#x27;: openEdit(&#x27;achv&#x27;,parseInt(id)); break;
+    case &#x27;edit-topic&#x27;: openEdit(&#x27;topic&#x27;,parseInt(topic)); break;
+    case &#x27;edit-kb&#x27;: openEdit(&#x27;kb&#x27;,parseInt(id),parseInt(topic)); break;
+    case &#x27;edit-idea&#x27;: openEdit(&#x27;idea&#x27;,parseInt(id)); break;
+    case &#x27;edit-todo&#x27;: openEdit(&#x27;todo&#x27;,parseInt(id)); break;
+    case &#x27;edit-cycle&#x27;: openEdit(&#x27;cycle&#x27;,parseInt(id)); break;
+    case &#x27;save-edit&#x27;: saveEdit(act.dataset.kind,act.dataset.id,act.dataset.topic); break;
+    case &#x27;sop-cancel&#x27;: window.__sopStep=null;window.__sopStepVal=null;closeModal(); break;
+    case &#x27;sop-prev&#x27;: window.__sopStep=Math.max(0,(window.__sopStep||0)-1);renderSopWizardModal(); break;
+    case &#x27;sop-next&#x27;: window.__sopStep=Math.min(3,(window.__sopStep||0)+1);renderSopWizardModal(); break;
+    case &#x27;sop-save&#x27;: saveSopWizard(); break;
+    case &#x27;sop-step&#x27;: /* 点击 step 切换 */{const i=parseInt(act.dataset.sopStep);if(!isNaN(i)){window.__sopStep=i;renderSopWizardModal();} break;}
+    /* ---- Flow 分步向导 ---- */
+    case &#x27;flow-cancel&#x27;: window.__flowStep=null;window.__flowDraft=null;closeModal(); break;
+    case &#x27;flow-step&#x27;: window.__flowStep=Math.min(2,Math.max(0,parseInt(act.dataset.i)||0));renderFlowWizardModal(); break;
+    case &#x27;flow-prev&#x27;: window.__flowStep=Math.max(0,(window.__flowStep||0)-1);renderFlowWizardModal(); break;
+    case &#x27;flow-next&#x27;: window.__flowStep=Math.min(2,(window.__flowStep||0)+1);renderFlowWizardModal(); break;
+    case &#x27;flow-save&#x27;: saveFlowWizard(); break;
+    case &#x27;flow-step-add&#x27;: window.__flowDraft.steps.push({t:&#x27;&#x27;,d:&#x27;&#x27;});window.__flowSkipCollect=true;renderFlowWizardModal(); break;
+    case &#x27;flow-step-del&#x27;:{const i=parseInt(act.dataset.idx);const s=window.__flowDraft.steps;if(i&lt;s.length){const t=document.querySelector(`[data-flow-st=&quot;${i}&quot;]`);s[i].t=t?t.value:s[i].t;const d=document.querySelector(`[data-flow-sd=&quot;${i}&quot;]`);s[i].d=d?d.value:s[i].d;}window.__flowDraft.steps.splice(i,1);window.__flowSkipCollect=true;renderFlowWizardModal();break;}
+    case &#x27;flow-step-up&#x27;:{const i=parseInt(act.dataset.idx);const s=window.__flowDraft.steps;if(i&gt;0){const t=document.querySelector(`[data-flow-st=&quot;${i}&quot;]`);s[i].t=t?t.value:s[i].t;const d=document.querySelector(`[data-flow-sd=&quot;${i}&quot;]`);s[i].d=d?d.value:s[i].d;const tmp=s[i];s[i]=s[i-1];s[i-1]=tmp;}window.__flowSkipCollect=true;renderFlowWizardModal();break;}
+    case &#x27;flow-step-down&#x27;:{const i=parseInt(act.dataset.idx);const s=window.__flowDraft.steps;if(i&lt;s.length-1){const t=document.querySelector(`[data-flow-st=&quot;${i}&quot;]`);s[i].t=t?t.value:s[i].t;const d=document.querySelector(`[data-flow-sd=&quot;${i}&quot;]`);s[i].d=d?d.value:s[i].d;const tmp=s[i];s[i]=s[i+1];s[i+1]=tmp;}window.__flowSkipCollect=true;renderFlowWizardModal();break;}
+    /* ---- 删除（二次确认） ---- */
+    case &#x27;del-flow&#x27;: confirmDelete(&#x27;删除这条工作流程？其历史数据将一并移除。&#x27;,&#x27;confirm-del-flow&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-sop&#x27;: confirmDelete(&#x27;删除这条 SOP？&#x27;,&#x27;confirm-del-sop&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-client&#x27;: confirmDelete(&#x27;删除该客户档案？&#x27;,&#x27;confirm-del-client&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-achv&#x27;: confirmDelete(&#x27;删除这条成就记录？&#x27;,&#x27;confirm-del-achv&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-topic&#x27;: confirmDelete(&#x27;删除该知识主题？其下所有知识将一并移除。&#x27;,&#x27;confirm-del-topic&#x27;,`data-topic=&quot;${topic}&quot;`); break;
+    case &#x27;del-kb&#x27;: confirmDelete(&#x27;删除这条知识？&#x27;,&#x27;confirm-del-kb&#x27;,`data-topic=&quot;${topic}&quot; data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-idea&#x27;: confirmDelete(&#x27;删除这条灵感？&#x27;,&#x27;confirm-del-idea&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-todo&#x27;: confirmDelete(&#x27;删除这条工作事项？&#x27;,&#x27;confirm-del-todo&#x27;,`data-id=&quot;${id}&quot;`);
+    case &#x27;toggle-todo&#x27;:{
+      const tid=parseInt(id);
+      const ti=DB.todos.findIndex(x=&gt;x.id===tid);
+      if(ti&lt;0)break;
+      DB.todos[ti].s=DB.todos[ti].s===&#x27;已完成&#x27;?&#x27;待处理&#x27;:&#x27;已完成&#x27;;
+      save();
+      go(currentPage,currentTab);
+      toast(`「${esc(DB.todos[ti].t||&#x27;事项&#x27;)}」${DB.todos[ti].s}`);
+      break;
+    } break;
+    case &#x27;del-cycle&#x27;: confirmDelete(&#x27;删除这条周期工作？&#x27;,&#x27;confirm-del-cycle&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-archive&#x27;: confirmDelete(&#x27;删除该历史项目？其归档数据将一并移除。&#x27;,&#x27;confirm-del-archive&#x27;,`data-id=&quot;${id}&quot;`); break;
+    case &#x27;del-file&#x27;: confirmDelete(&#x27;删除该附件？&#x27;,&#x27;confirm-del-file&#x27;,`data-id=&quot;${id}&quot;`); break;
+    /* ---- 确认删除执行 ---- */
+    case &#x27;confirm-del-flow&#x27;: DB.flows=DB.flows.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;project&#x27;,3);break;
+    case &#x27;confirm-del-sop&#x27;: DB.sops=DB.sops.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;project&#x27;,4);break;
+    case &#x27;confirm-del-client&#x27;: DB.clients=DB.clients.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;project&#x27;,5);break;
+    case &#x27;confirm-del-achv&#x27;: DB.achvs=DB.achvs.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;achv&#x27;);break;
+    case &#x27;confirm-del-topic&#x27;:{
+      const ti=parseInt(topic);
+      DB.themes.splice(ti,1);save();closeModal();go(&#x27;knowledge&#x27;);break;}
+    case &#x27;confirm-del-kb&#x27;:{
+      const ti=parseInt(topic);
+      if(DB.themes[ti])DB.themes[ti].items=DB.themes[ti].items.filter(x=&gt;x.id!==parseInt(id));
+      save();closeModal();go(&#x27;knowledge&#x27;,ti);break;}
+    case &#x27;confirm-del-idea&#x27;: DB.ideas=DB.ideas.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;ideas&#x27;);break;
+    case &#x27;confirm-del-todo&#x27;: DB.todos=DB.todos.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;project&#x27;,1);break;
+    case &#x27;confirm-del-cycle&#x27;: DB.cycles=DB.cycles.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;project&#x27;,2);break;
+    case &#x27;confirm-del-archive&#x27;: DB.archiveProjects=DB.archiveProjects.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;projects&#x27;);break;
+    case &#x27;confirm-del-file&#x27;: DB.files=DB.files.filter(x=&gt;x.id!==parseInt(id));save();closeModal();go(&#x27;files&#x27;);break;
+  }
+});
+
+/* 搜索输入 */
+document.addEventListener(&#x27;input&#x27;,e=&gt;{
+  if(e.target.dataset&amp;&amp;&#x27;searchLive&#x27; in e.target.dataset)liveSearch(e.target.value);
+});
+
+/* 键盘：⌘K 全局搜索，Esc 关闭 */
+document.addEventListener(&#x27;keydown&#x27;,e=&gt;{
+  if((e.metaKey||e.ctrlKey)&amp;&amp;e.key.toLowerCase()===&#x27;k&#x27;){e.preventDefault();openSearch();return}
+  if(e.key===&#x27;Escape&#x27;)closeModal();
+});
+
+/* ============ 液态引擎 ============ */
+// 背景 blob 已用 CSS 动画驱动；此处补充鼠标液态跟随光晕
+(function(){
+  const glow=document.createElement(&#x27;div&#x27;);
+  glow.style.cssText=&#x27;position:fixed;width:340px;height:340px;border-radius:44% 56% 52% 48%/50% 48% 52% 50%;pointer-events:none;z-index:1;background:radial-gradient(circle,rgba(255,255,255,.07),transparent 62%);filter:blur(8px);transform:translate(-50%,-50%);transition:left .35s ease-out,top .35s ease-out;&#x27;;
+  document.body.appendChild(glow);
+  let tx=innerWidth/2,ty=innerHeight/2,cx=tx,cy=ty;
+  addEventListener(&#x27;mousemove&#x27;,e=&gt;{tx=e.clientX;ty=e.clientY});
+  (function anim(){
+    cx+=(tx-cx)*.12;cy+=(ty-cy)*.12;
+    glow.style.left=cx+&#x27;px&#x27;;glow.style.top=cy+&#x27;px&#x27;;
+    requestAnimationFrame(anim);
+  })();
+})();
+
+
+/* ============ 初始化 ============ */
+DB=load();
+const d=new Date();
+el(&#x27;dateChip&#x27;).textContent=`${d.getMonth()+1}月${d.getDate()}日 星期${&#x27;日一二三四五六&#x27;[d.getDay()]}`;
+go(&#x27;home&#x27;);
+
+/* ================================================================
+   Liquid Glass 交互引擎（全站统一）
+================================================================ */
+(function(){
+  // 所有可点击元素的选择器（与事件委托保持一致）
+  const INTERACTIVE=&#x27;[data-action],[data-page],.tab,.card,.row,.add-btn,.collapse-more,.m-btn,.q-card,.d-item,.wb-node,.wb-enter,.search,.sr-item,.flow-node,.ov-item&#x27;;
+  const lgUid=()=&gt;&#x27;lg-&#x27;+Date.now()+&#x27;-&#x27;+Math.floor(Math.random()*999);
+
+  // 给单个元素装配液态玻璃层
+  function dress(el){
+    if(el.__lgDressed) return;
+    el.__lgDressed=true;
+    el.classList.add(&#x27;lg-interactive&#x27;);
+    // 折射描边层
+    const edge=document.createElement(&#x27;i&#x27;);
+    edge.className=&#x27;lg-edge&#x27;;
+    edge.setAttribute(&#x27;aria-hidden&#x27;,&#x27;true&#x27;);
+    el.insertBefore(edge, el.firstChild);
+    // 光标跟随高光层
+    const sheen=document.createElement(&#x27;i&#x27;);
+    sheen.className=&#x27;lg-sheen&#x27;;
+    sheen.setAttribute(&#x27;aria-hidden&#x27;,&#x27;true&#x27;);
+    el.insertBefore(sheen, el.firstChild);
+  }
+
+  // 扫描整个文档（含动态渲染内容）
+  function dressAll(root){
+    (root||document).querySelectorAll(INTERACTIVE).forEach(dress);
+  }
+
+  // MutationObserver：页面/弹窗动态渲染后自动装配
+  const mo=new MutationObserver(muts=&gt;{
+    muts.forEach(m=&gt;{
+      m.addedNodes.forEach(n=&gt;{
+        if(n.nodeType===1){
+          if(n.matches&amp;&amp;n.matches(INTERACTIVE))dress(n);
+          if(n.querySelectorAll)dressAll(n);
+        }
+      });
+    });
+  });
+  mo.observe(document.body,{childList:true,subtree:true});
+  dressAll(document);
+
+  // ---- 光标跟随：更新 --lg-x / --lg-y ----
+  let hoverEl=null;
+  document.addEventListener(&#x27;pointermove&#x27;,e=&gt;{
+    const el=e.target.closest?e.target.closest(INTERACTIVE):null;
+    if(!el)return;
+    if(el!==hoverEl){hoverEl=el}
+    if(!el.__lgDressed)dress(el);
+    const r=el.getBoundingClientRect();
+    if(!r.width||!r.height)return;
+    const x=((e.clientX-r.left)/r.width*100).toFixed(1);
+    const y=((e.clientY-r.top)/r.height*100).toFixed(1);
+    el.style.setProperty(&#x27;--lg-x&#x27;,x+&#x27;%&#x27;);
+    el.style.setProperty(&#x27;--lg-y&#x27;,y+&#x27;%&#x27;);
+  },{passive:true});
+
+  // ---- 点击涟漪 + 按压 ----
+  document.addEventListener(&#x27;pointerdown&#x27;,e=&gt;{
+    const el=e.target.closest?e.target.closest(INTERACTIVE):null;
+    if(!el)return;
+    if(!el.__lgDressed)dress(el);
+    // 弹性按压
+    el.classList.add(&#x27;lg-press&#x27;);
+    // 涟漪：从触点扩散
+    const r=el.getBoundingClientRect();
+    const rip=document.createElement(&#x27;span&#x27;);
+    rip.className=&#x27;lg-ripple&#x27;;
+    rip.setAttribute(&#x27;aria-hidden&#x27;,&#x27;true&#x27;);
+    rip.style.left=(e.clientX-r.left)+&#x27;px&#x27;;
+    rip.style.top=(e.clientY-r.top)+&#x27;px&#x27;;
+    el.appendChild(rip);
+    setTimeout(()=&gt;{rip.remove()},950);
+  },{passive:true});
+
+  // 释放按压
+  function releasePress(e){
+    const el=e.target.closest?e.target.closest(INTERACTIVE):null;
+    if(el)setTimeout(()=&gt;el.classList.remove(&#x27;lg-press&#x27;),60);
+  }
+  document.addEventListener(&#x27;pointerup&#x27;,releasePress);
+  document.addEventListener(&#x27;pointercancel&#x27;,releasePress);
+  document.addEventListener(&#x27;pointerleave&#x27;,releasePress);
+
+  // 阻止双击选中导致的闪烁（排除输入框/文本域）
+  document.addEventListener(&#x27;selectstart&#x27;,e=&gt;{
+    const t=e.target;
+    if(!t||!t.closest)return;
+    if(t.closest(&#x27;input,textarea,[contenteditable]&#x27;))return;
+    if(t.closest(INTERACTIVE))e.preventDefault();
+  });
+})();
+
+  /* ===== 顶栏 mini 按钮：联动父页面（锁定 / 切换主题） ===== */
+  document.addEventListener(&#x27;click&#x27;,function(e){
+    var b=e.target.closest?e.target.closest(&#x27;.tb-mini&#x27;):null;
+    if(!b)return;
+    if(b.id===&#x27;tbLock&#x27;){
+      try{if(window.parent&amp;&amp;window.parent.relock)window.parent.relock()}catch(_){}
+    }
+    if(b.id===&#x27;tbTheme&#x27;){
+      try{if(window.parent&amp;&amp;window.parent.applyTheme)window.parent.applyTheme(&#x27;light&#x27;)}catch(_){}
+    }
+  });
+&lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+'></iframe>
+</div>
+
+<script>
+
 
 </body>
 </html>
