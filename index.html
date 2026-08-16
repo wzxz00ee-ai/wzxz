@@ -604,6 +604,16 @@
   html[data-theme="dark"] .glass::after{background:radial-gradient(360px 230px at var(--mx,50%) var(--my,50%),rgba(255,255,255,.32),rgba(255,255,255,.1) 40%,transparent 72%)}
   html[data-theme="dark"] .page-title,html[data-theme="dark"] .hero-date,html[data-theme="dark"] .brand-name,html[data-theme="dark"] .p-t h3,html[data-theme="dark"] .pcard .pn,html[data-theme="dark"] .topic-card .t,html[data-theme="dark"] .cc-name,html[data-theme="dark"] .gf-node .nm,html[data-theme="dark"] .tl-year{text-shadow:0 1px 3px rgba(0,0,0,.5)}
   /* ===== 深色专属结构（液态星云文档 wp-* 布局） ===== */
+  .shanghai-dark{display:none}
+  html[data-theme="dark"] .shanghai-dark{display:inline}
+  html[data-theme="dark"] .main{max-width:1080px;padding-top:120px}
+  html[data-theme="dark"] #qaCard{display:none}
+  html[data-theme="dark"] .hero-date{font-size:clamp(48px,7vw,84px)}
+  html[data-theme="dark"] .hero-date .mid{font-weight:400}
+  html[data-theme="dark"] .hero-date .day{font-weight:700}
+  html[data-theme="dark"] .hero-sub{gap:12px}
+  html[data-theme="dark"] .todo-check{border-radius:50%;border-color:rgba(255,255,255,.4)}
+  html[data-theme="dark"] .todo-row.done .todo-check{background:#30d158;border-color:#30d158;color:#fff}
   .dark-only{display:none}
   html[data-theme="dark"] .hero-full.dark-only{display:inline}
   html[data-theme="dark"] .dotw.dark-only{display:block}
@@ -671,7 +681,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v17</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v18</div></div>
       </div>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
@@ -705,8 +715,8 @@
     <!-- ===== 首页 ===== -->
     <section class="page active" id="page-home" aria-label="首页">
       <div class="hero-line">
-        <div class="hero-date"><span class="mid" id="bigDate">8月15日</span></div>
-        <div class="hero-sub"><span id="bigWeek">星期六</span><span class="dotw dark-only"></span><span class="hero-full dark-only" id="heroFull"></span></div>
+        <div class="hero-date"><span class="mid" id="bigDate"><span id="bigMonth">8</span>月<span class="day" id="bigDay">15</span>日</span></div>
+        <div class="hero-sub"><span id="bigWeek">星期六</span><span class="dotw dark-only"></span><span class="shanghai-dark">上海</span><span class="dotw dark-only"></span><span class="hero-full dark-only" id="heroFull"></span></div>
       </div>
 
       <div class="home-dash">
@@ -724,7 +734,7 @@
         </div>
       </div>
 
-      <div class="glass panel" style="margin-top:20px">
+      <div class="glass panel" id="qaCard" style="margin-top:20px">
         <div class="p-t"><h3>快捷新增</h3><span class="cnt">想记什么点什么</span></div>
         <div style="display:flex;gap:10px;flex-wrap:wrap">
           <button class="btn btn-solid btn-md" id="qaTask">＋ 新增事项</button>
@@ -1220,7 +1230,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v17</div>
+      <div class="brand-sub">PERSONAL INFO · v18</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1269,7 +1279,7 @@
 
   /* ===== 日期 ===== */
   (function(){const n=new Date();
-    $('#bigDate').textContent=`${n.getMonth()+1}月${n.getDate()}日`;
+    $('#bigMonth').textContent=n.getMonth()+1;$('#bigDay').textContent=n.getDate();
     $('#bigWeek').textContent=new Intl.DateTimeFormat('zh-CN',{weekday:'long'}).format(n);})();
   const dstr=()=>{const n=new Date();return `${n.getMonth()+1}月${n.getDate()}日`;};
 
