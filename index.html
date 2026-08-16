@@ -436,7 +436,6 @@
   button,.pcard,.client-card,.idea-card,.topic-card,.gf-node .node,.task-row,.todo-row,.tl-row,.tl-entry,
   .attach-row,.attach-item,.topic-item,.todo-check,.choice-btn,.sr-item{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
   button:active,.pcard:active,.client-card:active,.idea-card:active,.topic-card:active,.gf-node .node:active,
-  .task-row:active,.todo-row:active,.tl-row:active,.tl-entry:active,.attach-row:active,.attach-item:active,
   .topic-item:active,.todo-check:active,.choice-btn:active,.sr-item:active{transform:scale(.95)}
   /* 液态涟漪：34px 水滴 · 中心82%高光 · 双内光 · 0.82s 扩散6.6倍 */
   .lg-ripple{position:absolute;border-radius:48% 52% 50% 50%/52% 48% 52% 48%;pointer-events:none;z-index:4;
@@ -698,7 +697,7 @@
   .d-item .tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.7);
     background:rgba(255,255,255,.94);color:#0b0b0e;font-size:12px;font-weight:700;padding:5px 11px;border-radius:9px;
     opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
-  .d-item:hover .tip{opacity:1;transform:translateX(-50%) scale(1)}
+  .d-item:hover .tip,.d-item.active .tip{opacity:1;transform:translateX(-50%) scale(1)}
   @media(max-width:960px){.d-item{width:42px;height:42px;font-size:18px;border-radius:14px}.dock{gap:4px;padding:8px 10px}}
   /* 工作台（首页） */
   .workbench{position:relative;min-height:calc(100vh - 200px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding-bottom:10px}
@@ -738,8 +737,10 @@
     transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,border-color .35s;
     transform:translate(var(--tx,0px),var(--ty,0px))}
   .wb-node:hover{animation:wbNodeHover 2.8s ease-in-out infinite;
+    transform:translate(calc(var(--tx,0px) - 2px),calc(var(--ty,0px) - 2px)) scale(1.16);z-index:8;
     background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.42),transparent 55%),linear-gradient(155deg,rgba(255,255,255,.22),rgba(255,255,255,.06));
     box-shadow:0 32px 75px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.42),inset 0 -1px 0 rgba(0,0,0,.28),0 0 28px rgba(255,255,255,.1)}
+  .wb-node:active{transform:translate(var(--tx,0px),var(--ty,0px)) scale(.94)}
   @keyframes wbNodeHover{
     0%,100%{border-radius:49.2% 50.8% 49.6% 50.4% / 50.4% 49.4% 50.6% 49.8%}
     50%{border-radius:50.6% 49.4% 50.4% 49.6% / 49.6% 50.6% 49.4% 50.4%}}
@@ -773,6 +774,8 @@
   html[data-theme="dark"] #taskList .task-row::before,html[data-theme="dark"] #cycleList .task-row::before{content:"";position:absolute;left:11px;top:50%;transform:translateY(-50%);width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.9)}
   html[data-theme="dark"] #taskList .task-row .task-name,html[data-theme="dark"] #cycleList .task-row .task-name{font-size:14.5px;font-weight:700;line-height:1.35}
   html[data-theme="dark"] #taskList .task-row .task-content,html[data-theme="dark"] #cycleList .task-row .task-content{font-size:12.5px;font-weight:300;color:var(--muted);margin-top:2px;line-height:1.45}
+  html[data-theme="dark"] #taskList .task-row .icon-btn,html[data-theme="dark"] #cycleList .task-row .icon-btn{opacity:0;transition:opacity .25s}
+  html[data-theme="dark"] #taskList .task-row:hover .icon-btn,html[data-theme="dark"] #cycleList .task-row:hover .icon-btn{opacity:1}
   /* 流程 → 液态节点 + 连接线（紧凑） */
   html[data-theme="dark"] .gf-node .node{width:min(540px,100%);padding:13px 18px;border-radius:18px;gap:12px}
   html[data-theme="dark"] .gf-node .no{width:36px;height:36px;border-radius:46% 54% 52% 48%/52% 48% 52% 48%;font-size:13.5px;
@@ -840,7 +843,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v24</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v25</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <button class="tb-search" id="topSearchBtn">
@@ -1045,7 +1048,7 @@
         <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px">
           <button class="btn btn-ghost btn-md" id="achBack">← 个人成就</button>
           <span style="font-size:17px;font-weight:700" id="achDetailName"></span>
-          <span style="margin-left:auto"><button class="btn btn-ghost btn-md">✎ 编辑</button></span>
+          <span style="margin-left:auto"><button class="btn btn-ghost btn-md" id="btnEditAch">✎ 编辑</button></span>
         </div>
         <div class="glass panel" id="achDetailBody"></div>
       </div>
@@ -1382,6 +1385,20 @@
 </div>
 
 <div id="errBanner" style="display:none;position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:300;background:#d70015;color:#fff;padding:10px 18px;border-radius:12px;font-size:14px;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.3)">页面脚本异常：<span id="errMsg"></span></div>
+<!-- ===== 灵感详情弹窗 ===== -->
+<div class="modal-mask" id="ideaDetailModal">
+  <div class="modal" style="width:460px">
+    <div class="p-t" style="margin-bottom:14px"><h3>灵感详情</h3><span class="cnt" id="ideaDetailTime"></span></div>
+    <div id="ideaDetailContent" style="font-size:16px;line-height:1.8;color:var(--fg)"></div>
+    <div style="display:flex;gap:8px;margin-top:16px;flex-wrap:wrap" id="ideaDetailTags"></div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost btn-md" id="ideaDetailEdit">✎ 编辑</button>
+      <button class="btn btn-danger btn-md" id="ideaDetailDel">删除</button>
+      <button class="btn btn-ghost btn-md" data-close>关闭</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
 
 <!-- ===== 底部液态 Dock（深色主题导航） ===== -->
@@ -1405,7 +1422,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v24</div>
+      <div class="brand-sub">PERSONAL INFO · v25</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1451,6 +1468,7 @@
   function toast(msg,type='ok'){const t=$('#toast');t.className='toast '+type;$('#toastText').textContent=msg;
     t.classList.add('show');clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove('show'),3000);}
   const DEL_ICON='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6"/></svg>';
+  const EDIT_ICON='<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>';
 
   /* ===== 日期 ===== */
   (function(){const n=new Date();
@@ -1910,6 +1928,7 @@
       <div class="glass pcard hover-lift" data-ach="${i}">
         <div class="top"><span class="tag">${a.topic}</span>
           <span style="display:flex;align-items:center;gap:8px"><span>${a.time}</span>
+          <button class="icon-btn" aria-label="编辑成就" data-ael="${i}">${EDIT_ICON}</button>
           <button class="icon-btn" aria-label="删除成就" data-adel="${i}">${DEL_ICON}</button></span></div>
         <div class="pn">${a.name}</div><div class="ps">${a.proj||'个人成果'}</div>
         <span class="go">查看成就 →</span>
@@ -1917,11 +1936,13 @@
     :'<div class="empty-hint" style="grid-column:1/-1">暂无成就 · 点击「＋ 新增成就」记录</div>';
     $$('[data-ach]',list).forEach(c=>c.addEventListener('click',e=>{if(e.target.closest('[data-adel]'))return;
       $('#achLib').style.display='none';$('#achDetail').style.display='block';renderAch(+c.dataset.ach);}));
+    $$('[data-ael]',list).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openAchEdit(+b.dataset.ael);}));
     $$('[data-adel]',list).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
       const i=+b.dataset.adel,a=ACHS[i];
       askConfirm(()=>{if(a){ACHS.splice(i,1);log('删除成就',a.name);}
         renderAchLib();toast('已删除成就');});}));}
-  function renderAch(i){const a=ACHS[i];if(!a)return;$('#achDetailName').textContent=a.name;
+  let achEditIdx=-1,achViewIdx=-1;
+  function renderAch(i){const a=ACHS[i];if(!a)return;achViewIdx=i;$('#achDetailName').textContent=a.name;
     $('#achDetailBody').innerHTML=`
       <div class="meta-grid">
         <div class="meta-item"><div class="k">时间</div><div class="v">${a.time}</div></div>
@@ -1931,13 +1952,25 @@
         <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">说明</div>
         <div style="font-size:15.5px;line-height:1.75;color:var(--muted)">${a.desc}</div></div>`;}
   on('achBack','click',()=>{$('#achDetail').style.display='none';$('#achLib').style.display='block';});
-  on('btnAddAch','click',()=>openModal('achModal'));
+  function openAchEdit(i){const a=ACHS[i];if(!a)return;
+    $('#a-name').value=a.name;$('#a-time').value=a.time;$('#a-topic').value=a.topic;$('#a-desc').value=a.desc;
+    achEditIdx=i;$('#achModal h2').textContent='编辑成就';openModal('achModal');}
+  on('btnAddAch','click',()=>{achEditIdx=-1;$('#achModal h2').textContent='新增成就';openModal('achModal');});
   on('saveAch','click',()=>{const n=v('a-name');
     if(!n){toast('请填写成就名称','err');return;}
+    if(achEditIdx>=0&&achEditIdx<ACHS.length){
+      const a=ACHS[achEditIdx];
+      a.name=n;a.time=v('a-time')||a.time;a.topic=v('a-topic')||a.topic;a.desc=v('a-desc')||a.desc;
+      ['a-name','a-time','a-topic','a-desc'].forEach(i=>$('#'+i).value='');
+      closeModal($('#achModal'));renderAchLib();
+      if($('#achDetail').style.display!=='none')renderAch(achEditIdx);
+      achEditIdx=-1;log('编辑成就',n);toast('已更新成就');return;
+    }
     ACHS.unshift({name:n,time:v('a-time')||'2026',topic:v('a-topic')||'个人成长',
       proj:'',desc:v('a-desc')||'（未填写说明）'});
     ['a-name','a-time','a-topic','a-desc'].forEach(i=>$('#'+i).value='');
     closeModal($('#achModal'));renderAchLib();log('新增成就',n);toast('已保存成就');});
+  on('btnEditAch','click',()=>{if(achViewIdx>=0)openAchEdit(achViewIdx);});
 
   /* ===== 知识库三级（真实数据） ===== */
   const KBS={};
@@ -1992,27 +2025,50 @@
 
   /* ===== 灵感记录（真实数据） ===== */
   const IDEAS=[];
-  let iFilter='all';
+  let iFilter='all',ideaEditIdx=-1,ideaViewIdx=-1;
+  function openIdeaDetail(idx){const row=IDEAS[idx];if(!row)return;ideaViewIdx=idx;
+    $('#ideaDetailContent').textContent=row[0];
+    $('#ideaDetailTime').textContent=row[2]||'';
+    $('#ideaDetailTags').innerHTML=(row[1]?`<span class="tag">${row[1]}</span>`:'')+(row[3]?`<span class="tag">${row[3]}</span>`:'');
+    openModal('ideaDetailModal');}
+  function openIdeaEdit(idx){const row=IDEAS[idx];if(!row)return;
+    $('#f-idea-note').value=row[0];$('#f-idea-cat').value=row[1]||'产品想法';$('#f-idea-tag').value=row[3]||'';
+    ideaEditIdx=idx;$('#ideaModal h2').textContent='编辑灵感';openModal('ideaModal');}
   function renderIdeas(){const fs=iFilter==='all'?IDEAS:IDEAS.filter(i=>i[1]===iFilter);
     $('#ideaList').innerHTML=fs.length?fs.map((c,idx)=>`
-      <div class="glass idea-card hover-lift">
+      <div class="glass idea-card hover-lift" data-ii="${IDEAS.indexOf(fs[idx])}">
         <button class="icon-btn card-del" aria-label="删除灵感" data-idel="${IDEAS.indexOf(fs[idx])}">${DEL_ICON}</button>
         <div class="content">${c[0]}</div>
         <div class="idea-foot"><span class="tag">${c[1]}</span><span class="attach-src" style="margin-left:auto">${c[2]}</span></div></div>`).join('')
     :'<div class="empty-hint" style="grid-column:1/-1">暂无灵感 · 点击「＋ 新增灵感」随手记录</div>';
-    $$('[data-idel]',$('#ideaList')).forEach(b=>b.addEventListener('click',()=>{
+    $$('[data-ii]',$('#ideaList')).forEach(cd=>cd.addEventListener('click',e=>{if(e.target.closest('[data-idel]'))return;
+      openIdeaDetail(+cd.dataset.ii);}));
+    $$('[data-idel]',$('#ideaList')).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
       const idx=+b.dataset.idel,row=IDEAS[idx];
       askConfirm(()=>{if(row){IDEAS.splice(idx,1);log('删除灵感',row[0].slice(0,16));}
         renderIdeas();updateStats();toast('已删除灵感');});}));}
   $$('.filter-chip[data-if]').forEach(chip=>chip.addEventListener('click',()=>{
     $$('.filter-chip[data-if]').forEach(c=>c.classList.remove('active'));chip.classList.add('active');
     iFilter=chip.dataset.if;renderIdeas();}));
-  on('btnAddIdea','click',()=>openModal('ideaModal'));
+  on('btnAddIdea','click',()=>{ideaEditIdx=-1;$('#ideaModal h2').textContent='新增灵感';openModal('ideaModal');});
   on('saveIdea','click',()=>{const c=v('f-idea-note');
     if(!c){toast('内容为必填','err');return;}
-    IDEAS.unshift([c,$('#f-idea-cat').value,dstr()]);
+    if(ideaEditIdx>=0&&ideaEditIdx<IDEAS.length){
+      const row=IDEAS[ideaEditIdx];
+      row[0]=c;row[1]=$('#f-idea-cat').value;row[3]=v('f-idea-tag')||'';
+      $('#f-idea-note').value='';$('#f-idea-tag').value='';
+      closeModal($('#ideaModal'));renderIdeas();
+      if($('#ideaDetailModal').classList.contains('open'))openIdeaDetail(ideaEditIdx);
+      ideaEditIdx=-1;log('编辑灵感',c.slice(0,16));toast('已更新灵感');return;
+    }
+    IDEAS.unshift([c,$('#f-idea-cat').value,dstr(),v('f-idea-tag')||'']);
     $('#f-idea-note').value='';$('#f-idea-tag').value='';
     closeModal($('#ideaModal'));renderIdeas();updateStats();log('新增灵感',c.slice(0,16));toast('已保存灵感');});
+  on('ideaDetailEdit','click',()=>{closeModal($('#ideaDetailModal'));if(ideaViewIdx>=0)openIdeaEdit(ideaViewIdx);});
+  on('ideaDetailDel','click',()=>{closeModal($('#ideaDetailModal'));
+    const idx=ideaViewIdx,row=IDEAS[idx];
+    askConfirm(()=>{if(row){IDEAS.splice(idx,1);log('删除灵感',row[0].slice(0,16));}
+      renderIdeas();updateStats();toast('已删除灵感');});});
 
   /* ===== 新增入口 ===== */
   on('btnAddTask2','click',()=>openModal('taskModal'));
@@ -2093,6 +2149,7 @@
       ${nodes.map((n,i)=>{const a=i*45;const tx=Math.round(Math.cos(a*Math.PI/180)*R);const ty=Math.round(Math.sin(a*Math.PI/180)*R);
         return `<div class="wb-node" data-wb="${n[0]}" style="--tx:${tx}px;--ty:${ty}px">
           <span class="w-ico">${n[1]}</span><span class="w-name">${n[2]}</span><span class="w-count">${n[3]}</span></div>`;}).join('')}`;
+    $$('.glass',wrap).forEach(el=>el.classList.add('in'));
     $$('#wbWrap [data-wb]').forEach(el=>el.addEventListener('click',()=>{const n=$('.nav-item[data-nav="'+el.dataset.wb+'"]');if(n)n.click();}));
   }
 
@@ -2201,7 +2258,7 @@
     }
   });
   (function(){const n=new Date();const el=$('#heroFull');if(el)el.textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日';})();
-  (function(){const el=$('#tbDate');if(el){const n=new Date();el.innerHTML=n.getMonth()+1+'月<b>'+n.getDate()+'</b>日';}})();
+  (function(){const el=$('#tbDate');if(el){const n=new Date();el.textContent=n.getMonth()+1+'月'+n.getDate()+'日 星期'+'日一二三四五六'[n.getDay()];}})();
   (function(){const h=$('.nav-item.active')||$('.nav-item[data-nav="home"]');
     if(h){const cr=$('#tbCrumb');
       if(cr)cr.innerHTML=h.dataset.nav==='home'?'首页':'首页 › <b>'+(CRUMBS[h.dataset.nav]||h.dataset.nav)+'</b>';
@@ -2220,7 +2277,8 @@
   $('#searchResults').innerHTML='<div class="search-empty">输入关键词，搜索客户、事项、知识、灵感…</div>';
   initCloud();
   if(!reduced){const io=new IntersectionObserver(es=>{es.forEach(en=>{if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}});},{threshold:.1});
-    $$('.glass').forEach((el,i)=>{el.classList.add('reveal');el.style.transitionDelay=(i%6*.04)+'s';io.observe(el)});}
+    $$('.glass').forEach((el,i)=>{if(el.closest('#wbWrap'))return;
+      el.classList.add('reveal');el.style.transitionDelay=(i%6*.04)+'s';io.observe(el)});}
 
 </script>
 
