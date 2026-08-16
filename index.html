@@ -29,7 +29,7 @@
   }
   html[data-theme="light"]{
     --bg:linear-gradient(168deg,#f6f7fa 0%,#eceff4 55%,#e4e8ef 100%); --fg:#17181a; --muted:#6b6e76; --line:rgba(20,22,26,.1);
-    --glass-bg:linear-gradient(160deg,rgba(255,255,255,.48) 0%,rgba(255,255,255,.40) 45%,rgba(255,255,255,.34) 100%);
+    --glass-bg:rgba(255,255,255,.10);
     --glass-border:rgba(255,255,255,.2);
     --glass-blur:blur(20px) saturate(1.6);
     --shadow:0 36px 80px rgba(30,32,38,.16), 0 10px 30px rgba(30,32,38,.08), inset 0 1px 0 rgba(255,255,255,.95), inset 0 -1px 0 rgba(30,32,38,.04);
@@ -403,6 +403,9 @@
   .cf-in:focus{outline:none;border-color:var(--muted)}
   .empty-hint{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;padding:34px 16px;color:var(--muted);font-size:15px;line-height:1.7;text-align:center}
 
+  /* 弹窗/提示：深色遮罩上需更强填充保证可读（卡片区仍按教程 10%） */
+  .modal,.toast{background:linear-gradient(160deg,rgba(255,255,255,.68),rgba(255,255,255,.56))}
+
   /* ===== Liquid Glass 液态玻璃效果（v7 增强版） ===== */
   button,.pcard,.client-card,.idea-card,.topic-card,.gf-node .node,.task-row,.todo-row,.tl-row,.tl-entry,
   .attach-row,.attach-item,.topic-item,.todo-check,.choice-btn,.sr-item{position:relative;overflow:hidden;-webkit-tap-highlight-color:transparent}
@@ -483,7 +486,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v12</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v13</div></div>
       </div>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
