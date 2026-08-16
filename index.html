@@ -659,6 +659,81 @@
   html[data-theme="light"] .ul-fx .n2{background:radial-gradient(circle,rgba(130,136,150,.32),rgba(130,136,150,.08) 50%,transparent 72%)}
   html[data-theme="light"] .ul-fx .n3{background:radial-gradient(circle,rgba(150,156,168,.25),rgba(150,156,168,.05) 55%,transparent 75%)}
   html[data-theme="light"] .ul-fx .spark{background:radial-gradient(circle,#55585e,transparent 70%)}
+  /* ===== 液态档案版结构（深色主题 · Dock + 工作台） ===== */
+  .tb-crumb{font-size:15px;color:var(--muted);white-space:nowrap;letter-spacing:.01em}
+  .tb-date{font-size:13.5px;color:var(--muted);white-space:nowrap}
+  html[data-theme="dark"] .brand{display:none}
+  html[data-theme="dark"] .main{padding-bottom:130px}
+  html[data-theme="dark"] #page-home .hero-line,html[data-theme="dark"] #page-home .home-dash,
+  html[data-theme="dark"] #page-home .home-stats,html[data-theme="dark"] #page-home #qaCard,
+  html[data-theme="dark"] #homeFoot{display:none!important}
+  html[data-theme="dark"] #wbWrap{display:block}
+  /* Dock */
+  .dock{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);z-index:80;
+    display:flex;align-items:flex-end;gap:7px;padding:10px 14px;border-radius:30px;background:var(--glass-bg);
+    backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:.5px solid var(--glass-border);box-shadow:var(--shadow)}
+  .d-item{width:50px;height:50px;border-radius:17px;cursor:pointer;position:relative;
+    display:flex;align-items:center;justify-content:center;font-size:21px;color:var(--muted);
+    background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.2),transparent 55%),rgba(255,255,255,.07);
+    border:.5px solid var(--lg-border);font-family:inherit;
+    box-shadow:inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo),0 6px 18px rgba(0,0,0,.32);
+    transition:transform .4s cubic-bezier(.34,1.56,.64,1),color .3s,background .3s,box-shadow .3s}
+  .d-item:hover{transform:translateY(-10px) scale(1.2);color:var(--fg);background:rgba(255,255,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.45)}
+  .d-item.active{color:#0b0b0e;font-weight:700;
+    background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.6),transparent 55%),rgba(255,255,255,.94);
+    box-shadow:0 12px 32px rgba(255,255,255,.18),inset 0 1px 0 #fff,inset 0 -1px 0 rgba(0,0,0,.12),0 0 18px rgba(255,255,255,.12)}
+  .d-item .tip{position:absolute;bottom:calc(100% + 10px);left:50%;transform:translateX(-50%) scale(.7);
+    background:rgba(255,255,255,.94);color:#0b0b0e;font-size:12px;font-weight:700;padding:5px 11px;border-radius:9px;
+    opacity:0;pointer-events:none;transition:all .3s cubic-bezier(.34,1.56,.64,1);white-space:nowrap}
+  .d-item:hover .tip{opacity:1;transform:translateX(-50%) scale(1)}
+  @media(max-width:960px){.d-item{width:42px;height:42px;font-size:18px;border-radius:14px}.dock{gap:4px;padding:8px 10px}}
+  /* 工作台（首页） */
+  .workbench{position:relative;min-height:calc(100vh - 220px);display:flex;align-items:center;justify-content:center;overflow:hidden;padding-bottom:10px}
+  .wb-ring{position:absolute;left:50%;top:50%;border-radius:50%;transform:translate(-50%,-50%);animation:wbSpin 70s linear infinite;pointer-events:none}
+  .wb-ring.r1{width:min(80vw,660px);height:min(80vw,660px);background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.05) 50%,transparent 51%)}
+  .wb-ring.r2{width:min(56vw,460px);height:min(56vw,460px);animation-direction:reverse;animation-duration:45s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.06) 50%,transparent 51%)}
+  .wb-ring.r3{width:min(34vw,300px);height:min(34vw,300px);animation-duration:30s;background:radial-gradient(circle,transparent 49%,rgba(255,255,255,.08) 50%,transparent 51%);opacity:.7}
+  @keyframes wbSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}
+  .wb-core{width:min(290px,36vw);height:min(290px,36vw);z-index:6;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;text-align:center;padding:34px;
+    border-radius:50%;overflow:hidden;animation:wbCoreMorph 16s ease-in-out infinite;transition:box-shadow .4s}
+  .wb-core:hover{box-shadow:0 40px 110px rgba(0,0,0,.6),inset 0 1px 0 rgba(255,255,255,.2)}
+  @keyframes wbCoreMorph{
+    0%,100%{border-radius:49.4% 50.6% 49.8% 50.2% / 50.2% 49.6% 50.4% 49.8%}
+    33%{border-radius:50.6% 49.4% 50.2% 49.8% / 49.8% 50.4% 49.6% 50.2%}
+    66%{border-radius:50% 50% 50.6% 49.4% / 49.6% 50.2% 49.8% 50.4%}}
+  .wb-core .wb-date{font-size:clamp(44px,5.5vw,62px);font-weight:800;letter-spacing:-.03em;line-height:1;font-variant-numeric:tabular-nums}
+  .wb-core .wb-week{font-size:12.5px;color:var(--muted);letter-spacing:.24em;text-transform:uppercase;margin-top:6px;font-weight:600}
+  .wb-core .wb-project{font-size:14.5px;font-weight:700;margin-top:14px;color:var(--fg);letter-spacing:.02em}
+  .wb-core .wb-todo{font-size:12.5px;color:var(--muted);margin-top:5px}
+  .wb-core .wb-enter{margin-top:16px;height:38px;padding:0 24px;border-radius:999px;border:.5px solid var(--lg-border);
+    background:radial-gradient(ellipse 80% 50% at 35% 0%,rgba(255,255,255,.55),transparent 60%),
+      radial-gradient(circle at 70% 100%,rgba(0,0,0,.08),transparent 50%),rgba(255,255,255,.94);
+    color:#0b0b0e;font-weight:700;font-size:13.5px;cursor:pointer;font-family:inherit;
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s;
+    box-shadow:inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo),0 8px 24px rgba(255,255,255,.18);
+    animation:btnLiquid 5s ease-in-out infinite}
+  .wb-core .wb-enter:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(255,255,255,.2);animation-duration:2.2s}
+  .wb-node{position:absolute;left:50%;top:50%;z-index:5;width:104px;height:104px;margin:-52px 0 0 -52px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;cursor:pointer;
+    background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.32),transparent 55%),
+      linear-gradient(155deg,rgba(255,255,255,.16),rgba(255,255,255,.03));
+    backdrop-filter:var(--glass-blur);-webkit-backdrop-filter:var(--glass-blur);
+    border:.5px solid var(--lg-border);border-radius:50%;font-family:inherit;
+    box-shadow:0 22px 55px rgba(0,0,0,.42),inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo),0 0 22px rgba(255,255,255,.04);
+    transition:transform .45s cubic-bezier(.34,1.56,.64,1),box-shadow .35s,border-color .35s;
+    transform:translate(var(--tx,0px),var(--ty,0px))}
+  .wb-node:hover{animation:wbNodeHover 2.8s ease-in-out infinite}
+  @keyframes wbNodeHover{
+    0%,100%{border-radius:49.2% 50.8% 49.6% 50.4% / 50.4% 49.4% 50.6% 49.8%}
+    50%{border-radius:50.6% 49.4% 50.4% 49.6% / 49.6% 50.6% 49.4% 50.4%}}
+  .wb-node .w-ico{font-size:26px;line-height:1;filter:drop-shadow(0 0 8px rgba(255,255,255,.25))}
+  .wb-node .w-name{font-size:12px;font-weight:700;letter-spacing:.05em;color:var(--fg);white-space:nowrap}
+  .wb-node .w-count{font-size:10.5px;color:var(--muted);letter-spacing:.03em}
+  @media(max-width:960px){.wb-node{width:82px;height:82px;margin:-41px 0 0 -41px}.wb-node .w-ico{font-size:20px}.wb-node .w-name{font-size:11px}}
+  html[data-theme="light"] #dock,html[data-theme="light"] #wbWrap{display:none!important}
+  html[data-theme="dark"] .tb-crumb,html[data-theme="dark"] .tb-date{display:block}
 </style>
 </head>
 <body data-theme="light">
@@ -681,12 +756,14 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v18</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v19</div></div>
       </div>
+      <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <button class="tb-search" id="topSearchBtn">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4-4"/></svg>
         搜索… <kbd>⌘K</kbd>
       </button>
+      <span class="tb-date dark-only" id="tbDate"></span>
       <button class="tb-action" id="btnTheme" aria-label="切换主题">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/></svg>
       </button>
@@ -714,6 +791,7 @@
 
     <!-- ===== 首页 ===== -->
     <section class="page active" id="page-home" aria-label="首页">
+      <div class="workbench dark-only" id="wbWrap"></div>
       <div class="hero-line">
         <div class="hero-date"><span class="mid" id="bigDate"><span id="bigMonth">8</span>月<span class="day" id="bigDay">15</span>日</span></div>
         <div class="hero-sub"><span id="bigWeek">星期六</span><span class="dotw dark-only"></span><span class="shanghai-dark">上海</span><span class="dotw dark-only"></span><span class="hero-full dark-only" id="heroFull"></span></div>
@@ -1222,6 +1300,19 @@
 <div id="errBanner" style="display:none;position:fixed;top:90px;left:50%;transform:translateX(-50%);z-index:300;background:#d70015;color:#fff;padding:10px 18px;border-radius:12px;font-size:14px;max-width:90vw;box-shadow:0 10px 30px rgba(0,0,0,.3)">页面脚本异常：<span id="errMsg"></span></div>
 <div class="toast" id="toast"><span class="tdot"></span><span id="toastText"></span></div>
 
+<!-- ===== 底部液态 Dock（深色主题导航） ===== -->
+<nav class="dock dark-only" id="dock">
+  <button class="d-item" data-nav="home" aria-label="WORKSPACE"><span>⌂</span><span class="tip">WORKSPACE</span></button>
+  <button class="d-item" data-nav="project" aria-label="当前项目"><span>▣</span><span class="tip">当前项目</span></button>
+  <button class="d-item" data-nav="projects" aria-label="项目库"><span>▤</span><span class="tip">项目库</span></button>
+  <button class="d-item" data-nav="clients" aria-label="客户信息库"><span>◎</span><span class="tip">客户信息库</span></button>
+  <button class="d-item" data-nav="achievements" aria-label="个人成就"><span>✦</span><span class="tip">个人成就</span></button>
+  <button class="d-item" data-nav="knowledge" aria-label="个人知识库"><span>❐</span><span class="tip">个人知识库</span></button>
+  <button class="d-item" data-nav="ideas" aria-label="灵感记录"><span>✎</span><span class="tip">灵感记录</span></button>
+  <button class="d-item" data-nav="timeline" aria-label="时间轴"><span>◷</span><span class="tip">时间轴</span></button>
+  <button class="d-item" data-nav="attachments" aria-label="附件中心"><span>▥</span><span class="tip">附件中心</span></button>
+</nav>
+
 <!-- ===== 液态星云解锁层 ===== -->
 <div class="ul-stage" id="ulStage">
   <div class="ul-badge">
@@ -1230,7 +1321,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v18</div>
+      <div class="brand-sub">PERSONAL INFO · v19</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1359,11 +1450,16 @@
   const navMap={home:'page-home',project:'page-project',projects:'page-projects',clients:'page-clients',
     achievements:'page-achievements',knowledge:'page-knowledge',ideas:'page-ideas',
     timeline:'page-timeline',attachments:'page-attachments'};
+  const CRUMBS={home:'首页',project:'当前项目',projects:'项目库',clients:'客户信息库',achievements:'个人成就',
+    knowledge:'个人知识库',ideas:'灵感记录',timeline:'时间轴',attachments:'附件中心'};
   $$('.nav-item[data-nav]').forEach(btn=>btn.addEventListener('click',()=>{
     $$('.nav-item[data-nav]').forEach(b=>b.classList.remove('active'));btn.classList.add('active');
     $$('.page').forEach(p=>p.classList.remove('active'));$('#'+navMap[btn.dataset.nav]).classList.add('active');
+    const cr=$('#tbCrumb');if(cr)cr.textContent=CRUMBS[btn.dataset.nav]||btn.dataset.nav;
+    $$('#dock .d-item').forEach(d=>d.classList.toggle('active',d.dataset.nav===btn.dataset.nav));
     requestAnimationFrame(moveTabs);
     window.scrollTo({top:0,behavior:'smooth'});}));
+  $$('#dock .d-item').forEach(b=>b.addEventListener('click',()=>{const n=$('.nav-item[data-nav="'+b.dataset.nav+'"]');if(n)n.click();}));
   $$('[data-goto]').forEach(a=>a.addEventListener('click',e=>{e.preventDefault();
     const n=$(`.nav-item[data-nav="${a.dataset.goto}"]`);if(n)n.click();}));
 
@@ -1890,12 +1986,38 @@
     if((e.metaKey||e.ctrlKey)&&e.key.toLowerCase()==='k'){e.preventDefault();openSearch();}
     if(e.key==='Escape')$$('.modal-mask.open').forEach(closeModal);});
 
+  /* ===== 工作台（深色主题首页 · 液态档案版） ===== */
+  const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  function renderWB(){
+    const wrap=$('#wbWrap');if(!wrap)return;
+    const d=new Date();const week='日一二三四五六'[d.getDay()];
+    const pending=TASKS.filter(t=>t.st===0);
+    const nodes=[['project','▣','当前项目',TASKS.length+' 事项'],['knowledge','❐','知识库',Object.keys(KBS).length+' 主题'],
+      ['clients','◎','客户库',CLIENTS.length+' 客户'],['ideas','✎','灵感',IDEAS.length+' 条'],
+      ['achievements','✦','成就',ACHS.length+' 项'],['projects','▤','项目库',PROJECTS.length+' 项目'],
+      ['timeline','◷','时间轴',TL.length+' 条'],['attachments','▥','附件','0 个']];
+    const R=Math.min(Math.min(innerWidth,1200)*0.36,330);
+    wrap.innerHTML=`<div class="wb-ring r1"></div><div class="wb-ring r2"></div><div class="wb-ring r3"></div>
+      <div class="wb-core glass">
+        <div class="wb-date">${d.getMonth()+1}.${d.getDate()}</div>
+        <div class="wb-week">星期${week} · ${d.getFullYear()}年</div>
+        <div class="wb-project">${esc(CURRENT_PROJ.name||'当前项目')}</div>
+        <div class="wb-todo">${pending.length?pending.length+' 项待处理 · '+esc(pending[0].name.slice(0,12)):'今日无待办，一切从容'}</div>
+        <button class="wb-enter" data-wb="project">进入工作区 →</button>
+      </div>
+      ${nodes.map((n,i)=>{const a=i*45;const tx=Math.round(Math.cos(a*Math.PI/180)*R);const ty=Math.round(Math.sin(a*Math.PI/180)*R);
+        return `<div class="wb-node" data-wb="${n[0]}" style="--tx:${tx}px;--ty:${ty}px">
+          <span class="w-ico">${n[1]}</span><span class="w-name">${n[2]}</span><span class="w-count">${n[3]}</span></div>`;}).join('')}`;
+    $$('#wbWrap [data-wb]').forEach(el=>el.addEventListener('click',()=>{const n=$('.nav-item[data-nav="'+el.dataset.wb+'"]');if(n)n.click();}));
+  }
+
   /* ===== 首页统计 ===== */
   function updateStats(){
     $('#stTasks').innerHTML=`${TASKS.length}<small>项</small>`;
     $('#stClients').innerHTML=`${CLIENTS.length}<small>位</small>`;
     $('#stKb').innerHTML=`${Object.values(KBS).reduce((a,b)=>a+b.length,0)}<small>条</small>`;
-    $('#stIdeas').innerHTML=`${IDEAS.length}<small>条</small>`;}
+    $('#stIdeas').innerHTML=`${IDEAS.length}<small>条</small>`;
+    renderWB();}
 
   /* ===== Liquid Glass 液态交互 ===== */
   const LG='button,.pcard,.client-card,.idea-card,.topic-card,.gf-node .node,.task-row,.todo-row,.tl-row,.tl-entry,.attach-row,.attach-item,.topic-item,.todo-check,.choice-btn,.sr-item';
@@ -1994,6 +2116,9 @@
     }
   });
   (function(){const n=new Date();const el=$('#heroFull');if(el)el.textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日';})();
+  (function(){const el=$('#tbDate');if(el)el.textContent=dstr();})();
+  (function(){const h=$('.nav-item.active')||$('.nav-item[data-nav="home"]');
+    if(h){const cr=$('#tbCrumb');if(cr)cr.textContent=CRUMBS[h.dataset.nav]||'';$$('#dock .d-item').forEach(d=>d.classList.toggle('active',d.dataset.nav===h.dataset.nav));}})();
   on('homeLock','click',relock);
   applyTheme(localStorage.getItem('pi-theme')||'light');
 
@@ -2001,7 +2126,7 @@
   function initRenders(){
     safe(renderOverview);safe(renderTasks);safe(renderTodos);safe(renderProjectClients);safe(renderLibClients);safe(renderLibFilters);
     safe(renderCycles);safe(renderSops);safe(renderProjects);safe(renderFlowLib);safe(renderAchLib);safe(renderTopicGrid);
-    safe(renderIdeas);safe(renderHomeTL);safe(renderTL);safe(updateStats);}
+    safe(renderIdeas);safe(renderHomeTL);safe(renderTL);safe(updateStats);safe(renderWB);}
   load();
   initRenders();
   initTabs();
