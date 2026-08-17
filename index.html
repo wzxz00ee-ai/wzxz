@@ -276,6 +276,7 @@
   .meta-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px 32px}
   .meta-item .k{font-size:14px;color:var(--muted);margin-bottom:4px;letter-spacing:.05em}
   .meta-item .v{font-size:16.5px;font-weight:600}
+.meta-item .v input.inline-edit,.cf-row .v input.inline-edit{width:100%;min-width:120px;padding:6px 10px;border-radius:10px;background:#fff;border:.5px solid rgba(20,22,26,.2);color:var(--fg);font-size:14px;font-family:inherit;outline:none;box-shadow:0 0 0 3px rgba(20,22,26,.06)}
   .cf-row{display:flex;align-items:center;gap:10px;padding:11px 13px;border-radius:11px;background:var(--card-sub);
     border:1px solid var(--line);margin-top:8px;font-size:15.5px}
   .cf-row .k{font-weight:700;color:var(--muted)}
@@ -803,7 +804,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v31</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v32</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <div class="tb-search" id="topSearchBtn">
@@ -1383,7 +1384,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v31</div>
+      <div class="brand-sub">PERSONAL INFO · v32</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1562,9 +1563,9 @@
   const CURRENT_PROJ={name:'',type:'',scale:'',people:'',addr:'',phone:'',party:'',start:'',end:'',mode:'',post:'',duty:'',intro:'',remark:'',custom:[]};
   function renderOverview(){
     const p=CURRENT_PROJ;
-    const meta=[['项目名称',p.name],['项目性质',p.type],['项目体量',p.scale],['项目人数',p.people],
-      ['项目地址',p.addr],['项目联系电话',p.phone],['甲方名称',p.party],['开始时间',p.start],
-      ['结束时间',p.end],['服务模式',p.mode],['我的岗位',p.post],['我的职责',p.duty]].filter(x=>x[1]);
+    const meta=[['项目名称','name',p.name],['项目性质','type',p.type],['项目体量','scale',p.scale],['项目人数','people',p.people],
+      ['项目地址','addr',p.addr],['项目联系电话','phone',p.phone],['甲方名称','party',p.party],['开始时间','start',p.start],
+      ['结束时间','end',p.end],['服务模式','mode',p.mode],['我的岗位','post',p.post],['我的职责','duty',p.duty]].filter(m=>m[2]);
     const hasAny=meta.length||p.intro||p.remark||p.custom.length;
     $('#projTitle').textContent=p.name||'当前项目';
     $('#projDesc').textContent=[p.type,p.mode].filter(Boolean).join(' · ')||'WORKSPACE';
@@ -1572,7 +1573,7 @@
       <div class="p-t"><h3>项目概览</h3><button class="btn btn-ghost btn-md" id="btnEditProj">${hasAny?'编辑':'＋ 完善项目资料'}</button></div>
       ${!hasAny?`<div class="empty-hint" style="padding:40px 16px">还没有项目资料<br>点击右上角「＋ 完善项目资料」，填写当前项目信息</div>`:`
       <div class="meta-grid">
-        ${meta.map(([k,x])=>`<div class="meta-item"><div class="k">${k}</div><div class="v">${x}</div></div>`).join('')}
+        ${meta.map(([k,key,x])=>`<div class="meta-item" data-key="${key}"><div class="k">${k}</div><div class="v" title="点击修改">${x}</div></div>`).join('')}
         <div class="meta-item"><div class="k">项目状态</div><div class="v"><span class="tag solid"><span class="dot"></span>当前项目</span></div></div>
       </div>
       ${p.intro?`<div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
@@ -1583,7 +1584,7 @@
         <div style="font-size:15.5px;line-height:1.75;color:var(--muted)">${p.remark}</div></div>`:''}
       <div style="border-top:1px solid var(--line);margin-top:20px;padding-top:16px">
         <div class="k" style="font-size:14px;color:var(--muted);margin-bottom:8px">自定义字段</div>
-        ${p.custom.length?p.custom.map(([k,x],i)=>`<div class="cf-row"><span class="k">${k}</span><span class="v">${x}</span>
+        ${p.custom.length?p.custom.map(([k,x],i)=>`<div class="cf-row" data-cf="${i}"><span class="k">${k}</span><span class="v" title="点击修改">${x}</span>
           <button class="icon-btn" aria-label="删除自定义字段" data-cfdel="${i}">${DEL_ICON}</button></div>`).join('')
           :'<div style="font-size:14.5px;color:var(--muted);padding:4px 0">暂无自定义字段</div>'}
         <button class="btn btn-ghost btn-md" style="margin-top:12px" id="btnAddCField">＋ 添加自定义字段</button>
@@ -1592,6 +1593,33 @@
     const bcf=$('#btnAddCField');if(bcf)bcf.addEventListener('click',openProjEdit);
     $$('[data-cfdel]',$('#overviewBody')).forEach(b=>b.addEventListener('click',()=>{
       const i=+b.dataset.cfdel;askConfirm(()=>{CURRENT_PROJ.custom.splice(i,1);renderOverview();save();toast('已删除自定义字段');});}));
+    /* 点击字段直接修改（行内编辑：Enter/失焦保存，Esc 取消） */
+    function inlineEdit(vEl,apply){
+      if(vEl.dataset.ed)return;vEl.dataset.ed='1';
+      const old=vEl.textContent;
+      vEl.innerHTML='<input class="inline-edit">';
+      const inp=vEl.querySelector('input');inp.value=old;inp.focus();inp.select();
+      let fin=false;
+      const done=s=>{if(fin)return;fin=true;
+        if(s)apply(inp.value);renderOverview();};
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();done(true);}else if(e.key==='Escape')done(false);});
+      inp.addEventListener('blur',()=>done(true));
+    }
+    $$('#overviewBody .meta-item[data-key] .v').forEach(vEl=>{
+      const key=vEl.closest('.meta-item').dataset.key;
+      vEl.addEventListener('click',()=>inlineEdit(vEl,v=>{
+        p[key]=v;
+        if(key==='name'&&PROJECTS[0]){PROJECTS[0].name=v;
+          PROJECTS[0].desc=[p.type,p.start?p.start+' 至今':''].filter(Boolean).join(' · ')||'行政设施管理';}
+        save();log('编辑项目',p.name);toast('已更新'+vEl.closest('.meta-item').querySelector('.k').textContent);
+      }));
+    });
+    $$('#overviewBody .cf-row .v').forEach(vEl=>{
+      const i=+vEl.closest('.cf-row').dataset.cf;
+      vEl.addEventListener('click',()=>inlineEdit(vEl,v=>{
+        if(p.custom[i]){p.custom[i][1]=v;save();toast('已更新自定义字段');}
+      }));
+    });
   }
   let peCF=[];
   function renderPECF(){const box=$('#pe-cf');
@@ -3235,10 +3263,10 @@ const PAGES={
     let body=&#x27;&#x27;;
     if(tab===0){
       body=`&lt;div class=&quot;ov-grid&quot;&gt;
-        ${DB.project.fields.map(f=&gt;`&lt;div class=&quot;ov-item glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;${f.k}&lt;/div&gt;&lt;div class=&quot;v&quot;&gt;${f.v}&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}
+        ${DB.project.fields.map((f,i)=&gt;`&lt;div class=&quot;ov-item glass&quot;&gt;&lt;div class=&quot;k&quot;&gt;${f.k}&lt;/div&gt;&lt;div class=&quot;v&quot; data-action=&quot;edit-field&quot; data-fi=&quot;${i}&quot; title=&quot;点击修改&quot;&gt;${f.v}&lt;/div&gt;&lt;/div&gt;`).join(&#x27;&#x27;)}
         &lt;div class=&quot;ov-item glass&quot; style=&quot;border-color:rgba(255,255,255,.24)&quot;&gt;
           &lt;div class=&quot;k&quot;&gt;自定义字段&lt;/div&gt;
-          ${DB.project.custom.map(f=&gt;`&lt;div style=&quot;font-size:14px;margin-top:8px&quot;&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;${f.k}&lt;/span&gt; — &lt;b&gt;${f.v}&lt;/b&gt;&lt;/div&gt;`).join(&#x27;&#x27;)||&#x27;&lt;div style=&quot;font-size:13.5px;color:var(--muted);margin-top:6px&quot;&gt;暂无自定义字段&lt;/div&gt;&#x27;}
+          ${DB.project.custom.map((f,i)=&gt;`&lt;div style=&quot;font-size:14px;margin-top:8px&quot;&gt;&lt;span style=&quot;color:var(--muted)&quot;&gt;${f.k}&lt;/span&gt; — &lt;b data-action=&quot;edit-cfield&quot; data-ci=&quot;${i}&quot; title=&quot;点击修改&quot;&gt;${f.v}&lt;/b&gt;&lt;/div&gt;`).join(&#x27;&#x27;)||&#x27;&lt;div style=&quot;font-size:13.5px;color:var(--muted);margin-top:6px&quot;&gt;暂无自定义字段&lt;/div&gt;&#x27;}
           &lt;div style=&quot;margin-top:12px;font-size:13.5px;color:var(--muted)&quot; data-action=&quot;add-custom&quot;&gt;＋ 添加自定义字段&lt;/div&gt;
         &lt;/div&gt;
       &lt;/div&gt;`;
@@ -4086,6 +4114,29 @@ document.addEventListener(&#x27;click&#x27;,e=&gt;{
       break;}
     /* ---- 编辑（预填当前值） ---- */
     case &#x27;edit-project&#x27;: openEdit(&#x27;project&#x27;); break;
+    /* ---- 项目字段行内编辑（点击字段直接修改） ---- */
+    case &#x27;edit-field&#x27;:{const v=act;if(v.dataset.ed)break;v.dataset.ed=&#x27;1&#x27;;
+      const old=v.textContent;
+      v.innerHTML=&#x27;&lt;input class=&quot;v-inline&quot;&gt;&#x27;;
+      const inp=v.querySelector(&#x27;input&#x27;);inp.value=old;inp.focus();inp.select();
+      let fin=false;
+      const done=s=&gt;{if(fin)return;fin=true;
+        if(s&amp;&amp;DB.project.fields[parseInt(act.dataset.fi)]){DB.project.fields[parseInt(act.dataset.fi)].v=inp.value;save();}
+        go(&#x27;project&#x27;,0);};
+      inp.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Enter&#x27;){e.preventDefault();done(true);}else if(e.key===&#x27;Escape&#x27;)done(false);});
+      inp.addEventListener(&#x27;blur&#x27;,()=&gt;done(true));
+      break;}
+    case &#x27;edit-cfield&#x27;:{const v=act;if(v.dataset.ed)break;v.dataset.ed=&#x27;1&#x27;;
+      const old=v.textContent;
+      v.innerHTML=&#x27;&lt;input class=&quot;v-inline&quot;&gt;&#x27;;
+      const inp=v.querySelector(&#x27;input&#x27;);inp.value=old;inp.focus();inp.select();
+      let fin=false;
+      const done=s=&gt;{if(fin)return;fin=true;
+        if(s&amp;&amp;DB.project.custom[parseInt(act.dataset.ci)]){DB.project.custom[parseInt(act.dataset.ci)].v=inp.value;save();}
+        go(&#x27;project&#x27;,0);};
+      inp.addEventListener(&#x27;keydown&#x27;,e=&gt;{if(e.key===&#x27;Enter&#x27;){e.preventDefault();done(true);}else if(e.key===&#x27;Escape&#x27;)done(false);});
+      inp.addEventListener(&#x27;blur&#x27;,()=&gt;done(true));
+      break;}
     case &#x27;edit-flow&#x27;: openEdit(&#x27;flow&#x27;,parseInt(id)); break;
     case &#x27;edit-sop&#x27;: openEdit(&#x27;sop&#x27;,parseInt(id)); break;
     case &#x27;edit-client&#x27;: openEdit(&#x27;client&#x27;,parseInt(id)); break;
