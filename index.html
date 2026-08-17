@@ -132,7 +132,7 @@
     border:1px solid var(--glass-border);box-shadow:var(--shadow)}
   .tb-row1{display:flex;align-items:center;gap:12px;min-height:44px;flex-shrink:0;flex-wrap:nowrap}
   .tb-row1 .brand{flex-shrink:0}
-  .tb-search{width:min(190px,24vw);flex:none}
+  .tb-search{width:min(340px,30vw);flex:none}
   .tb-row1 .theme-switch{flex-shrink:0}
   .brand{display:flex;align-items:center;gap:10px;flex-shrink:0}
   .brand-mark{width:32px;height:32px;border-radius:10px;display:grid;place-items:center;background:var(--solid-bg);
@@ -482,7 +482,7 @@
     .topbar{top:6px;padding:10px 12px;border-radius:18px;width:max-content;max-width:98vw}
     .brand-sub{display:none}
     .tb-row1{min-height:38px}
-    .tb-search{width:min(140px,32vw)}
+    .tb-search{width:min(210px,46vw)}
     .tb-nav{padding-bottom:4px;margin-top:0}
     .nav-item{padding:6px 10px;font-size:14.5px}
     .nav-item svg{width:13px;height:13px}
@@ -804,7 +804,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v32</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v33</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <div class="tb-search" id="topSearchBtn">
@@ -1384,7 +1384,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v32</div>
+      <div class="brand-sub">PERSONAL INFO · v33</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1509,7 +1509,9 @@
       try{const l=JSON.parse(localStorage.getItem(KEY));if(l){if(l.ts)localTs=l.ts;hasLocalData=Array.isArray(l.t)&&l.t.length>0;}}catch(e){}
       if(data&&!localDirty&&((data.ts||0)>localTs||(!data.ts&&!hasLocalData))){applyData(data);initRenders();}
       await cloudWrite().catch(()=>{});
-    }catch(e){cloudStatus('云端不可用，数据仅保存在本机');}
+      window.__cloudReady=true;
+      if(document.documentElement.dataset.theme==='dark')setTimeout(syncLightToV12,300);
+    }catch(e){window.__cloudReady=true;cloudStatus('云端不可用，数据仅保存在本机');}
   }
 
   /* ===== 导航 ===== */
@@ -2198,6 +2200,9 @@
   }
   function syncLightToV12(){
     const w=v12win();if(!w)return;
+    if(!window.__cloudReady){window.__v12n=(window.__v12n||0)+1;
+      if(window.__v12n<40){clearTimeout(window.__v12r);window.__v12r=setTimeout(syncLightToV12,300);return;}
+      window.__v12n=0;}
     if(typeof w.save!=='function'||typeof w.go!=='function'){clearTimeout(window.__v12r);window.__v12r=setTimeout(syncLightToV12,300);return;}
     try{w.DB=myToV12();w.save();
       const cur=w.document.querySelector('.d-item.active');
