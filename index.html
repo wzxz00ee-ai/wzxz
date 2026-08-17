@@ -616,6 +616,12 @@
     border:.5px solid var(--lg-border);font-family:inherit;
     box-shadow:inset 0 1px 0 var(--lg-depth-hi),inset 0 -1px 0 var(--lg-depth-lo),0 6px 18px rgba(0,0,0,.32);
     transition:transform .4s cubic-bezier(.34,1.56,.64,1),color .3s,background .3s,box-shadow .3s}
+.detail-grid .d-item{width:auto;height:auto;min-height:56px;border-radius:14px;position:static;cursor:default;
+  display:block;padding:13px 16px;text-align:left;justify-content:flex-start;font-size:inherit;color:inherit;
+  background:rgba(255,255,255,.05);border:.5px solid var(--lg-border);box-shadow:none;transition:background .3s}
+.detail-grid .d-item:hover{background:rgba(255,255,255,.09)}
+.detail-grid .d-item .k{font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px}
+.detail-grid .d-item .v{font-size:14.5px;font-weight:600;line-height:1.5;word-break:break-word}
   .d-item:hover{transform:translateY(-10px) scale(1.2);color:var(--fg);background:rgba(255,255,255,.16);box-shadow:0 14px 34px rgba(0,0,0,.45)}
   .d-item.active{color:#0b0b0e;font-weight:700;
     background:radial-gradient(circle at 30% 22%,rgba(255,255,255,.6),transparent 55%),rgba(255,255,255,.94);
@@ -804,7 +810,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v33</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v34</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <div class="tb-search" id="topSearchBtn">
@@ -1278,7 +1284,7 @@
       <div class="avatar" style="width:52px;height:52px;font-size:22px" id="cdAvatar"></div>
       <div><div style="font-size:22px;font-weight:700" id="cdName"></div><div style="font-size:15px;color:var(--muted);margin-top:2px" id="cdRole"></div></div>
     </div>
-    <div class="detail-grid" id="cdGrid"></div>
+    <div id="cdGrid"></div>
     <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>关闭</button></div>
   </div>
 </div>
@@ -1384,7 +1390,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v33</div>
+      <div class="brand-sub">PERSONAL INFO · v34</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
