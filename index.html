@@ -432,6 +432,8 @@
 
   /* 卡片右上角删除 / 弹窗字段分组 */
   .card-del{position:absolute;top:12px;right:12px;z-index:2;background:var(--card-sub);border:1px solid var(--line);opacity:.9}
+.card-edit{position:absolute;top:12px;right:46px;z-index:2;background:var(--card-sub);border:1px solid var(--line);opacity:.9;font-size:14px}
+.card-edit:hover{opacity:1;border-color:var(--muted);color:var(--fg)}
   .card-del:hover{opacity:1;border-color:var(--muted)}
   .fg-grid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}
   .mf-sec{margin-bottom:18px}
@@ -810,7 +812,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v34</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v35</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <div class="tb-search" id="topSearchBtn">
@@ -1285,7 +1287,7 @@
       <div><div style="font-size:22px;font-weight:700" id="cdName"></div><div style="font-size:15px;color:var(--muted);margin-top:2px" id="cdRole"></div></div>
     </div>
     <div id="cdGrid"></div>
-    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>关闭</button></div>
+    <div class="modal-actions"><button class="btn btn-ghost btn-md" data-close>关闭</button><button class="btn btn-solid btn-md" id="cdEdit">编辑客户</button></div>
   </div>
 </div>
 
@@ -1390,7 +1392,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v34</div>
+      <div class="brand-sub">PERSONAL INFO · v35</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -1762,6 +1764,7 @@
   const CLIENTS=[];
   let pFilter='all';
   function clientCard(c,i){return `<div class="glass pcard client-card" data-ci="${i}">
+      <button class="icon-btn card-edit" aria-label="编辑客户" data-cedit="${i}">✎</button>
       <button class="icon-btn card-del" aria-label="删除客户" data-cdel="${i}">${DEL_ICON}</button>
       <div class="cc-top"><div class="avatar">${c.name[0]}</div><div><div class="cc-name">${c.name}</div><div class="cc-role">${c.role}</div></div></div>
       <div class="cc-rel">${c.rel}</div>
@@ -1769,8 +1772,9 @@
         <span class="attach-src">${c.date}</span></div>
     </div>`;}
   function bindClients(root){
-    $$('.client-card',root).forEach(card=>card.addEventListener('click',e=>{if(e.target.closest('[data-cdel]'))return;
-      openClientDetail(CLIENTS[+card.dataset.ci]);}));
+    $$('.client-card',root).forEach(card=>card.addEventListener('click',e=>{if(e.target.closest('[data-cdel]'))return;if(e.target.closest('[data-cedit]'))return;
+      openClientDetail(CLIENTS[+card.dataset.ci],+card.dataset.ci);}));
+    $$('[data-cedit]',root).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();openClientEdit(+b.dataset.cedit);}));
     $$('[data-cdel]',root).forEach(b=>b.addEventListener('click',e=>{e.stopPropagation();
       const c=CLIENTS[+b.dataset.cdel];
       askConfirm(()=>{CLIENTS.splice(CLIENTS.indexOf(c),1);
@@ -1788,8 +1792,8 @@
       names.map(n=>`<button class="filter-chip${pFilter===n?' active':''}" data-pf="${n}">${n}</button>`).join('');
     $$('.filter-chip[data-pf]',bar).forEach(chip=>chip.addEventListener('click',()=>{
       pFilter=chip.dataset.pf;renderLibFilters();renderLibClients();}));}
-  function openClientDetail(c){
-    if(!c)return;
+  function openClientDetail(c,i){
+    if(!c)return;window.__cdIdx=(i!=null?i:-1);
     $('#cdAvatar').textContent=c.name[0];$('#cdName').textContent=c.name;$('#cdRole').textContent=c.role;
     let h=`<div class="detail-sec"><div class="sec-t">基本信息</div><div class="detail-grid">
       <div class="d-item"><div class="k">关联项目</div><div class="v">${c.projs.map(shortP).join(' / ')}</div></div>
@@ -1798,8 +1802,28 @@
       <div class="detail-grid">${s.items.map(([k,x])=>`<div class="d-item"><div class="k">${k}</div><div class="v">${x}</div></div>`).join('')}</div></div>`;});
     $('#cdGrid').innerHTML=h;
     openModal('clientDetailModal');}
-  on('btnAddClient','click',()=>openModal('clientModal'));
-  on('btnAddClientLib','click',()=>openModal('clientModal'));
+  on('btnAddClient','click',()=>{editingClient=-1;$('#clientModal h2').textContent='新增客户';openModal('clientModal');});
+  on('btnAddClientLib','click',()=>{editingClient=-1;$('#clientModal h2').textContent='新增客户';openModal('clientModal');});
+  let editingClient=-1;
+  function openClientEdit(i){
+    const c=CLIENTS[i];if(!c)return;
+    editingClient=i;
+    const get=(sec,k)=>{const s=(c.extra||[]).find(x=>x.sec===sec);const it=s?(s.items||[]).find(x=>x[0]===k):null;return it?it[1]:'';};
+    $('#c-name').value=c.name||'';
+    $('#c-company').value=get('基本信息','所属公司');
+    $('#c-role').value=(c.role||'').replace(' · '+get('基本信息','所属公司'),'');
+    [['c-dept','基本信息','所属部门'],['c-subdept','基本信息','分管部门'],['c-phone','基本信息','联系电话'],['c-other','基本信息','其他联系方式'],
+     ['c-duty','工作信息','工作职责'],['c-major','工作信息','主要负责事项'],['c-rel','工作信息','与我的工作关系'],['c-daily','工作信息','日常对接事项'],['c-together','工作信息','曾共同处理的重要事项'],['c-focus','工作信息','对方关注重点'],['c-note','工作信息','沟通注意事项'],
+     ['c-hobby','个人偏好','兴趣爱好'],['c-diet','个人偏好','饮食习惯'],['c-like','个人偏好','喜欢的食物'],['c-dislike','个人偏好','不喜欢的食物'],['c-drink','个人偏好','咖啡 / 茶偏好'],['c-habit','个人偏好','日常习惯'],['c-otherlike','个人偏好','其他喜好'],
+     ['c-char','人物特点','性格特点'],['c-com','人物特点','沟通特点'],['c-style','人物特点','工作风格'],['c-doing','人物特点','做事习惯'],['c-decision','人物特点','决策特点'],['c-attn','人物特点','关注重点'],['c-req','人物特点','对事情的要求'],['c-otherchar','人物特点','其他特点']]
+      .forEach(([id,sec,k])=>$('#'+id).value=get(sec,k)||'');
+    cCF=((c.extra||[]).find(x=>x.sec==='自定义信息')?.items||[]).map(r=>[r[0],r[1]]);
+    renderCCF();
+    $('#c-remark').value=get('备注','其他备注');
+    $('#clientModal h2').textContent='编辑客户';
+    openModal('clientModal');
+  }
+  on('cdEdit','click',()=>{if(window.__cdIdx!=null&&CLIENTS[window.__cdIdx]){closeModal($('#clientDetailModal'));openClientEdit(window.__cdIdx);}});
   let cCF=[];
   function renderCCF(){const box=$('#c-cf');
     [...box.querySelectorAll('.cf-row')].forEach((r,i)=>{if(cCF[i]){const ins=r.querySelectorAll('.cf-in');cCF[i]=[ins[0].value,ins[1].value];}});
@@ -1824,11 +1848,19 @@
     if(custom.length)extra.push({sec:'自定义信息',items:custom});
     const remark=v('c-remark');if(remark)extra.push({sec:'备注',items:[['其他备注',remark]]});
     const role=[v('c-role'),v('c-company')].filter(Boolean).join(' · ')||'联系人';
-    CLIENTS.push({name:n,role,rel:'与我的工作关系：'+(v('c-rel')||'待补充'),projs:[CURRENT_PROJ.name||'当前项目'],date:'今天',extra});
+    const rel='与我的工作关系：'+(v('c-rel')||'待补充');
+    if(editingClient>=0&&CLIENTS[editingClient]){
+      const old=CLIENTS[editingClient];
+      CLIENTS[editingClient]={name:n,role,rel,projs:old.projs||[CURRENT_PROJ.name||'当前项目'],date:old.date||'今天',extra};
+      log('编辑客户',n);toast(`已保存客户「${n}」`);
+    }else{
+      CLIENTS.push({name:n,role,rel,projs:[CURRENT_PROJ.name||'当前项目'],date:'今天',extra});
+      log('新增客户',n);toast(`已保存客户「${n}」· 自动关联当前项目`);
+    }
+    editingClient=-1;
     ['c-name','c-company','c-role','c-dept','c-subdept','c-phone','c-other','c-duty','c-major','c-rel','c-daily','c-together','c-focus','c-note','c-hobby','c-diet','c-like','c-dislike','c-drink','c-habit','c-otherlike','c-char','c-com','c-style','c-doing','c-decision','c-attn','c-req','c-otherchar','c-remark'].forEach(i=>$('#'+i).value='');
-    cCF=[];renderCCF();
-    closeModal($('#clientModal'));renderProjectClients();renderLibClients();renderLibFilters();updateStats();
-    log('新增客户',n);toast(`已保存客户「${n}」· 自动关联当前项目`);});
+    cCF=[];renderCCF();$('#clientModal h2').textContent='新增客户';
+    closeModal($('#clientModal'));renderProjectClients();renderLibClients();renderLibFilters();updateStats();});
 
   /* ===== 周期工作（真实数据） ===== */
   const CYCLE_ORDER=['每日','每周','每月','每季度','每半年','每年'];
