@@ -803,7 +803,7 @@
         <div class="brand-mark" aria-hidden="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M5.6 5.6l2.1 2.1M16.3 16.3l2.1 2.1M18.4 5.6l-2.1 2.1M7.7 16.3l-2.1 2.1"/></svg>
         </div>
-        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v30</div></div>
+        <div><div class="brand-name">WORKSPACE</div><div class="brand-sub">PERSONAL INFO · v31</div></div>
       </div>
       <span class="tb-crumb dark-only" id="tbCrumb">首页</span>
       <div class="tb-search" id="topSearchBtn">
@@ -1383,7 +1383,7 @@
     </div>
     <div class="brand-text">
       <div class="brand-name">WORKSPACE</div>
-      <div class="brand-sub">PERSONAL INFO · v30</div>
+      <div class="brand-sub">PERSONAL INFO · v31</div>
     </div>
   </div>
   <section class="ul-card" id="ulCard" data-pwd="7788">
@@ -2143,13 +2143,14 @@
     PROJECTS.splice(0,PROJECTS.length);
     (d.archiveProjects||[]).forEach(p=>{PROJECTS.push({name:p.n||'历史项目',desc:(p.years||'')+(p.status?' · '+p.status:''),state:0,meta:[],tasks:[],cycles:[],flows:[],sops:[],clients:[],files:[],ach:[]});});
     const pr=d.project||{};const pf={};(pr.fields||[]).forEach(f=>pf[f.k]=f.v);
-    Object.assign(CURRENT_PROJ,{name:pr.name||'',type:pf['项目性质']||'',scale:pf['项目体量']||'',people:pf['项目人数']||'',addr:pf['项目地址']||'',phone:pf['项目联系电话']||'',party:pf['甲方名称']||'',start:pf['开始时间']||'',end:'',mode:pf['服务模式']||'',post:pf['我的岗位']||'',duty:pf['我的职责']||'',intro:'',remark:'',custom:(pr.custom||[]).map(c=>[c.k||'',c.v||'']).filter(x=>x[0])});
+    Object.assign(CURRENT_PROJ,{name:d.currentProject||pr.name||'',type:pf['项目性质']||'',scale:pf['项目体量']||'',people:pf['项目人数']||'',addr:pf['项目地址']||'',phone:pf['项目联系电话']||'',party:pf['甲方名称']||'',start:pf['开始时间']||'',end:'',mode:pf['服务模式']||'',post:pf['我的岗位']||'',duty:pf['我的职责']||'',intro:'',remark:'',custom:(pr.custom||[]).map(c=>[c.k||'',c.v||'']).filter(x=>x[0])});
     return true;
   }
   function myToV12(){
     const uid=uid2;
     const fields=[['项目性质',CURRENT_PROJ.type],['项目体量',CURRENT_PROJ.scale],['项目人数',CURRENT_PROJ.people],['项目地址',CURRENT_PROJ.addr],['项目联系电话',CURRENT_PROJ.phone],['甲方名称',CURRENT_PROJ.party],['开始时间',CURRENT_PROJ.start],['服务模式',CURRENT_PROJ.mode],['我的岗位',CURRENT_PROJ.post],['我的职责',CURRENT_PROJ.duty]].filter(x=>x[1]).map(([k,v])=>({k,v}));
     return {project:{name:CURRENT_PROJ.name||'当前项目',status:'进行中',fields,custom:(CURRENT_PROJ.custom||[]).map(([k,v])=>({k,v}))},
+      currentProject:CURRENT_PROJ.name||'当前项目',
       todos:TASKS.map(t=>({id:uid(),c:t.cat,t:t.name,d:t.content,s:t.st?'已完成':'待处理',time:'今天'})),
       cycles:Object.entries(CYCLES).flatMap(([p,arr])=>arr.map(([t,d])=>({id:uid(),p,t,d}))),
       flows:Object.values(FLOWS).map(f=>({id:uid(),n:f.name,d:f.ps||'',u:'',steps:(f.steps||[]).map(s=>({t:s[0],d:s[1]||''}))})),
@@ -2170,7 +2171,9 @@
   function syncLightToV12(){
     const w=v12win();if(!w)return;
     if(typeof w.save!=='function'||typeof w.go!=='function'){clearTimeout(window.__v12r);window.__v12r=setTimeout(syncLightToV12,300);return;}
-    try{w.DB=myToV12();w.save();}catch(e){}
+    try{w.DB=myToV12();w.save();
+      const cur=w.document.querySelector('.d-item.active');
+      if(cur&&cur.dataset.page==='home'&&typeof w.go==='function')w.go('home');}catch(e){}
   }
   addEventListener('message',e=>{if(e.data&&e.data.type==='v12-save'){
     clearTimeout(window.__v12t);window.__v12t=setTimeout(syncV12ToLight,400);}});
